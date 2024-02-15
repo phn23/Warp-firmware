@@ -247,13 +247,10 @@ static void						lowPowerPinStates(void);
 #endif
 
 static void						dumpProcessorState(void);
-// static void						repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress,
-								bool autoIncrement, int chunkReadsPerAddress, bool chatty,
-								int spinDelay, int repetitionsPerAddress, uint16_t sssupplyMillivolts,
-								uint16_t adaptiveSssupplyMaxMillivolts, uint8_t referenceByte);
+
 static int						char2int(int character);
-// static void						activateAllLowPowerSensorModes(bool verbose);
-// static void						powerupAllSensors(void);
+
+
 static uint8_t						readHexByte(void);
 static int						read4digits(void);
 static void 					writeAllSensorsToFlash(int menuDelayBetweenEachRun, int loopForever);
@@ -2490,7 +2487,7 @@ main(void)
 			case 'h':
 			{
 				warpPrint("\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				// activateAllLowPowerSensorModes(true /* verbose */);
+				
 
 				break;
 			}
@@ -2529,17 +2526,7 @@ main(void)
 				warpPrint("\r\n\tRepeating dev%d @ 0x%02x, reps=%d, pull=%d, delay=%dms:\n\n",
 					menuTargetSensor, menuRegisterAddress, repetitionsPerAddress, spinDelay);
 
-				//repeatRegisterReadForDeviceAndAddress(	menuTargetSensor /*warpSensorDevice*/,
-									menuRegisterAddress /*baseAddress */,
-									autoIncrement /*autoIncrement*/,
-									chunkReadsPerAddress,
-									chatty,
-									spinDelay,
-									repetitionsPerAddress,
-									gWarpCurrentSupplyVoltage,
-									adaptiveSssupplyMaxMillivolts,
-									referenceByte
-								);
+				
 
 				break;
 			}
@@ -2645,7 +2632,7 @@ main(void)
 			case 's':
 			{
 				warpPrint("\r\n\tNOTE: First power sensors and enable I2C\n\n");
-				// powerupAllSensors();
+				
 				break;
 			}
 
