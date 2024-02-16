@@ -2018,6 +2018,11 @@ main(void)
 	}
 #endif
 
+warpPrint("Added init starts");
+devSSD1331init();
+warpPrint("Added init ends");
+	
+
 	while (1)
 	{
 		/*
