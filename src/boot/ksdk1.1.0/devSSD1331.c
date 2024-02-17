@@ -161,9 +161,7 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
-	// set current attenuation
-	writeCommand(kSSD1331CommandMASTERCURRENT);
-	writeCommand(0x00);
+
 
 	writeCommand(kSSD1331CommandCONTRASTA);  // R
 	writeCommand(0xFF);				
