@@ -161,6 +161,14 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
+
+	writeCommand(kSSD1331CommandCONTRASTA);  // R
+	writeCommand(0xFF);				
+	writeCommand(kSSD1331CommandCONTRASTB);	   //G
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandCONTRASTC);		// B,
+	writeCommand(0xFF);
+	
 	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 
 	// inner rect
