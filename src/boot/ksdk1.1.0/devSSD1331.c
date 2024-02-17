@@ -161,7 +161,8 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
-
+	writeCommand(kSSD1331CommandMASTERCURRENT);
+	writeCommand(0x0F);
 
 	writeCommand(kSSD1331CommandCONTRASTA);  // R
 	writeCommand(0xFF);				
