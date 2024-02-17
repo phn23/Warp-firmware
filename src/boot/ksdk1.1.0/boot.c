@@ -1891,9 +1891,9 @@ main(void)
 	 *	the BLE module will be turned off by default.
 	 */
 	
-warpPrint("Added init starts");
-devSSD1331init();
-warpPrint("Added init ends");
+// warpPrint("Added init starts");
+// devSSD1331init();
+// warpPrint("Added init ends");
 
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
 	/*
