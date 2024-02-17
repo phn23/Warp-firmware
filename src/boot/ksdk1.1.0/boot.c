@@ -1665,6 +1665,7 @@ main(void)
 /*
  *	Initialize all the sensors
  */
+
 #if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
 		initBMX055gyro(	0x68	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsBMX055gyro	);
@@ -1889,6 +1890,10 @@ main(void)
 	 *	below which also means that the console via BLE will be disabled as
 	 *	the BLE module will be turned off by default.
 	 */
+	
+warpPrint("Added init starts");
+devSSD1331init();
+warpPrint("Added init ends");
 
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
 	/*
@@ -2018,9 +2023,7 @@ main(void)
 	}
 #endif
 
-warpPrint("Added init starts");
-devSSD1331init();
-warpPrint("Added init ends");
+
 	
 
 	while (1)
