@@ -248,6 +248,10 @@ static void						lowPowerPinStates(void);
 #endif
 
 static void						dumpProcessorState(void);
+static void						repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t baseAddress,
+								bool autoIncrement, int chunkReadsPerAddress, bool chatty,
+								int spinDelay, int repetitionsPerAddress, uint16_t sssupplyMillivolts,
+								uint16_t adaptiveSssupplyMaxMillivolts, uint8_t referenceByte);
 
 static int						char2int(int character);
 
@@ -2534,6 +2538,18 @@ warpPrint("Added init ends");
 
 				warpPrint("\r\n\tRepeating dev%d @ 0x%02x, reps=%d, pull=%d, delay=%dms:\n\n",
 					menuTargetSensor, menuRegisterAddress, repetitionsPerAddress, spinDelay);
+
+				repeatRegisterReadForDeviceAndAddress(	menuTargetSensor /*warpSensorDevice*/,
+					menuRegisterAddress /*baseAddress */,
+					autoIncrement /*autoIncrement*/,
+					chunkReadsPerAddress,
+					chatty,
+					spinDelay,
+					repetitionsPerAddress,
+					gWarpCurrentSupplyVoltage,
+					adaptiveSssupplyMaxMillivolts,
+					referenceByte
+				);
 
 				
 
