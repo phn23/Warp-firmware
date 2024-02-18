@@ -171,14 +171,11 @@ devSSD1331init(void)
 	writeCommand(kSSD1331CommandCONTRASTC);		// R,
 	writeCommand(0xFF);
 
-	writeCommand(0xbb); // Stage 2: pre-chrge voltage
+	// writeCommand(0xbb); // Stage 2: pre-chrge voltage
 
-	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEB);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEC);
-	writeCommand(0xFF);
+	// writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
+	// writeCommand(kSSD1331CommandPRECHARGEB);
+	// writeCommand(kSSD1331CommandPRECHARGEC);
 	
 	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 
