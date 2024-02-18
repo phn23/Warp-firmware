@@ -76,16 +76,16 @@
 /*
 * Include all sensors because they will be needed to decode flash.
 */
-#include "devADXL362.h"
-#include "devAMG8834.h"
+// #include "devADXL362.h"
+// #include "devAMG8834.h"
 #include "devMMA8451Q.h"
-#include "devMAG3110.h"
-#include "devL3GD20H.h"
-#include "devBME680.h"
-#include "devBMX055.h"
-#include "devCCS811.h"
-#include "devHDC1000.h"
-#include "devRV8803C7.h"
+// #include "devMAG3110.h"
+// #include "devL3GD20H.h"
+// #include "devBME680.h"
+// #include "devBMX055.h"
+// #include "devCCS811.h"
+// #include "devHDC1000.h"
+// #include "devRV8803C7.h"
 #include "devSSD1331.h"
 
 
