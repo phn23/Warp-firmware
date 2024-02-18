@@ -161,23 +161,32 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
+	writeCommand(0xbb); // Stage 2: pre-chrge voltage
 
-
-
+	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEB);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEC);
+	writeCommand(0xFF);
+	
+	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB
+	writeCommand(0x3F); //max
+	
+	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
+	writeCommand(0x0F); // max
+	
 	writeCommand(kSSD1331CommandCONTRASTA);  // B
-	writeCommand(0xFF);				
+	writeCommand(0xFF); // max		
 	writeCommand(kSSD1331CommandCONTRASTB);	   //G
 	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTC);		// R,
 	writeCommand(0xFF);
 
-	// writeCommand(0xbb); // Stage 2: pre-chrge voltage
 
-	// writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
-	// writeCommand(kSSD1331CommandPRECHARGEB);
-	// writeCommand(kSSD1331CommandPRECHARGEC);
 	
 	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
+
 
 	// inner rect
 	writeCommand(0x00);
