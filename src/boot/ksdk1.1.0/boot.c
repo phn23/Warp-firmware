@@ -2139,10 +2139,11 @@ warpPrint("Added init ends");
 
 // Added
 // not entirely sure about the voltage
+// 6 registers
 #if (WARP_BUILD_ENABLE_DEVINA219)
-					warpPrint("\r\t- 'c' INA219			(0x00--0x31): 1.95V -- 3.6V\n");
+					warpPrint("\r\t- 'c' INA219			(0x00--0x06): 1.95V -- 3.6V\n");
 #else
-					warpPrint("\r\t- 'c' INA219			(0x00--0x31): 1.95V -- 3.6V (compiled out) \n");
+					warpPrint("\r\t- 'c' INA219			(0x00--0x06): 1.95V -- 3.6V (compiled out) \n");
 #endif
 
 				
