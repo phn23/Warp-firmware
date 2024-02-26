@@ -207,7 +207,7 @@ typedef enum
 	kWarpFlashRTCTPRBitField 		= 0b100,
 	kWarpFlashADXL362BitField 		= 0b1000,
 	kWarpFlashAMG8834BitField 		= 0b10000,
-	kWarpFlashMMA8541QBitField		= 0b100000,
+	kWarpFlashMMA8541QBitField		= 0b100000, 
 	kWarpFlashMAG3110BitField		= 0b1000000,
 	kWarpFlashL3GD20HBitField		= 0b10000000,
 	kWarpFlashBME680BitField		= 0b100000000,
@@ -2137,11 +2137,10 @@ warpPrint("Added init ends");
 					warpPrint("\r\t- '5' MMA8451Q			(0x00--0x31): 1.95V -- 3.6V (compiled out) \n");
 #endif
 
-// Added
-// not entirely sure about the voltage
+// ADDED
 // 6 registers
 #if (WARP_BUILD_ENABLE_DEVINA219)
-					warpPrint("\r\t- 'c' INA219			(0x00--0x05): 3V -- 5.5V\n"); // TODO: FIND THE VOLTAGE RANGE
+					warpPrint("\r\t- 'c' INA219			(0x00--0x05): 3V -- 5.5V\n"); 
 #else
 					warpPrint("\r\t- 'c' INA219			(0x00--0x05): 3V -- 5.5V (compiled out) \n");
 #endif
@@ -2269,7 +2268,7 @@ warpPrint("Added init ends");
 					}
 #endif
 
-// added
+// ADDED: CHOOSES MENU
 #if (WARP_BUILD_ENABLE_DEVINA219)
 					case 'c':
 					{
@@ -3259,14 +3258,14 @@ writeAllSensorsToFlash(int menuDelayBetweenEachRun, int loopForever)
 
 
 // ADDED
-// NOT SURE
-#if (WARP_BUILD_ENABLE_DEVINA219)
-	numberOfConfigErrors += configureSensorINA219(
-		0x00, /* Payload: Disable FIFO */
-		0x01  /* Normal read 8bit, 800Hz, normal, active mode */
-	);
-	sensorBitField = sensorBitField | kWarpFlashINA219BitField;
-#endif
+// TODO: probably no need
+// #if (WARP_BUILD_ENABLE_DEVINA219)
+// 	numberOfConfigErrors += configureSensorINA219(
+// 		0x00, /* Payload: Disable FIFO */
+// 		0x01  /* Normal read 8bit, 800Hz, normal, active mode */
+// 	);
+// 	sensorBitField = sensorBitField | kWarpFlashINA219BitField;
+// #endif
 
 
 #if (WARP_BUILD_ENABLE_DEVMAG3110)
@@ -3527,14 +3526,14 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag,
 	);
 #endif
 
-// ADDED
-// NOT SURE
-#if (WARP_BUILD_ENABLE_DEVINA219)
-	numberOfConfigErrors += configureSensorINA219(
-		0x00, /* Payload: Disable FIFO */
-		0x01  /* Normal read 8bit, 800Hz, normal, active mode */
-	);
-#endif
+// // ADDED
+// // TODO
+// #if (WARP_BUILD_ENABLE_DEVINA219)
+// 	numberOfConfigErrors += configureSensorINA219(
+// 		0x00, /* Payload: Disable FIFO */
+// 		0x01  /* Normal read 8bit, 800Hz, normal, active mode */
+// 	);
+// #endif
 
 	
 #if (WARP_BUILD_ENABLE_DEVMAG3110)
@@ -3636,7 +3635,7 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag,
 
 // ADDED
 #if (WARP_BUILD_ENABLE_DEVINA219)
-		warpPrint(" STH ELSE");
+		warpPrint(" INA219 SHUNT, INA219 BUS, INA219 CURRENT , INA219 POWER");
 #endif		
 		
 
@@ -3958,11 +3957,11 @@ repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t
 		}
 
 // ADDED
-// NOT SURE ABOUT VOLTAGE
+
 		case kWarpSensorINA219:
 		{
 /*
- *	INA219: VDD 1.95--3.6
+ *	INA219: VDD 3 -- 5.5
  */
 #if (WARP_BUILD_ENABLE_DEVINA219)
 				loopForSensor(	"\r\nINA219:\n\r",		/*	tagString			*/
@@ -3971,7 +3970,7 @@ repeatRegisterReadForDeviceAndAddress(WarpSensorDevice warpSensorDevice, uint8_t
 						NULL,				/*	spiDeviceState			*/
 						baseAddress,			/*	baseAddress			*/
 						0x00,				/*	minAddress			*/
-						0x31,				/*	maxAddress			*/
+						0x05,				/*	maxAddress			*/
 						repetitionsPerAddress,		/*	repetitionsPerAddress		*/
 						chunkReadsPerAddress,		/*	chunkReadsPerAddress		*/
 						spinDelay,			/*	spinDelay			*/
@@ -4857,7 +4856,7 @@ flashDecodeSensorBitField(uint16_t sensorBitField, uint8_t sensorIndex, uint8_t*
 	}
 
 	/*
-	 * MMA8451Q
+	 * MMA8541Q: // UPDATED COMMENTS NAME
 	*/
 	if (sensorBitField & kWarpFlashMMA8541QBitField)
 	{
@@ -4866,21 +4865,6 @@ flashDecodeSensorBitField(uint16_t sensorBitField, uint8_t sensorIndex, uint8_t*
 		{
 			*sizePerReading		= bytesPerReadingMMA8451Q;
 			*numberOfReadings = numberOfReadingsPerMeasurementMMA8451Q;
-			return;
-		}
-	}
-
-// ADDED
-	/*
-	 * INA219
-	*/
-	if (sensorBitField & kWarpFlashINA219BitField)
-	{
-		numberOfSensorsFound++;
-		if (numberOfSensorsFound - 1 == sensorIndex)
-		{
-			*sizePerReading		= bytesPerReadingINA219;
-			*numberOfReadings = numberOfReadingsPerMeasurementINA219;
 			return;
 		}
 	}
