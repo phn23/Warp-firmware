@@ -39,9 +39,9 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 
 // WRITE
 WarpStatus
-writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload)
+writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload[2])
 {
-	uint8_t		payloadByte[1], commandByte[1];
+	uint8_t		payloadByte[2], commandByte[1]; // 2 data bytes
 	i2c_status_t	status;
 
 	switch (deviceRegister)
@@ -68,7 +68,8 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload)
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
-	payloadByte[0] = payload;
+	payloadByte[0] = payload[0]; // not sure about this // now has 2 bytes // which one is larger
+	payloadByte[1] = payload[1];
 	warpEnableI2Cpins();
 
 	status = I2C_DRV_MasterSendDataBlocking(
@@ -89,6 +90,7 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload)
 
 
 // CONFIGURE
+// not sure why this function is needed here
 WarpStatus
 configureSensorINA219(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
 {
@@ -105,7 +107,7 @@ configureSensorINA219(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
 												  payloadCTRL_REG1 /* payload */
 	);
 
-	return (i2cWriteStatus1 | i2cWriteStatus2);
+	return (i2cWriteStatus1 | i2cWriteStatus2); // error bit
 }
 
 
