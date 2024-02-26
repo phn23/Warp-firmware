@@ -186,7 +186,8 @@ typedef enum
 	kWarpDefaultSupplyVoltageMillivoltsBMX055mag   = 2600,
 	kWarpDefaultSupplyVoltageMillivoltsMMA8451Q    = 1800,
 
-	kWarpDefaultSupplyVoltageMillivoltsINA219 = ,
+	// added
+	kWarpDefaultSupplyVoltageMillivoltsINA219 = 3000,
 
 	kWarpDefaultSupplyVoltageMillivoltsLPS25H      = 1800,
 	kWarpDefaultSupplyVoltageMillivoltsHDC1000     = 1800,
