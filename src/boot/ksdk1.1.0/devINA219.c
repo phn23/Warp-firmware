@@ -219,7 +219,6 @@ printSensorDataINA219(bool hexModeFlag)
 	 */
 
 	// shunt, bus, current, power
-	// TODO: ADD REGISTER NAME AND ADDRESS
 	// TODO: WHY NEED TO GET RID OF LAST 2 BITS
 	i2cReadStatus = readSensorRegisterINA219(kWarpSensorOutputRegisterINA219OUT_SHUNT, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
@@ -248,7 +247,7 @@ printSensorDataINA219(bool hexModeFlag)
 		}
 	}
 
-	// TODO: DEFINE REGISTER
+
 	i2cReadStatus = readSensorRegisterINA219(kWarpSensorOutputRegisterINA219OUT_BUS, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
@@ -277,7 +276,7 @@ printSensorDataINA219(bool hexModeFlag)
 		}
 	}
 
-	// TODO: DEFINE REGISTER
+
 	i2cReadStatus = readSensorRegisterINA219(kWarpSensorOutputRegisterINA219OUT_CURRENT, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
@@ -307,7 +306,6 @@ printSensorDataINA219(bool hexModeFlag)
 
 
 
-	// TODO: DEFINE REGISTER
 	i2cReadStatus = readSensorRegisterINA219(kWarpSensorOutputRegisterINA219OUT_POWER, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
@@ -400,6 +398,8 @@ appendSensorDataINA219(uint8_t* buf)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
+
+	# TODO
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -430,6 +430,7 @@ appendSensorDataINA219(uint8_t* buf)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
+	# TODO
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
