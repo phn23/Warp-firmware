@@ -11,15 +11,10 @@ const uint8_t bytesPerMeasurementINA219            = 6;
 const uint8_t bytesPerReadingINA219                = 2;
 const uint8_t numberOfReadingsPerMeasurementINA219 = 3;
 
+
+/***********************************************************************
 // from ADAFRUIT library
-
-#ifndef _LIB_ADAFRUIT_INA219_
-#define _LIB_ADAFRUIT_INA219_
-
-#include "Arduino.h"
-#include <Adafruit_BusIO_Register.h>
-#include <Adafruit_I2CDevice.h>
-#include <Wire.h>
+***********************************************************************/
 
 /** calculated I2C address: 0 = GND, 1 = V+ **/
 /* The address is controlled by the A0 and A1 inputs on the INA219:
@@ -33,14 +28,17 @@ const uint8_t numberOfReadingsPerMeasurementINA219 = 3;
  *
  * SDA and SCL options aren't implemented.
  */
-#define INA219_CALC_ADDRESS(INA_ADDR0, INA_ADDR1)                              \
-  (0x40 | (INA_ADDR0 != 0 ? 0x01 : 0x00) | (INA_ADDR1 != 0 ? 0x04 : 0x00))
 
-/** default I2C address **/
-#define INA219_ADDRESS (0x40) // 1000000 (A0+A1=GND)
 
-/** read **/
-#define INA219_READ (0x01)
+// proly no need 
+// #define INA219_CALC_ADDRESS(INA_ADDR0, INA_ADDR1)                              \
+//   (0x40 | (INA_ADDR0 != 0 ? 0x01 : 0x00) | (INA_ADDR1 != 0 ? 0x04 : 0x00))
+
+// /** default I2C address **/
+// #define INA219_ADDRESS (0x40) // 1000000 (A0+A1=GND)
+
+// /** read **/
+// #define INA219_READ (0x01)
 
 /*=========================================================================
     CONFIG REGISTER (R/W)
@@ -92,8 +90,7 @@ enum {
 };
 
 /** mask for shunt ADC resolution bits **/
-#define INA219_CONFIG_SADCRES_MASK                                             \
-  (0x0078) // Shunt ADC Resolution and Averaging Mask
+#define INA219_CONFIG_SADCRES_MASK  (0x0078) // Shunt ADC Resolution and Averaging Mask
 
 /** values for shunt ADC resolution **/
 enum {
@@ -140,13 +137,9 @@ enum {
 /** calibration register **/
 #define INA219_REG_CALIBRATION (0x05)
 
-// not sure if this is needed
-// /*!
-//  *   @brief  Class that stores state and functions for interacting with INA219
-//  *  current/power monitor IC
-//  */
-// class Adafruit_INA219 {
-// public:
+
+
+
 //   Adafruit_INA219(uint8_t addr = INA219_ADDRESS);
 //   ~Adafruit_INA219();
 //   bool begin(TwoWire *theWire = &Wire);
@@ -160,7 +153,7 @@ enum {
 //   void powerSave(bool on);
 //   bool success();
 
-// private:
+
 //   Adafruit_I2CDevice *i2c_dev = NULL;
 
 //   bool _success;
@@ -172,11 +165,8 @@ enum {
 //   uint32_t ina219_currentDivider_mA;
 //   float ina219_powerMultiplier_mW;
 
-//   void init();
+
 //   int16_t getBusVoltage_raw();
 //   int16_t getShuntVoltage_raw();
 //   int16_t getCurrent_raw();
 //   int16_t getPower_raw();
-// };
-
-// #endif
