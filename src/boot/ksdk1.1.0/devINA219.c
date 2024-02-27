@@ -149,12 +149,12 @@ readSensorRegisterINA219(uint8_t deviceRegister, int numberOfBytes)
 	{
 		// there are 6 registers
 		// can read all 6
-		case 0x00: 
-		case 0x01: 
-		case 0x02: 
-		case 0x03:
-		case 0x04:
-		case 0x05:
+		case INA219_REG_CONFIG: 
+		case INA219_REG_SHUNTVOLTAGE: 
+		case INA219_REG_BUSVOLTAGE: 
+		case INA219_REG_POWER:
+		case INA219_REG_CURRENT:
+		case INA219_REG_CALIBRATION:
 		{
 			/* OK */
 			break;
