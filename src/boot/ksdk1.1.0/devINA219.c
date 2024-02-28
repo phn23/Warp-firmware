@@ -228,7 +228,7 @@ printSensorDataINA219(bool hexModeFlag)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
-	// TODO: not sure what is this
+	
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -257,7 +257,7 @@ printSensorDataINA219(bool hexModeFlag)
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
 
-	// TODO: Not sure
+	
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -285,7 +285,7 @@ printSensorDataINA219(bool hexModeFlag)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
-	// TODO: Not sure
+	
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -314,7 +314,7 @@ printSensorDataINA219(bool hexModeFlag)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
-	// TODO: Not sure
+	
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -367,7 +367,7 @@ appendSensorDataINA219(uint8_t* buf)
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
 
-	# TODO
+
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -399,7 +399,7 @@ appendSensorDataINA219(uint8_t* buf)
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
 
-	# TODO
+
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
@@ -461,7 +461,7 @@ appendSensorDataINA219(uint8_t* buf)
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
-	// TODO
+
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
 	if (i2cReadStatus != kWarpStatusOK)
