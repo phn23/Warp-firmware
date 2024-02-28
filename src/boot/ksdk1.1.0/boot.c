@@ -207,7 +207,7 @@ typedef enum
 	kWarpFlashRTCTPRBitField 		= 0b100,
 	kWarpFlashADXL362BitField 		= 0b1000,
 	kWarpFlashAMG8834BitField 		= 0b10000,
-	kWarpFlashMMA8541QBitField		= 0b100000, // TODO: NOT SURE TO ADD OR NOT
+	kWarpFlashMMA8541QBitField		= 0b100000, // TODO: NOT SURE TO ADD ina219 OR NOT
 
 	kWarpFlashMAG3110BitField		= 0b1000000,
 	kWarpFlashL3GD20HBitField		= 0b10000000,
@@ -4857,7 +4857,7 @@ flashDecodeSensorBitField(uint16_t sensorBitField, uint8_t sensorIndex, uint8_t*
 	}
 
 	/*
-	 * MMA8541Q: // UPDATED COMMENTS NAME
+	 * MMA8451Q: // UPDATED COMMENTS NAME
 	*/
 	if (sensorBitField & kWarpFlashMMA8541QBitField)
 	{
@@ -4869,6 +4869,24 @@ flashDecodeSensorBitField(uint16_t sensorBitField, uint8_t sensorIndex, uint8_t*
 			return;
 		}
 	}
+
+
+// ADDED
+// TODO: NOT SURE WHETHER THIS IS NEEDED
+	/*
+	 * INA219: // UPDATED COMMENTS NAME
+	*/
+	if (sensorBitField & kWarpFlashINA219BitField)
+	{
+		numberOfSensorsFound++;
+		if (numberOfSensorsFound - 1 == sensorIndex)
+		{
+			*sizePerReading		= bytesPerReadingINA219;
+			*numberOfReadings = numberOfReadingsPerMeasurementINA219;
+			return;
+		}
+	}
+	
 	
 
 	/*
