@@ -3794,8 +3794,9 @@ loopForSensor(	const char *  tagString,
 	warpPrint(tagString);
 
 	// ADDED
-	byte_number_read_ina219 = 2;	
-	byte_number_read = byte_number_read_ina219;
+	
+	int byte_number_read_ina219 = 2;	
+	int byte_number_read = byte_number_read_ina219;
 
 	/*
 	 *	Keep on repeating until we are above the maxAddress, or just once if not autoIncrement-ing
