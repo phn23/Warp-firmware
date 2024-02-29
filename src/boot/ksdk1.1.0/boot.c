@@ -1699,6 +1699,7 @@ main(void)
 // added
 #if (WARP_BUILD_ENABLE_DEVINA219)
 		initINA219(	0x40	/* i2cAddress */,	kWarpDefaultSupplyVoltageMillivoltsINA219	);
+		warpPrint("INA219 INIT ENABLED");
 #endif
 
 
