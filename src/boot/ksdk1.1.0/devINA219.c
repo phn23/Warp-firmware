@@ -455,7 +455,7 @@ appendSensorDataINA219(uint8_t* buf)
 	
 	i2cReadStatus                   = readSensorRegisterINA219(INA219_REG_POWER, 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB      = deviceINA219State.i2cBuffer[0];
-	readSensorRegisterValueLSB      = deviceMMAINA219State.i2cBuffer[1];
+	readSensorRegisterValueLSB      = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
 
 	/*
