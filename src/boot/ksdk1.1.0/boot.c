@@ -3836,7 +3836,7 @@ loopForSensor(	const char *  tagString,
 
 						if (chatty)
 						{
-						warpPrint("\r\t0x%02x --> 0x%02x\n",
+						warpPrint("\r\t0x%02x --> 0x%04x\n", // added: from 2 to 4 
 							address+j,
 									  i2cDeviceState->i2cBuffer[0]);
 						}
