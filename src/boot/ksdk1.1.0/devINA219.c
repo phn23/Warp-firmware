@@ -670,7 +670,7 @@ void setCalibration_32V_1A() {
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
   // Cal = 10240 (0x2800)
 
-  ina219_calValue = 10240;
+  uint16_t ina219_calValue = 10240;
 
   // 6. Calculate the power LSB
   // PowerLSB = 20 * CurrentLSB
