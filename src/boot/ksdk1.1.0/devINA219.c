@@ -761,7 +761,7 @@ void setCalibration_16V_400mA() {
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
   // Cal = 8192 (0x2000)
 
-  ina219_calValue = 8192;
+  uint16_t ina219_calValue = 8192;
 
   // 6. Calculate the power LSB
   // PowerLSB = 20 * CurrentLSB
