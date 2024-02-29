@@ -3833,12 +3833,13 @@ loopForSensor(	const char *  tagString,
 						{
 							nCorrects++;
 						}
-
+// ADDED: FORMAT
 						if (chatty)
 						{
-						warpPrint("\r\t0x%02x --> 0x%04x\n", // added: from 2 to 4 
-							address+j,
-									  i2cDeviceState->i2cBuffer[0]);
+						warpPrint("\r\t0x%02x --> 0x%02x%02x\n",
+						address + j,
+						i2cDeviceState->i2cBuffer[0],
+						i2cDeviceState->i2cBuffer[1]);
 						}
 					}
 				}
