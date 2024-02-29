@@ -709,7 +709,7 @@ void setCalibration_32V_1A() {
   ina219_powerMultiplier_mW = 0.8f; // Power LSB = 800uW per bit
 
   // Set Calibration register to 'Cal' calculated above
-  writeSensorRegisterINA219(INA219_CALIBRATION, ina219_calValue);
+  writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
 	  
 
   // Set Config register to take into account the settings above
@@ -718,8 +718,8 @@ void setCalibration_32V_1A() {
                     INA219_CONFIG_SADCRES_12BIT_1S_532US |
                     INA219_CONFIG_MODE_SANDBVOLT_CONTINUOUS;
 
-writeSensorRegisterINA219(INA219_REG_CONFIG, congif);
-
+writeSensorRegisterINA219(INA219_REG_CONFIG, config);
+}
 /*!
  *  @brief set device to alibration which uses the highest precision for
  *     current measurement (0.1mA), at the expense of
