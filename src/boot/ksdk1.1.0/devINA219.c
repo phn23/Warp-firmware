@@ -40,10 +40,11 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 }
 
 
+
 // WRITE
 // All INA219 registers 16-bit registers are actually two 8-bit bytes via the I2C interface -> 2 bytes
 WarpStatus
-writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload[2])
+writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload)
 {
 	uint8_t		payloadByte[2], commandByte[1]; // 2 data bytes
 	i2c_status_t	status;
@@ -72,9 +73,10 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint8_t payload[2])
 	};
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
+
 	commandByte[0] = deviceRegister;
-	payloadByte[0] = payload[0]; // MSB
-	payloadByte[1] = payload[1]; // LSB
+	payloadByte[0] = (payload >> 8) & 0xFF; /* MSB first */
+	payloadByte[1] = payload & 0xFF;        /* LSB */
 	warpEnableI2Cpins();
 
 /*!
