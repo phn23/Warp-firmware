@@ -3793,6 +3793,10 @@ loopForSensor(	const char *  tagString,
 	warpScaleSupplyVoltage(actualSssupplyMillivolts);
 	warpPrint(tagString);
 
+	// ADDED
+	byte_number_read_ina219 = 2;	
+	byte_number_read = byte_number_read_ina219
+
 	/*
 	 *	Keep on repeating until we are above the maxAddress, or just once if not autoIncrement-ing
 	 *	This is checked for at the tail end of the loop.
@@ -3801,7 +3805,7 @@ loopForSensor(	const char *  tagString,
 	{
 		for (int i = 0; i < readCount; i++) for (int j = 0; j < chunkReadsPerAddress; j++)
 			{
-			status = readSensorRegisterFunction(address+j, 1 /* numberOfBytes */);
+			status = readSensorRegisterFunction(address+j, byte_number_read /* numberOfBytes */);
 				if (status == kWarpStatusOK)
 				{
 					nSuccesses++;
