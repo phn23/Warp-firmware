@@ -30,8 +30,8 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
 
-uint16_t ina219_currentMultiplier_mA; // = 0;
-float ina219_powerMultiplier_mW;  // = 0.0f;
+uint16_t INA219_currentMultiplier_mA; // = 0;
+// float ina219_powerMultiplier_mW;  // = 0.0f;
 
 
 
@@ -232,7 +232,7 @@ printSensorDataINA219(bool hexModeFlag)
 	i2cReadStatus = readSensorRegisterINA219(INA219_REG_SHUNTVOLTAGE, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	 = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB & 0xFF); // CHANGE THESE
+	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB & 0xFF); // CHANGE THESE
 
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
@@ -683,7 +683,7 @@ void setCalibration_INA219(){
 
 /*****************************************************************************
 	got lost here
-/*****************************************************************************
+*****************************************************************************/
 	
 
   // 6. Calculate the power LSB
