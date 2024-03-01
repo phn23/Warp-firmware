@@ -732,7 +732,7 @@ void setCalibration_INA219(){
   // MaximumPower = 0.01W
 
   // Set multipliers to convert raw current/power values
-  ina219_currentDivider_mA = 20;    // Current LSB = 50uA per bit (1000/50 = 20)
+  ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)
   ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
