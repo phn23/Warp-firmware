@@ -229,11 +229,10 @@ printSensorDataINA219(bool hexModeFlag)
 	 */
 
 	// shunt, bus, current, power
-	// TODO: WHY NEED TO GET RID OF LAST 2 BITS
 	i2cReadStatus = readSensorRegisterINA219(INA219_REG_SHUNTVOLTAGE, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB & 0xFF); // CHANGE THESE
 
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
@@ -467,7 +466,6 @@ appendSensorDataINA219(uint8_t* buf)
 	readSensorRegisterValueMSB      = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB      = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
-
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
@@ -606,7 +604,10 @@ WE ONLY NEED CURRENT
  *  @return the raw current reading
  */
 int32_t INA219_getCurrent_mA() {
-	uint16_t value;
+	uint16_t = readSensorRegisterValueMSB;
+	uint16_t = readSensorRegisterValueLSB;
+	int16_t = readSensorRegisterValueCombined;
+	
 	uint32_t valueDec;	
 
 	// Sometimes a sharp load will reset the INA219, which will
@@ -624,11 +625,9 @@ int32_t INA219_getCurrent_mA() {
 	i2cReadStatus = readSensorRegisterINA219(INA219_REG_CURRENT, 2 /* numberOfBytes */); // read 2 bytes from current reg
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
-	
-	// WHAT IS VALUE HERE?
-	value
-		
+	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
+
+	// multiply by LSB unit
 	valueDec = value * ina219_currentMultiplier;
 	
 	return valueDec;
