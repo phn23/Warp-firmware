@@ -43,8 +43,8 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	
 	// Activate calibration and reg
-	// setCalibration_INA219(); // TODO: UPDATE NAME
-	setCalibration_16V_400mA();
+	setCalibration_INA219(); // TODO: UPDATE NAME
+	// setCalibration_16V_400mA();
 
 	return;
 }
