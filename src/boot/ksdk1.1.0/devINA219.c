@@ -616,7 +616,7 @@ int32_t INA219_getCurrent_mA() {
 	// value even if it's an unfortunate extra step
 
 	// first calibrate
-	writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219calValue);
+	writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
 	
 	// Now we can safely read the CURRENT register!
 	// now we read
