@@ -232,7 +232,7 @@ printSensorDataINA219(bool hexModeFlag)
 	i2cReadStatus = readSensorRegisterINA219(INA219_REG_SHUNTVOLTAGE, 2 /* numberOfBytes */); 
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB & 0xFF); // CHANGE THESE
+	 = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB & 0xFF); // CHANGE THESE
 
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
@@ -606,9 +606,8 @@ WE ONLY NEED CURRENT
 int32_t INA219_getCurrent_mA() {
 	uint16_t  readSensorRegisterValueMSB;
 	uint16_t  readSensorRegisterValueLSB;
-	int16_t  readSensorRegisterValueCombined;
-	
-	uint32_t valueDec;	
+	int16_t  readSensorRegisterValueCombined; // -/+ 32767
+	int32_t valueDec;	
 
 	// Sometimes a sharp load will reset the INA219, which will
 	// reset the cal register, meaning CURRENT and POWER will
