@@ -1947,7 +1947,7 @@ main(void)
 	gWarpExtraQuietMode = false;
 	warpPrint("Press any key to show menu...\n");
 	warpPrint("Hey this is working now\n");
-	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
+	
 
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 	
@@ -1964,6 +1964,9 @@ main(void)
 		}	
 	
 	#endif
+
+	warpPrint("end of print")
+	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
 	{
