@@ -32,6 +32,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 uint16_t INA219_currentMultiplier_mA; // = 0;
 // float ina219_powerMultiplier_mW;  // = 0.0f;
+uint16_t INA219_calValue;
 
 
 
@@ -615,7 +616,7 @@ int32_t INA219_getCurrent_mA() {
 	// value even if it's an unfortunate extra step
 
 	// first calibrate
-	writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
+	writeSensorRegisterINA219(INA219_REG_CALIBRATION, INA219_calValue);
 	
 	// Now we can safely read the CURRENT register!
 	// now we read
@@ -627,7 +628,7 @@ int32_t INA219_getCurrent_mA() {
 	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
 
 	// multiply by LSB unit
-	valueDec = value * ina219_currentMultiplier;
+	valueDec = readSensorRegisterValueCombined * ina219_currentMultiplier;
 	
 	return valueDec;
 }
@@ -722,7 +723,7 @@ void setCalibration_INA219(){
 
   // Set multipliers to convert raw current/power values
   // ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)	
-  ina219_currentMultiplier_mA = 0.01 ;    // Current LSB = 10uA per bit = 0.01 mA per bit 	
+  INA219_currentMultiplier_mA = 0.01 ;    // Current LSB = 10uA per bit = 0.01 mA per bit 	
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
