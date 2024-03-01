@@ -628,7 +628,7 @@ int32_t INA219_getCurrent_mA() {
 	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
 
 	// multiply by LSB unit
-	valueDec = readSensorRegisterValueCombined * INA219_currentMultiplier;
+	valueDec = readSensorRegisterValueCombined * INA219_currentMultiplier_mA;
 	
 	return valueDec;
 }
