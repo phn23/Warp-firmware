@@ -1932,11 +1932,8 @@ main(void)
 // 		micro_current *= 1000; // to microampere
 // 		warpPrint("%d\n", micro_current);
 // 	}
-
-
-
 	
-#endif
+// #endif
 
 	// warpPrint("HGello Press any key to show menu...\n");
 	// gWarpExtraQuietMode = _originalWarpExtraQuietMode;
