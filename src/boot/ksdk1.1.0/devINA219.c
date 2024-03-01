@@ -620,7 +620,11 @@ int32_t INA219_getCurrent_mA() {
 	// Now we can safely read the CURRENT register!
 	// now we read
 	
-	readSensorRegisterINA219(INA219_REG_CURRENT, 2); // read 2 bytes from current reg
+
+	i2cReadStatus = readSensorRegisterINA219(INA219_REG_CURRENT, 2 /* numberOfBytes */); // read 2 bytes from current reg
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
 	
 	// WHAT IS VALUE HERE?
 	value
