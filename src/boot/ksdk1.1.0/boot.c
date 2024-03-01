@@ -1922,7 +1922,7 @@ main(void)
 #if (WARP_BUILD_ENABLE_FRDMKL03)
 	
 	warpPrint("Added init starts");
-	// devSSD1331init();
+	devSSD1331init();
 	warpPrint("Added init ends");
 
 	// measurement code
@@ -1978,7 +1978,7 @@ main(void)
 
 	bool _originalWarpExtraQuietMode = gWarpExtraQuietMode;
 	gWarpExtraQuietMode = false;
-	warpPrint("Press any key to show menu...\n");
+	warpPrint("hello its mePress any key to show menu...\n");
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
