@@ -1945,8 +1945,7 @@ main(void)
 
 	bool _originalWarpExtraQuietMode = gWarpExtraQuietMode;
 	gWarpExtraQuietMode = false;
-	warpPrint("Press any key to show menu...\n");
-	warpPrint("Hey this is working now\n");
+
 	
 
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
@@ -1964,7 +1963,8 @@ main(void)
 		}	
 	
 	#endif
-
+	warpPrint("Press any key to show menu...\n");
+	warpPrint("Hey this is working now\n");
 	warpPrint("end of print")
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
