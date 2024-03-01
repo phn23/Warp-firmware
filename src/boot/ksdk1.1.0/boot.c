@@ -1947,7 +1947,6 @@ main(void)
 	gWarpExtraQuietMode = false;
 
 	
-
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 	
 		warpPrint("Added init starts");
@@ -1955,7 +1954,8 @@ main(void)
 		warpPrint("Added init ends");
 	
 		// measurement code
-		for (int i = 0; i<1000; i++)
+		// TODO: rmb to change to 1000
+		for (int i = 0; i<10; i++)
 		{
 			int32_t micro_current = INA219_getCurrent_mA();
 			micro_current *= 1000; // to microampere
