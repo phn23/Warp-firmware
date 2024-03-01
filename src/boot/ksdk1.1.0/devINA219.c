@@ -783,7 +783,7 @@ void setCalibration_16V_400mA() {
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
   // Cal = 8192 (0x2000)
 
-  ina219_calValue = 8192;
+  INA219_calValue = 8192;
 
   // 6. Calculate the power LSB
   // PowerLSB = 20 * CurrentLSB
@@ -821,7 +821,7 @@ void setCalibration_16V_400mA() {
   // MaximumPower = 6.4W
 
   // Set multipliers to convert raw current/power values
-  INA219_currentDivider_mA = 20;    // Current LSB = 50uA per bit (1000/50 = 20)
+  INA219_currentMultiplier_mA = 20;    // Current LSB = 50uA per bit (1000/50 = 20)
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
