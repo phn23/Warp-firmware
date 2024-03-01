@@ -44,7 +44,7 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	
 	// Activate calibration and reg
 	// setCalibration_INA219(); // TODO: UPDATE NAME
-	setCalibration_16V_400mA;
+	setCalibration_16V_400mA();
 
 	return;
 }
@@ -830,7 +830,7 @@ void setCalibration_16V_400mA() {
 
 
   // Set Calibration register to 'Cal' calculated above
-  writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
+  writeSensorRegisterINA219(INA219_REG_CALIBRATION, INA219_calValue);
 	  
 
   // Set Config register to take into account the settings above
