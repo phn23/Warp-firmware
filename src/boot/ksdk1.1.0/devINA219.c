@@ -500,164 +500,140 @@ appendSensorDataINA219(uint8_t* buf)
 /*******************************************************************
 // ADDED FOR CALIBRATION
 *******************************************************************/
-int16_t INA219_getBusVoltage_raw() {
-  uint16_t value;
+// int16_t INA219_getBusVoltage_raw() {
+//   uint16_t value;
 
-  Adafruit_BusIO_Register bus_voltage_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_BUSVOLTAGE, 2, MSBFIRST);
-  _success = bus_voltage_reg.read(&value);
+// readSensorRegisterINA219(INA219_REG_BUSVOLTAGE, 2);
 
-  // Shift to the right 3 to drop CNVR and OVF and multiply by LSB
-  return (int16_t)((value >> 3) * 4);
-}
 
-/*!
- *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
- *  @return the raw shunt voltage reading
- */
-int16_t Adafruit_INA219::getShuntVoltage_raw() {
-  uint16_t value;
-  Adafruit_BusIO_Register shunt_voltage_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_SHUNTVOLTAGE, 2, MSBFIRST);
-  _success = shunt_voltage_reg.read(&value);
-  return value;
-}
+//   Adafruit_BusIO_Register bus_voltage_reg =
+//       Adafruit_BusIO_Register(i2c_dev, INA219_REG_BUSVOLTAGE, 2, MSBFIRST);
+//   _success = bus_voltage_reg.read(&value);
 
-/*!
- *  @brief  Gets the raw current value (16-bit signed integer, so +-32767)
- *  @return the raw current reading
- */
-int16_t Adafruit_INA219::getCurrent_raw() {
-  uint16_t value;
+//   // Shift to the right 3 to drop CNVR and OVF and multiply by LSB
+//   return (int16_t)((value >> 3) * 4);
+// }
 
-  // Sometimes a sharp load will reset the INA219, which will
-  // reset the cal register, meaning CURRENT and POWER will
-  // not be available ... avoid this by always setting a cal
-  // value even if it's an unfortunate extra step
-  Adafruit_BusIO_Register calibration_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_CALIBRATION, 2, MSBFIRST);
-  calibration_reg.write(ina219_calValue, 2);
+// /*!
+//  *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
+//  *  @return the raw shunt voltage reading
+//  */
+// int16_t INA219_getShuntVoltage_raw() {
+//   uint16_t value;
+//   Adafruit_BusIO_Register shunt_voltage_reg =
+//       Adafruit_BusIO_Register(i2c_dev, INA219_REG_SHUNTVOLTAGE, 2, MSBFIRST);
+//   _success = shunt_voltage_reg.read(&value);
+//   return value;
+// }
 
-  // Now we can safely read the CURRENT register!
-  Adafruit_BusIO_Register current_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_CURRENT, 2, MSBFIRST);
-  _success = current_reg.read(&value);
-  return value;
-}
+// // /*!
+// //  *  @brief  Gets the raw power value (16-bit signed integer, so +-32767)
+// //  *  @return raw power reading
+// //  */
+// // int16_t INA219_getPower_raw() {
+// //   uint16_t value;
 
-/*!
- *  @brief  Gets the raw power value (16-bit signed integer, so +-32767)
- *  @return raw power reading
- */
-int16_t Adafruit_INA219::getPower_raw() {
-  uint16_t value;
+// //   // Sometimes a sharp load will reset the INA219, which will
+// //   // reset the cal register, meaning CURRENT and POWER will
+// //   // not be available ... avoid this by always setting a cal
+// //   // value even if it's an unfortunate extra step
+// //   Adafruit_BusIO_Register calibration_reg =
+// //       Adafruit_BusIO_Register(i2c_dev, INA219_REG_CALIBRATION, 2, MSBFIRST);
+// //   calibration_reg.write(ina219_calValue, 2);
 
-  // Sometimes a sharp load will reset the INA219, which will
-  // reset the cal register, meaning CURRENT and POWER will
-  // not be available ... avoid this by always setting a cal
-  // value even if it's an unfortunate extra step
-  Adafruit_BusIO_Register calibration_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_CALIBRATION, 2, MSBFIRST);
-  calibration_reg.write(ina219_calValue, 2);
+// //   // Now we can safely read the POWER register!
+// //   Adafruit_BusIO_Register power_reg =
+// //       Adafruit_BusIO_Register(i2c_dev, INA219_REG_POWER, 2, MSBFIRST);
+// //   _success = power_reg.read(&value);
+// //   return value;
+// // }
 
-  // Now we can safely read the POWER register!
-  Adafruit_BusIO_Register power_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_POWER, 2, MSBFIRST);
-  _success = power_reg.read(&value);
-  return value;
-}
+// /*!
+//  *  @brief  Gets the shunt voltage in mV (so +-327mV)
+//  *  @return the shunt voltage converted to millivolts
+//  */
+// float INA219_getShuntVoltage_mV() {
+//   int16_t value;
+//   value = getShuntVoltage_raw();
+//   return value * 0.01;
+// }
 
-/*!
- *  @brief  Gets the shunt voltage in mV (so +-327mV)
- *  @return the shunt voltage converted to millivolts
- */
-float Adafruit_INA219::getShuntVoltage_mV() {
-  int16_t value;
-  value = getShuntVoltage_raw();
-  return value * 0.01;
-}
+// /*!
+//  *  @brief  Gets the bus voltage in volts
+//  *  @return the bus voltage converted to volts
+//  */
+// float INA219_getBusVoltage_V() {
+//   int16_t value = getBusVoltage_raw();
+//   return value * 0.001;
+// }
 
-/*!
- *  @brief  Gets the bus voltage in volts
- *  @return the bus voltage converted to volts
- */
-float Adafruit_INA219::getBusVoltage_V() {
-  int16_t value = getBusVoltage_raw();
-  return value * 0.001;
-}
 
-/*!
- *  @brief  Gets the current value in mA, taking into account the
- *          config settings and current LSB
- *  @return the current reading convereted to milliamps
- */
-float Adafruit_INA219::getCurrent_mA() {
-  float valueDec = getCurrent_raw();
-  valueDec /= ina219_currentDivider_mA;
-  return valueDec;
-}
 
-/*!
- *  @brief  Gets the power value in mW, taking into account the
- *          config settings and current LSB
- *  @return power reading converted to milliwatts
- */
-float Adafruit_INA219::getPower_mW() {
-  float valueDec = getPower_raw();
-  valueDec *= ina219_powerMultiplier_mW;
-  return valueDec;
-}
+// /*!
+//  *  @brief  Gets the power value in mW, taking into account the
+//  *          config settings and current LSB
+//  *  @return power reading converted to milliwatts
+//  */
+// float INA219_getPower_mW() {
+//   float valueDec = getPower_raw();
+//   valueDec *= ina219_powerMultiplier_mW;
+//   return valueDec;
+// }
 
   
 
-/*!
- *  @brief  Set power save mode according to parameters
- *  @param  on
- *          boolean value
- */
-void Adafruit_INA219::powerSave(bool on) {
-  Adafruit_BusIO_Register config_reg =
-      Adafruit_BusIO_Register(i2c_dev, INA219_REG_CONFIG, 2, MSBFIRST);
-
-  Adafruit_BusIO_RegisterBits mode_bits =
-      Adafruit_BusIO_RegisterBits(&config_reg, 3, 0);
-  if (on) {
-    _success = mode_bits.write(INA219_CONFIG_MODE_POWERDOWN);
-  } else {
-    _success = mode_bits.write(INA219_CONFIG_MODE_SANDBVOLT_CONTINUOUS);
-  }
-}
-
-/*!
- *  @brief  Configures to INA219 to be able to measure up to 32V and 1A
- *          of current.  Each unit of current corresponds to 40uA, and each
- *          unit of power corresponds to 800uW. Counter overflow occurs at
- *          1.3A.
- *  @note   These calculations assume a 0.1 ohm resistor is present
- */
-
-
-  // Set multipliers to convert raw current/power values
-  ina219_currentDivider_mA = 25;    // Current LSB = 40uA per bit (1000/40 = 25)
-  ina219_powerMultiplier_mW = 0.8f; // Power LSB = 800uW per bit
-
-  // Set Calibration register to 'Cal' calculated above
-  writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
-	  
-
-  // Set Config register to take into account the settings above
-  uint16_t config = INA219_CONFIG_BVOLTAGERANGE_32V |
-                    INA219_CONFIG_GAIN_8_320MV | INA219_CONFIG_BADCRES_12BIT |
-                    INA219_CONFIG_SADCRES_12BIT_1S_532US |
-                    INA219_CONFIG_MODE_SANDBVOLT_CONTINUOUS;
-
-writeSensorRegisterINA219(INA219_REG_CONFIG, config);
-}
 /*!
  *  @brief set device to alibration which uses the highest precision for
  *     current measurement (0.1mA), at the expense of
  *     only supporting 16V at 400mA max.
  */
+
+
+/*!
+ *  @brief  Configures to INA219 to be able to measure up to 16V and 0.4A
+ *          of current.  Each unit of current corresponds to 100uA, and
+ *          each unit of power corresponds to 2mW. Counter overflow
+ *          occurs at 3.2A.
+ *  @note   These calculations assume a 0.1 ohm resistor is present
+ */
+
+
+/************************************************************************
+WE ONLY NEED CURRENT
+*************************************************************************/
+/*!
+ *  @brief  Gets the raw current value (16-bit signed integer, so +-32767)
+ *  @return the raw current reading
+ */
+int32_t INA219_getCurrent_mA() {
+	uint16_t value;
+	uint32_t valueDec;	
+
+	// Sometimes a sharp load will reset the INA219, which will
+	// reset the cal register, meaning CURRENT and POWER will
+	// not be available ... avoid this by always setting a cal
+	// value even if it's an unfortunate extra step
+
+	// first calibrate
+	writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219calValue);
+	
+	// Now we can safely read the CURRENT register!
+	// now we read
+	readSensorRegisterINA219(INA219_REG_CURRENT, 2);
+	
+	// WHAT IS VALUE HERE?
+		
+	valueDec = value * ina219_currentMultiplier;
+	
+	return valueDec;
+}
+
+
+
+/************************************************************************
+END - WE ONLY NEED CURRENT
+*************************************************************************/
+
 
 /**********************************************************
 callibration test
@@ -693,9 +669,18 @@ void setCalibration_INA219(){
 
   // 5. Compute the calibration register
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
-  // Cal = 40960 (0x2000) 
+  // Cal = 40960 
 
-  uint16_t ina219_calValue = 8192;
+/**********************************************************************
+	calibrated value
+***********************************************************************/
+  uint16_t ina219_calValue = 40960; // SMALLER THAN 65535
+
+
+/*****************************************************************************
+	got lost here
+/*****************************************************************************
+	
 
   // 6. Calculate the power LSB
   // PowerLSB = 20 * CurrentLSB
@@ -733,7 +718,7 @@ void setCalibration_INA219(){
 
   // Set multipliers to convert raw current/power values
   ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)
-  ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
+  // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
   writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
@@ -748,13 +733,5 @@ void setCalibration_INA219(){
 writeSensorRegisterINA219(INA219_REG_CONFIG, config);
 }
 
-/*!
- *  @brief  Provides the the underlying return value from the last operation
- *          called on the device.
- *  @return true: Last operation was successful false: Last operation failed
- *  @note   For function calls that have intermediary device operations,
- *          e.g. calibration before read/write, only the final operation's
- *          result is stored.
- */
-
-
+// plan get the calibrated current
+// multiply by LSB (unit)
