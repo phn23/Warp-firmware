@@ -1949,9 +1949,9 @@ main(void)
 	
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 	
-		warpPrint("Added init starts");
+		warpPrint("Added init start \ns");
 		devSSD1331init();
-		warpPrint("Added init ends");
+		warpPrint("Added init ends \n");
 	
 		// measurement code
 		// TODO: rmb to change to 1000
