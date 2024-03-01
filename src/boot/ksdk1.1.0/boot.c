@@ -1919,26 +1919,26 @@ main(void)
 	 *	the BLE module will be turned off by default.
 	 */
 
-#if (WARP_BUILD_ENABLE_FRDMKL03)
+// #if (WARP_BUILD_ENABLE_FRDMKL03)
 	
-	warpPrint("Added init starts");
-	devSSD1331init();
-	warpPrint("Added init ends");
+// 	warpPrint("Added init starts");
+// 	devSSD1331init();
+// 	warpPrint("Added init ends");
 
-	// measurement code
-	for (int i = 0; i<1000; i++)
-	{
-		int32_t micro_current = INA219_getCurrent_mA();
-		micro_current *= 1000; // to microampere
-		warpPrint("%d\n", micro_current);
-	}
+// 	// measurement code
+// 	for (int i = 0; i<1000; i++)
+// 	{
+// 		int32_t micro_current = INA219_getCurrent_mA();
+// 		micro_current *= 1000; // to microampere
+// 		warpPrint("%d\n", micro_current);
+// 	}
 
 
 
 	
 #endif
 
-	warpPrint("HGello Press any key to show menu...\n");
+	// warpPrint("HGello Press any key to show menu...\n");
 	// gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
 	// while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
@@ -2030,7 +2030,7 @@ main(void)
 
 	bool _originalWarpExtraQuietMode = gWarpExtraQuietMode;
 	gWarpExtraQuietMode = false;
-	warpPrint("Press any key to show menu...\n");
+	warpPrint("wt is this Press any key to show menu...\n");
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
