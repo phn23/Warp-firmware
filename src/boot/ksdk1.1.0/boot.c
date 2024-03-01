@@ -1934,6 +1934,10 @@ main(void)
 	}
 
 
+
+	
+#endif
+
 	warpPrint("Press any key to show menu...\n");
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
@@ -1949,8 +1953,6 @@ main(void)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		warpPrint("About to loop with printSensorDataBME680()...\n");
-	
-#endif
 	
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
 	/*
