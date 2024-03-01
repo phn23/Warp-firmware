@@ -1926,7 +1926,7 @@ main(void)
 	warpPrint("Added init ends");
 
 	// measurement code
-	for (i = 0; i<1000; i++)
+	for (int i = 0; i<1000; i++)
 	{
 		int32_t micro_current = INA219_getCurrent_mA();
 		micro_current *= 1000; // to microampere
