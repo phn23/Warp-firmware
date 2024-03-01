@@ -622,13 +622,13 @@ int32_t INA219_getCurrent_mA() {
 	// now we read
 	
 
-	i2cReadStatus = readSensorRegisterINA219(INA219_REG_CURRENT, 2 /* numberOfBytes */); // read 2 bytes from current reg
+	readSensorRegisterINA219(INA219_REG_CURRENT, 2 /* numberOfBytes */); // read 2 bytes from current reg
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
 
 	// multiply by LSB unit
-	valueDec = readSensorRegisterValueCombined * ina219_currentMultiplier;
+	valueDec = readSensorRegisterValueCombined * INA219_currentMultiplier;
 	
 	return valueDec;
 }
