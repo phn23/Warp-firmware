@@ -1922,7 +1922,7 @@ main(void)
 #if (WARP_BUILD_ENABLE_FRDMKL03)
 	
 	warpPrint("Added init starts");
-	devSSD1331init();
+	// devSSD1331init();
 	warpPrint("Added init ends");
 
 	// measurement code
@@ -1939,20 +1939,20 @@ main(void)
 #endif
 
 	warpPrint("Press any key to show menu...\n");
-	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
+	// gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
-	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
-	{
-		rttKey = SEGGER_RTT_GetKey();
-		OSA_TimeDelay(1);
-		timer++;
-	}
+	// while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
+	// {
+	// 	rttKey = SEGGER_RTT_GetKey();
+	// 	OSA_TimeDelay(1);
+	// 	timer++;
+	// }
 
-	if (rttKey < 0)
-	{
-		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
+	// if (rttKey < 0)
+	// {
+	// 	printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
-		warpPrint("About to loop with printSensorDataBME680()...\n");
+	// 	warpPrint("About to loop with printSensorDataBME680()...\n");
 	
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
 	/*
