@@ -619,9 +619,11 @@ int32_t INA219_getCurrent_mA() {
 	
 	// Now we can safely read the CURRENT register!
 	// now we read
-	readSensorRegisterINA219(INA219_REG_CURRENT, 2);
+	
+	readSensorRegisterINA219(INA219_REG_CURRENT, 2); // read 2 bytes from current reg
 	
 	// WHAT IS VALUE HERE?
+	value
 		
 	valueDec = value * ina219_currentMultiplier;
 	
@@ -717,7 +719,8 @@ void setCalibration_INA219(){
   // MaximumPower = 0.01W
 
   // Set multipliers to convert raw current/power values
-  ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)
+  // ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)	
+  ina219_currentMultiplier_mA = 0.01 ;    // Current LSB = 10uA per bit = 0.01 mA per bit 	
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
