@@ -1932,6 +1932,23 @@ main(void)
 		micro_current *= 1000; // to microampere
 		warpPrint("%d\n", micro_current);
 	}
+
+
+	warpPrint("Press any key to show menu...\n");
+	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
+
+	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
+	{
+		rttKey = SEGGER_RTT_GetKey();
+		OSA_TimeDelay(1);
+		timer++;
+	}
+
+	if (rttKey < 0)
+	{
+		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
+
+		warpPrint("About to loop with printSensorDataBME680()...\n");
 	
 #endif
 	
