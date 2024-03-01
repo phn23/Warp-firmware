@@ -1919,38 +1919,8 @@ main(void)
 	 *	the BLE module will be turned off by default.
 	 */
 
-// #if (WARP_BUILD_ENABLE_FRDMKL03)
-	
-// 	warpPrint("Added init starts");
-// 	devSSD1331init();
-// 	warpPrint("Added init ends");
 
-// 	// measurement code
-// 	for (int i = 0; i<1000; i++)
-// 	{
-// 		int32_t micro_current = INA219_getCurrent_mA();
-// 		micro_current *= 1000; // to microampere
-// 		warpPrint("%d\n", micro_current);
-// 	}
-	
-// #endif
 
-	// warpPrint("HGello Press any key to show menu...\n");
-	// gWarpExtraQuietMode = _originalWarpExtraQuietMode;
-
-	// while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
-	// {
-	// 	rttKey = SEGGER_RTT_GetKey();
-	// 	OSA_TimeDelay(1);
-	// 	timer++;
-	// }
-
-	// if (rttKey < 0)
-	// {
-	// 	printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
-
-	// 	warpPrint("About to loop with printSensorDataBME680()...\n");
-	
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
 	/*
 	 *	Make sure sensor supplies are off.
@@ -1978,6 +1948,22 @@ main(void)
 	warpPrint("Press any key to show menu...\n");
 	warpPrint("Hey this is working now\n");
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
+
+	#if (WARP_BUILD_ENABLE_FRDMKL03)
+	
+		warpPrint("Added init starts");
+		devSSD1331init();
+		warpPrint("Added init ends");
+	
+		// measurement code
+		for (int i = 0; i<1000; i++)
+		{
+			int32_t micro_current = INA219_getCurrent_mA();
+			micro_current *= 1000; // to microampere
+			warpPrint("%d\n", micro_current);
+		}	
+	
+	#endif
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
 	{
