@@ -30,7 +30,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
 
-uint16_t ina219_currentDivider_mA; // = 0;
+uint16_t ina219_currentMultiplier_mA; // = 0;
 float ina219_powerMultiplier_mW;  // = 0.0f;
 
 
