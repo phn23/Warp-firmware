@@ -604,9 +604,9 @@ WE ONLY NEED CURRENT
  *  @return the raw current reading
  */
 int32_t INA219_getCurrent_mA() {
-	uint16_t = readSensorRegisterValueMSB;
-	uint16_t = readSensorRegisterValueLSB;
-	int16_t = readSensorRegisterValueCombined;
+	uint16_t  readSensorRegisterValueMSB;
+	uint16_t  readSensorRegisterValueLSB;
+	int16_t  readSensorRegisterValueCombined;
 	
 	uint32_t valueDec;	
 
