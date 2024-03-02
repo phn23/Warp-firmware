@@ -30,7 +30,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
 
-uint16_t INA219_currentMultiplier_mA; // = 0;
+uint32_t INA219_currentMultiplier_uA; // = 0;
 // float ina219_powerMultiplier_mW;  // = 0.0f;
 uint16_t INA219_calValue;
 
@@ -663,7 +663,7 @@ int32_t INA219_getCurrent_uA(){
 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
 	
 	// multiply by LSB unit
-	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_mA  * 1000; // get microamp
+	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_uA ; // get microamp
 	
 	return valueDec;
 }
@@ -758,7 +758,7 @@ void setCalibration_INA219(){
 
   // Set multipliers to convert raw current/power values
   // ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)	
-  INA219_currentMultiplier_mA = 0.01 ;    // Current LSB = 10uA per bit = 0.01 mA per bit 	
+  INA219_currentMultiplier_uA = 10 ;    // Current LSB = 10uA per bit  	
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
