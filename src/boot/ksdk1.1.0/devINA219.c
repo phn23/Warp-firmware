@@ -653,7 +653,7 @@ int32_t INA219_getCurrent_raw() {
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED
-	return readSensorRegisterValueCombined
+	return readSensorRegisterValueCombined;
 }
 
 
