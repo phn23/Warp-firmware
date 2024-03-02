@@ -557,7 +557,7 @@ int32_t INA219_getShuntVoltage_raw() {
  *  @brief  Gets the shunt voltage in mV (so +-327mV)
  *  @return the shunt voltage converted to millivolts
  */
-int32_t INA219_getShuntVoltage_mV() {
+int32_t INA219_getShuntVoltage_uV() {
 	int32_t value;
 	value = INA219_getShuntVoltage_raw();
 	return value * 10; // UNIT LSB = 10 uV
