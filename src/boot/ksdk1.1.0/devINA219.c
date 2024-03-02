@@ -528,19 +528,34 @@ int32_t INA219_getBusVoltage_V() {
 }
 
 
-
-
 // /*!
 //  *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
 //  *  @return the raw shunt voltage reading
 //  */
-// int16_t INA219_getShuntVoltage_raw() {
-//   uint16_t value;
-//   Adafruit_BusIO_Register shunt_voltage_reg =
-//       Adafruit_BusIO_Register(i2c_dev, INA219_REG_SHUNTVOLTAGE, 2, MSBFIRST);
-//   _success = shunt_voltage_reg.read(&value);
-//   return value;
-// }
+uint16_t INA219_getShuntVoltage_raw() {
+	uint16_t  readSensorRegisterValueMSB;
+	uint16_t  readSensorRegisterValueLSB;
+	uint16_t value;
+
+	readSensorRegisterINA219(INA219_REG_SHUNTVOLTAGE, 2);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	value = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // join them tgt
+	value = uint16_t(value);
+  	
+	return value;
+}
+
+/*!
+ *  @brief  Gets the shunt voltage in mV (so +-327mV)
+ *  @return the shunt voltage converted to millivolts
+ */
+int32_t INA219_getShuntVoltage_mV() {
+	int32_t value;
+	value = getShuntVoltage_raw();
+	return value * 0.01; // UNIT LSB = 10 uV
+}
+
 
 // // /*!
 // //  *  @brief  Gets the raw power value (16-bit signed integer, so +-32767)
@@ -564,15 +579,6 @@ int32_t INA219_getBusVoltage_V() {
 // //   return value;
 // // }
 
-// /*!
-//  *  @brief  Gets the shunt voltage in mV (so +-327mV)
-//  *  @return the shunt voltage converted to millivolts
-//  */
-// float INA219_getShuntVoltage_mV() {
-//   int16_t value;
-//   value = getShuntVoltage_raw();
-//   return value * 0.01;
-// }
 
 
 
