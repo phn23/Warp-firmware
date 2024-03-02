@@ -548,7 +548,7 @@ uint16_t INA219_getShuntVoltage_raw() {
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	value = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // join them tgt
-	value = uint16_t(value);
+	value = (uint16_t)value;
   	
 	return value;
 }
