@@ -41,8 +41,8 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	
 	// Activate calibration and reg
-	// setCalibration_INA219(); 
-	setCalibration_16V_400mA(); // TODO:
+	setCalibration_INA219(); 
+	// setCalibration_16V_400mA(); // TODO:
 
 	return;
 }
@@ -655,7 +655,7 @@ int32_t INA219_getCurrent_raw() {
 }
 
 
-int32_t INA219_getCurrent_uA(){
+int64_t INA219_getCurrent_uA(){
 	int32_t valueDec;
 	int32_t readSensorRegisterValueCombined;
 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
