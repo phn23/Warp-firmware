@@ -655,8 +655,8 @@ int32_t INA219_getCurrent_raw() {
 }
 
 
-int64_t INA219_getCurrent_uA(){
-	int64_t valueDec;
+int32_t INA219_getCurrent_uA(){
+	int32_t valueDec;
 	int32_t readSensorRegisterValueCombined;
 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
 	
@@ -781,7 +781,7 @@ writeSensorRegisterINA219(INA219_REG_CONFIG, config);
 
 /********************************************************************
 EXAMPLE FUNCTION
-*************************************************************************/
+********************************************************************/
 
 
 void setCalibration_16V_400mA() {
