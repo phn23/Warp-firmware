@@ -1957,12 +1957,13 @@ main(void)
 		// TODO: rmb to change to 1000
 		for (int i = 0; i<10; i++)
 		{
-			int32_t micro_current = INA219_getCurrent_uA();
+			int32_t current_uA = INA219_getCurrent_uA();
 			
-			int32_t bus_voltage = INA219_getBusVoltage_V();
+			int32_t bus_voltage_mV = INA219_getBusVoltage_V();
 
-			int32_t shunt_voltage_mV = INA219_getShuntVoltage_uV();
-			warpPrint("%d %d %d\n", micro_current, bus_voltage, shunt_voltage_mV);
+			int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
+			warpPrint()
+			warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
 		}	
 	
 	#endif
