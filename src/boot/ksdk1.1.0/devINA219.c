@@ -631,7 +631,7 @@ WE ONLY NEED CURRENT
  *  @brief  Gets the raw current value (16-bit signed integer, so +-32767)
  *  @return the raw current reading
  */
-int32_t INA219_getCurrent_uA() {
+int32_t INA219_getCurrent_raw() {
 	uint16_t  readSensorRegisterValueMSB;
 	uint16_t  readSensorRegisterValueLSB;
 	int16_t  readSensorRegisterValueCombined; // -/+ 32767
@@ -652,10 +652,15 @@ int32_t INA219_getCurrent_uA() {
 	readSensorRegisterINA219(INA219_REG_CURRENT, 2 /* numberOfBytes */); // read 2 bytes from current reg
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
-	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
+	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED
+	return readSensorRegisterValueCombined
+}
 
+
+int32_t INA219_getCurrent_uA(){
+	
 	// multiply by LSB unit
-	valueDec = readSensorRegisterValueCombined *  0.1 * 1000; // get microamp
+	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_mA  * 1000; // get microamp
 	
 	return valueDec;
 }
