@@ -22,12 +22,10 @@
 #include "devINA219.h"
 
 
-
 extern volatile WarpI2CDeviceState	deviceINA219State;
 extern volatile uint32_t		gWarpI2cBaudRateKbps;
 extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
-
 
 
 uint32_t INA219_currentMultiplier_uA; // = 0;
@@ -43,8 +41,8 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	
 	// Activate calibration and reg
-	setCalibration_INA219(); 
-	// setCalibration_16V_400mA();
+	// setCalibration_INA219(); 
+	setCalibration_16V_400mA(); // TODO:
 
 	return;
 }
