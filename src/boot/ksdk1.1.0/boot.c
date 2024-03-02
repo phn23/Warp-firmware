@@ -1958,8 +1958,7 @@ main(void)
 		for (int i = 0; i<10; i++)
 		{
 			int32_t micro_current = INA219_getCurrent_uA();
-			micro_current *= 1000; // to microampere
-
+			
 			int32_t bus_voltage = INA219_getBusVoltage_V();
 
 			int32_t shunt_voltage_mV = INA219_getShuntVoltage_mV();
