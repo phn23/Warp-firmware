@@ -703,7 +703,7 @@ void setCalibration_INA219(){
 
   // 4. Choose an LSB between the min and max values
   //    (Preferrably a roundish number close to MinLSB)
-  // CurrentLSB = 0.000010 (10 uA per bit) // LSB is 6.3 uA/bit // can choose 7 as well but 10 is better for calculation
+  // CurrentLSB = 0.000008 (8 uA per bit) // LSB is 6.3 uA/bit // can choose 7 as well but 8 is better for calculation
 
   // 5. Compute the calibration register
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
@@ -756,7 +756,7 @@ void setCalibration_INA219(){
 
   // Set multipliers to convert raw current/power values
   // ina219_currentDivider_mA = 20;    // Current LSB = 10uA per bit (1000/10 = 100)	
-  INA219_currentMultiplier_uA = 10 ;    // Current LSB = 10uA per bit  	
+  INA219_currentMultiplier_uA = 8 ;    // Current LSB = 8uA per bit  	
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
