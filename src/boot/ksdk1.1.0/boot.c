@@ -1961,7 +1961,7 @@ main(void)
 			
 			int32_t bus_voltage = INA219_getBusVoltage_V();
 
-			int32_t shunt_voltage_mV = INA219_getShuntVoltage_mV();
+			int32_t shunt_voltage_mV = INA219_getShuntVoltage_uV();
 			warpPrint("%d %d %d\n", micro_current, bus_voltage, shunt_voltage_mV);
 		}	
 	
