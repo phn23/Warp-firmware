@@ -539,16 +539,16 @@ SHUNT VOLTAGE
 //  *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
 //  *  @return the raw shunt voltage reading
 //  */
-uint16_t INA219_getShuntVoltage_raw() {
+int32_t INA219_getShuntVoltage_raw() {
 	uint16_t  readSensorRegisterValueMSB;
 	uint16_t  readSensorRegisterValueLSB;
-	uint16_t value;
+	int32_t value;
 
 	readSensorRegisterINA219(INA219_REG_SHUNTVOLTAGE, 2);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	value = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // join them tgt
-	value = (uint16_t)value;
+	value = (int32_t)value;
   	
 	return value;
 }
@@ -560,7 +560,7 @@ uint16_t INA219_getShuntVoltage_raw() {
 int32_t INA219_getShuntVoltage_mV() {
 	int32_t value;
 	value = INA219_getShuntVoltage_raw();
-	return value * 0.01; // UNIT LSB = 10 uV
+	return value * 10; // UNIT LSB = 10 uV
 }
 
 
