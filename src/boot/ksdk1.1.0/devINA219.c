@@ -634,8 +634,8 @@ WE ONLY NEED CURRENT
 int32_t INA219_getCurrent_raw() {
 	uint16_t  readSensorRegisterValueMSB;
 	uint16_t  readSensorRegisterValueLSB;
-	int16_t  readSensorRegisterValueCombined; // -/+ 32767
-	int32_t valueDec;	
+	uint16_t  readSensorRegisterValueCombined; // -/+ 32767
+
 
 	// Sometimes a sharp load will reset the INA219, which will
 	// reset the cal register, meaning CURRENT and POWER will
