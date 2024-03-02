@@ -524,7 +524,7 @@ int16_t INA219_getBusVoltage_raw() {
  */
 int32_t INA219_getBusVoltage_V() {
   int32_t value = INA219_getBusVoltage_raw();
-  return value * 0.001; // from mV to V
+  return value ;// mV
 }
 
 
