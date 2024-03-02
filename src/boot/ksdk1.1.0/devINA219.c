@@ -656,7 +656,7 @@ int32_t INA219_getCurrent_raw() {
 
 
 int64_t INA219_getCurrent_uA(){
-	int32_t valueDec;
+	int64_t valueDec;
 	int32_t readSensorRegisterValueCombined;
 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
 	
