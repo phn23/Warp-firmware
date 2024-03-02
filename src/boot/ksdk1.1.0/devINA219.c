@@ -659,6 +659,8 @@ int32_t INA219_getCurrent_raw() {
 
 int32_t INA219_getCurrent_uA(){
 	int32_t valueDec;
+	int32_t readSensorRegisterValueCombined;
+	readSensorRegisterValueCombined = INA219_getCurrent_raw();
 	
 	// multiply by LSB unit
 	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_mA  * 1000; // get microamp
