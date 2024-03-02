@@ -43,7 +43,7 @@ initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	
 	// Activate calibration and reg
-	setCalibration_INA219(); // TODO: UPDATE NAME
+	setCalibration_INA219(); 
 	// setCalibration_16V_400mA();
 
 	return;
@@ -500,19 +500,35 @@ appendSensorDataINA219(uint8_t* buf)
 /*******************************************************************
 // ADDED FOR CALIBRATION
 *******************************************************************/
-// int16_t INA219_getBusVoltage_raw() {
-//   uint16_t value;
+/*!
+ *  @brief  Gets the raw bus voltage (16-bit signed integer, so +-32767)
+ *  @return the raw bus voltage reading
+ */
+int16_t INA219_getBusVoltage_raw() {
+	uint16_t  readSensorRegisterValueMSB;
+	uint16_t  readSensorRegisterValueLSB;
+	uint16_t value;
+	
+	readSensorRegisterINA219(INA219_REG_BUSVOLTAGE, 2);
+	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
+	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
+	value = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // join them tgt
+		
+	// Shift to the right 3 to drop CNVR and OVF and multiply by LSB (4 mV)
+	return (int16_t)((value >> 3) * 4);
+}
 
-// readSensorRegisterINA219(INA219_REG_BUSVOLTAGE, 2);
+/*!
+ *  @brief  Gets the bus voltage in volts
+ *  @return the bus voltage converted to volts
+ */
+int16_t INA219_getBusVoltage_V() {
+  int16_t value = getBusVoltage_raw();
+  return value * 0.001; // from mV to V
+}
 
 
-//   Adafruit_BusIO_Register bus_voltage_reg =
-//       Adafruit_BusIO_Register(i2c_dev, INA219_REG_BUSVOLTAGE, 2, MSBFIRST);
-//   _success = bus_voltage_reg.read(&value);
 
-//   // Shift to the right 3 to drop CNVR and OVF and multiply by LSB
-//   return (int16_t)((value >> 3) * 4);
-// }
 
 // /*!
 //  *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
@@ -558,14 +574,7 @@ appendSensorDataINA219(uint8_t* buf)
 //   return value * 0.01;
 // }
 
-// /*!
-//  *  @brief  Gets the bus voltage in volts
-//  *  @return the bus voltage converted to volts
-//  */
-// float INA219_getBusVoltage_V() {
-//   int16_t value = getBusVoltage_raw();
-//   return value * 0.001;
-// }
+
 
 
 
@@ -661,9 +670,9 @@ void setCalibration_INA219(){
  // MaxPossible_I = 0.4 (A)
 
   // 2. Determine max expected current
-  // MaxExpected_I = 0.075A (75 mA)
+  // MaxExpected_I = 0.075A (75 mA) 3 times the expected 25 mA current
 
-  // 3. Calculate possible range of LSBs (Min = 15-bit, Max = 12-bit)
+  // 3. Calculate possible range of LSBs (Min = 15-bit, Max = 12-bit; resolution)
   // MinimumLSB = MaxExpected_I/32767
   // MinimumLSB = 0.0000023             (2.3uA per bit)
   // MaximumLSB = MaxExpected_I/4096
@@ -671,7 +680,7 @@ void setCalibration_INA219(){
 
   // 4. Choose an LSB between the min and max values
   //    (Preferrably a roundish number close to MinLSB)
-  // CurrentLSB = 0.000010 (10 uA per bit) // LSB is 6.3 uA/bit
+  // CurrentLSB = 0.000010 (10 uA per bit) // LSB is 6.3 uA/bit // can choose 7 as well but 10 is better for calculation
 
   // 5. Compute the calibration register
   // Cal = trunc (0.04096 / (Current_LSB * RSHUNT))
@@ -690,7 +699,7 @@ void setCalibration_INA219(){
 
   // 6. Calculate the power LSB
   // PowerLSB = 20 * CurrentLSB
-  // PowerLSB = 0.001 (1mW per bit)
+  // PowerLSB = 0.0002 (0.2mW per bit)
 
   // 7. Compute the maximum current and shunt voltage values before overflow
   //
@@ -728,7 +737,7 @@ void setCalibration_INA219(){
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
 
   // Set Calibration register to 'Cal' calculated above
-  writeSensorRegisterINA219(INA219_REG_CALIBRATION, 8192) ; // TODO: ina219_calValue=91);
+  writeSensorRegisterINA219(INA219_REG_CALIBRATION, ina219_calValue);
 	  
 
   // Set Config register to take into account the settings above
@@ -823,10 +832,6 @@ void setCalibration_16V_400mA() {
   // Set multipliers to convert raw current/power values
   INA219_currentMultiplier_mA = 20;    // Current LSB = 50uA per bit (1000/50 = 20)
   // ina219_powerMultiplier_mW = 1.0f; // Power LSB = 1mW per bit
-
-  // Set Calibration register to 'Cal' calculated above
-
-
 
 
   // Set Calibration register to 'Cal' calculated above
