@@ -1952,6 +1952,8 @@ main(void)
 		warpPrint("Added init start \ns");
 		devSSD1331init();
 		warpPrint("Added init ends \n");
+
+		OSA_TimeDelay(200);
 	
 		// measurement code
 		// TODO: rmb to change to 1000
