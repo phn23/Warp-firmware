@@ -1959,7 +1959,9 @@ main(void)
 		{
 			int32_t micro_current = INA219_getCurrent_mA();
 			micro_current *= 1000; // to microampere
-			warpPrint("%d\n", micro_current);
+
+			int16_t bus_voltage INA219_BusVoltage_V();
+			warpPrint("%d %d\n", micro_current, bus_voltage);
 		}	
 	
 	#endif
