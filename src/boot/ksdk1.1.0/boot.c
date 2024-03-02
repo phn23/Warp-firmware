@@ -1958,7 +1958,7 @@ main(void)
 		// measurement code
 		// TODO: rmb to change to 1000
 
-		warpPrint("micro_current, bus_voltage, shunt_voltage_mV \n");
+		warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
 		for (int i = 0; i<10; i++)
 		{
 			int32_t current_uA = INA219_getCurrent_uA();
