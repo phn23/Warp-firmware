@@ -500,6 +500,10 @@ appendSensorDataINA219(uint8_t* buf)
 /*******************************************************************
 // ADDED FOR CALIBRATION
 *******************************************************************/
+
+/*******************************************************************************
+RAW VOLTAGE
+*******************************************************************************/
 /*!
  *  @brief  Gets the raw bus voltage (16-bit signed integer, so +-32767)
  *  @return the raw bus voltage reading
@@ -527,6 +531,9 @@ int32_t INA219_getBusVoltage_V() {
   return value ;// mV
 }
 
+/*******************************************************************************
+SHUNT VOLTAGE
+*******************************************************************************/
 
 // /*!
 //  *  @brief  Gets the raw shunt voltage (16-bit signed integer, so +-32767)
@@ -557,6 +564,11 @@ int32_t INA219_getShuntVoltage_mV() {
 }
 
 
+
+/*******************************************************************************
+POWER
+*******************************************************************************/
+
 // // /*!
 // //  *  @brief  Gets the raw power value (16-bit signed integer, so +-32767)
 // //  *  @return raw power reading
@@ -578,7 +590,6 @@ int32_t INA219_getShuntVoltage_mV() {
 // //   _success = power_reg.read(&value);
 // //   return value;
 // // }
-
 
 
 
@@ -620,7 +631,7 @@ WE ONLY NEED CURRENT
  *  @brief  Gets the raw current value (16-bit signed integer, so +-32767)
  *  @return the raw current reading
  */
-int32_t INA219_getCurrent_mA() {
+int32_t INA219_getCurrent_uA() {
 	uint16_t  readSensorRegisterValueMSB;
 	uint16_t  readSensorRegisterValueLSB;
 	int16_t  readSensorRegisterValueCombined; // -/+ 32767
@@ -644,7 +655,7 @@ int32_t INA219_getCurrent_mA() {
 	readSensorRegisterValueCombined = (((readSensorRegisterValueMSB & 0xFF) << 8) | readSensorRegisterValueLSB); // USE THIS BECAUSE  NO NEED 
 
 	// multiply by LSB unit
-	valueDec = readSensorRegisterValueCombined *  0.1; // INA219_currentMultiplier_mA; // TODO
+	valueDec = readSensorRegisterValueCombined *  0.1 * 1000; // get microamp
 	
 	return valueDec;
 }
