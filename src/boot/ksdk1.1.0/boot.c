@@ -1959,7 +1959,7 @@ main(void)
 		// TODO: rmb to change to 1000
 
 		warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
-		for (int i = 0; i<100; i++)
+		for (int i = 0; i<1000; i++)
 		{
 			int32_t current_uA = INA219_getCurrent_uA();
 			
