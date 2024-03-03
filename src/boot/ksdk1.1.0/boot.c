@@ -1963,12 +1963,12 @@ main(void)
 		{
 			int32_t current_uA = INA219_getCurrent_uA();
 			
-			// int32_t bus_voltage_mV = INA219_getBusVoltage_V();
+			int32_t bus_voltage_mV = INA219_getBusVoltage_V();
 
-			// int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
-			warpPrint("%d\n", current_uA);
+			int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
+			// warpPrint("%d\n", current_uA);
 			
-			// warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
+			warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
 		}	
 	
 	#endif
