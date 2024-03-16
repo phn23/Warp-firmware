@@ -1918,7 +1918,7 @@ main(void)
 	 *	below which also means that the console via BLE will be disabled as
 	 *	the BLE module will be turned off by default.
 	 */
-	
+
 
 
 #if (WARP_BUILD_DISABLE_SUPPLIES_BY_DEFAULT)
@@ -1945,7 +1945,36 @@ main(void)
 
 	bool _originalWarpExtraQuietMode = gWarpExtraQuietMode;
 	gWarpExtraQuietMode = false;
+
+	
+	#if (WARP_BUILD_ENABLE_FRDMKL03)
+	
+		warpPrint("Added init start \ns");
+		devSSD1331init();
+		warpPrint("Added init ends \n");
+
+		OSA_TimeDelay(200);
+	
+		// measurement code
+		// TODO: rmb to change to 1000
+
+		warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
+		for (int i = 0; i<1000; i++)
+		{
+			int32_t current_uA = INA219_getCurrent_uA();
+			
+			int32_t bus_voltage_mV = INA219_getBusVoltage_V();
+
+			int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
+			// warpPrint("%d\n", current_uA);
+			
+			warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
+		}	
+	
+	#endif
 	warpPrint("Press any key to show menu...\n");
+	warpPrint("Hey this is working now\n");
+	warpPrint("end of print\n");
 	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
@@ -2048,11 +2077,6 @@ main(void)
 		}
 	}
 #endif
-
-/*************************************
-initialise oled here
-*************************************/
-devSSD1331init();
 
 
 	
@@ -3640,9 +3664,9 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag,
 #endif
 
 // ADDED
-// #if (WARP_BUILD_ENABLE_DEVINA219)
-// 		warpPrint(" INA219 SHUNT, INA219 BUS, INA219 CURRENT , INA219 POWER");
-// #endif		
+#if (WARP_BUILD_ENABLE_DEVINA219)
+		warpPrint(" INA219 SHUNT, INA219 BUS, INA219 CURRENT , INA219 POWER");
+#endif		
 		
 
 #if (WARP_BUILD_ENABLE_DEVMAG3110)
