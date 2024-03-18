@@ -98,8 +98,8 @@ ADD_EXECUTABLE(Warp
     "${ProjDirPath}/../../src/devSSD1331.h"
 
 
-    "${ProjDirPath}/../../src/my_algo.c"
-    "${ProjDirPath}/../../src/my_algo.h"
+    "${ProjDirPath}/../../src/myalgo.c"
+    "${ProjDirPath}/../../src/myalgo.h"
 
 
 
