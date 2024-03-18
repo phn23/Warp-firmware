@@ -153,19 +153,19 @@ gpio_output_pin_user_config_t	outputPins[] = {
 		},
 		*/
 	#elif (WARP_BUILD_ENABLE_GLAUX_VARIANT)
-	// 	{
-	// 		.pinName = kGlauxPinLED,
-	// 		.config.outputLogic = 1,
-	// 		.config.slewRate = kPortSlowSlewRate,
-	// 		.config.driveStrength = kPortLowDriveStrength,
-	// 	},
-	// 	{
-	// 		.pinName = kGlauxPinFlash_SPI_nCS,
-	// 		.config.outputLogic = 1,
-	// 		.config.slewRate = kPortSlowSlewRate,
-	// 		.config.driveStrength = kPortLowDriveStrength,
-	// 	},
-	// #elif (WARP_BUILD_ENABLE_FRDMKL03)
+		{
+			.pinName = kGlauxPinLED,
+			.config.outputLogic = 1,
+			.config.slewRate = kPortSlowSlewRate,
+			.config.driveStrength = kPortLowDriveStrength,
+		},
+		{
+			.pinName = kGlauxPinFlash_SPI_nCS,
+			.config.outputLogic = 1,
+			.config.slewRate = kPortSlowSlewRate,
+			.config.driveStrength = kPortLowDriveStrength,
+		},
+	#elif (WARP_BUILD_ENABLE_FRDMKL03)
 		{
 			.pinName = kSSD1331PinMOSI,
 			.config.outputLogic = 1,
