@@ -64,12 +64,6 @@ writeCommand(uint8_t commandByte)
 	return status;
 }
 
-int
-go_red(void)
-{
-	
-}
-
 
 
 int
@@ -225,11 +219,12 @@ devSSD1331init(void)
 
 
 	// added for test
-
+	// in ms
+	OSA_TimeDelay(2000);
 
 	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 
-
+	
 	// inner rect
 	writeCommand(0x00);
 	writeCommand(0x00);
@@ -238,7 +233,7 @@ devSSD1331init(void)
 	writeCommand(0x5F);					// max
 	writeCommand(0x3F);					// max
 
-	OSA_TimeDelay(1000);
+	
 	
 	/*
 	Color C of the line
