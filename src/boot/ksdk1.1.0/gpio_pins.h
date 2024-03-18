@@ -76,13 +76,8 @@ enum _gpio_pins
 		// kWarpPinUnusedPTB0			= GPIO_MAKE_PIN(HW_GPIOB, 0),
 		kWarpPinUnusedPTB1			= GPIO_MAKE_PIN(HW_GPIOB, 1),
 		kWarpPinUnusedPTB2			= GPIO_MAKE_PIN(HW_GPIOB, 2),
-		// kWarpPinUnusedPTB3			= GPIO_MAKE_PIN(HW_GPIOB, 3),
-		// kWarpPinUnusedPTB4			= GPIO_MAKE_PIN(HW_GPIOB, 4),
-		// ACTIVATE PIN FOR SCL AND SDA	
- 		// ADDED
-		INA219_SCL			= GPIO_MAKE_PIN(HW_GPIOB, 3),
-		INA219_SDA			= GPIO_MAKE_PIN(HW_GPIOB, 4),
-
+		kWarpPinUnusedPTB3			= GPIO_MAKE_PIN(HW_GPIOB, 3),
+		kWarpPinUnusedPTB4			= GPIO_MAKE_PIN(HW_GPIOB, 4),
 		kWarpPinUnusedPTB5			= GPIO_MAKE_PIN(HW_GPIOB, 5),
 		kWarpPinUnusedPTB6			= GPIO_MAKE_PIN(HW_GPIOB, 6),
 		kWarpPinUnusedPTB7			= GPIO_MAKE_PIN(HW_GPIOB, 7),
