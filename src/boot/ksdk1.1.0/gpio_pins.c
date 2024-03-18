@@ -196,20 +196,6 @@ gpio_output_pin_user_config_t	outputPins[] = {
 			.config.slewRate = kPortSlowSlewRate,
 			.config.driveStrength = kPortLowDriveStrength,
 		},
-
-		// {
-		// 	.pinName = INA219_SCL,
-		// 	.config.outputLogic = 1,
-		// 	.config.slewRate = kPortSlowSlewRate,
-		// 	.config.driveStrength = kPortLowDriveStrength,
-		// },
-
-		// {
-		// 	.pinName = INA219_SDA,
-		// 	.config.outputLogic = 1,
-		// 	.config.slewRate = kPortSlowSlewRate,
-		// 	.config.driveStrength = kPortLowDriveStrength,
-		},
 	#endif
 
 	{
