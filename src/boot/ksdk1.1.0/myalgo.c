@@ -9,8 +9,9 @@
 #include "myalgo.h"
 /****************************************************************
 The logic is as follows；
-1. Get data
-2. Calculate the 
+See flowchart
+1. Get acceleration
+2.  
 ****************************************************************/
 
 #define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
