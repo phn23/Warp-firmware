@@ -1953,23 +1953,23 @@ main(void)
 		devSSD1331init();
 		warpPrint("Added init ends \n");
 
-		OSA_TimeDelay(200);
+		// OSA_TimeDelay(200);
 	
 		// measurement code
 		// TODO: rmb to change to 1000
 
-		warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
-		for (int i = 0; i<1000; i++)
-		{
-			int32_t current_uA = INA219_getCurrent_uA();
+		// warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
+		// for (int i = 0; i<1000; i++)
+		// {
+		// 	int32_t current_uA = INA219_getCurrent_uA();
 			
-			int32_t bus_voltage_mV = INA219_getBusVoltage_V();
+		// 	int32_t bus_voltage_mV = INA219_getBusVoltage_V();
 
-			int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
-			// warpPrint("%d\n", current_uA);
+		// 	int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
+		// 	// warpPrint("%d\n", current_uA);
 			
-			warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
-		}	
+		// 	warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
+		// }	
 	
 	#endif
 	warpPrint("Press any key to show menu...\n");
