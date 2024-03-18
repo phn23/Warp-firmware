@@ -207,12 +207,12 @@ devSSD1331init(void)
  	6 bits so brightest is 63d
 	*/
 							
-	writeCommand(0x00);
 	writeCommand(0x3F);
+	writeCommand(0x00);
 	writeCommand(0x00);
 			
-	writeCommand(0x00);
 	writeCommand(0x3F);
+	writeCommand(0x00);
 	writeCommand(0x00);
 
 	return 0;
