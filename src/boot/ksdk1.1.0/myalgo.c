@@ -100,10 +100,6 @@ int normal_loop(){
         // if there is a suspicion of flip
         if (trigger == 1){
             // record data for 5 sec
-            
-            // run the programme
-            // tilt_angle_count(); //  get tilt_front_count, tilt_side_count
-
             // loop for 1000:
 
             int window_len = 1000;
@@ -111,8 +107,10 @@ int normal_loop(){
             
             for (int i=0; i < window_len; i++){
 
-                tilt_front = abs(atan2(z_acc, x_acc) * 18000 / M_PI);
-                tilt_side = abs(atan2(z_acc, y_acc) * 18000 / M_PI);
+                get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+
+                tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+                tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
                 if (tilt_front > threshold_tilt_angle){
                     tilt_front_count += 1;
