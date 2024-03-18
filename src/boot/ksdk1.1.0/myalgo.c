@@ -1,10 +1,12 @@
+
+
+
+#include <math.h>
+
 /*
  *	config.h needs to come first
  */
 #include "config.h"
-
-
-#include <math.h>
 
 #include "warp.h"
 #include "my_algo.h"
