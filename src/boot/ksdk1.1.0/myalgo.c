@@ -47,7 +47,6 @@ int normal_loop(){
     while(true){
 
         // test whether is triggered
-
         // get acceleration  first
 
         bool trigger = false;
@@ -86,7 +85,7 @@ int normal_loop(){
             }
 
             // after the entire window, do classification
-            flip = flip_classifier(tilt_front_count, tilt_side_count);
+            flip = flip_classifier(tilt_front_count, tilt_side_count, tilt_count_threshold);
 
             if (flip == 1){
                 // print a statement or make a light bulb switch
