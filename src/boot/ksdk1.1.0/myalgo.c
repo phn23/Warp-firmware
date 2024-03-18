@@ -1,3 +1,9 @@
+/*
+ *	config.h needs to come first
+ */
+#include "config.h"
+
+
 #include <math.h>
 
 #include "warp.h"
