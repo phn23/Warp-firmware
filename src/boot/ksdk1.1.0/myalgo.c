@@ -28,11 +28,11 @@ bool tilt_angle_trigger(){
     tilt_side = abs(atan2(z_acc, y_acc) * 18000 / M_PI);
 
     
-    return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle) 
+    return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
 }
 
 bool flip_classifier(tilt_front_count, tilt_side_count){
-    return (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold)        
+    return (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold);        
 }
 
 // int tilt_angle_cal(z_acc, n_acc){
