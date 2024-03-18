@@ -31,7 +31,7 @@ bool tilt_angle_trigger(){
     return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
 }
 
-bool flip_classifier(tilt_front_count, tilt_side_count){
+bool flip_classifier(int tilt_front_count,int tilt_side_count, int tilt_count_threshold){
     return (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold);        
 }
 
@@ -69,6 +69,7 @@ int normal_loop(){
             // loop for 1000:
 
             int window_len = 1000;
+            int tilt_count_threshold = window_len / 2; 
             
             for (int i=0; i < window_len; i++){
 
