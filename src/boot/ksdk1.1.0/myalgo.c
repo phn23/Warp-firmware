@@ -14,7 +14,9 @@ int16_t x_acceleration;
 int16_t y_acceleration;
 int16_t z_acceleration;
 
-// extern volatile WarpI2CDeviceState	deviceMMA8451QState;
+
+// TODO: NOT ENTIRELY SURE WHETHER THIS SHOULD BE HERE
+extern volatile WarpI2CDeviceState	deviceMMA8451QState; 
 
 
 /****************************************************************
