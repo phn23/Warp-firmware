@@ -220,7 +220,7 @@ devSSD1331init(void)
 }
 
 
-void devSSD1331_blink(){
+void devSSD1331_blink(void){
 	/*
 	 *	Clear Screen
 	 */
