@@ -546,7 +546,7 @@ THE BIG WORKING LOOP
 
 int normal_loop(){
 
-    while(true){
+    // while(true){
 
         // test whether is triggered
         // get acceleration  first
@@ -615,5 +615,5 @@ int normal_loop(){
             }
         }    
     }
-}
+// }
 }
