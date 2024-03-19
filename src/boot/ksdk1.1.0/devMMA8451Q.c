@@ -557,7 +557,7 @@ int normal_loop(){
 			flip = 1;
 			if (flip == 1){
 				// print a statement or make a light bulb switch
-				break;
+				// break;
 			}
 
 			else{
