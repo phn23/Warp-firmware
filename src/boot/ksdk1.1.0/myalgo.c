@@ -89,9 +89,9 @@ int normal_loop(){
         // get acceleration  first
 
         bool trigger = false;
-        int tilt_front = 0;
+        // int tilt_front = 0;
         int tilt_side = 0;
-        int tilt_front_count = 0;
+        // int tilt_front_count = 0;
         int tilt_side_count = 0;
         bool flip = false;
 
@@ -102,10 +102,10 @@ int normal_loop(){
 
 
 
-    tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-    // tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);  
+    // tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+    tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);  
 
-	if (tilt_front > 30){
+	if (tilt_side > 30){
 		trigger = true;
 	}
 
