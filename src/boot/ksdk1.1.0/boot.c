@@ -1961,7 +1961,7 @@ main(void)
 			devSSD1331_blink_red();
 		}
 		else{
-			
+			devSSD1331_blink_red();
 		}
 		
 	// OSA_TimeDelay(200);
