@@ -533,8 +533,6 @@ THE BIG WORKING LOOP
 
 int normal_loop() {
     while (true) {
-		// uint16_t tilt_test = (uint16_t)abs(atan2_approx((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
-		int16_t tilt_test = atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
 
         bool trigger = false;
         int16_t tilt_side = 0;
@@ -542,7 +540,9 @@ int normal_loop() {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-        // tilt_side = (int16_t)abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+        tilt_side = = atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
+
+
         if (tilt_side > threshold_tilt_angle) {
             trigger = 1;
         }
@@ -566,6 +566,7 @@ int normal_loop() {
                 // print or led 
                 break;
             } else {
+				break;
                 // print: SAFE
             }
         }
