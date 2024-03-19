@@ -124,9 +124,9 @@ int normal_loop(){
                 tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
                 tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
-                if (tilt_front > threshold_tilt_angle){
-                    tilt_front_count += 1;
-                }
+                // if (tilt_front > threshold_tilt_angle){
+                //     tilt_front_count += 1;
+                // }
 
                 if (tilt_side > threshold_tilt_angle){
                     tilt_side_count += 1;
