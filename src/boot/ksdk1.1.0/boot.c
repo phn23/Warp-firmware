@@ -1957,8 +1957,9 @@ main(void)
 		warpPrint("big_loop start \ns");
 		int performance = normal_loop();
 		warpPrint("big_loop ends \ns");
-
-		devSSD1331_blink();
+		if (performance == 1){
+			devSSD1331_blink_red();
+		}
 		
 	// OSA_TimeDelay(200);
 	
