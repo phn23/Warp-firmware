@@ -8,7 +8,7 @@
 
 #include "warp.h"
 #include "myalgo.h"
-#include "devMMA8451Q.h"
+// #include "devMMA8451Q.h"
 
 int16_t x_acceleration;
 int16_t y_acceleration;
