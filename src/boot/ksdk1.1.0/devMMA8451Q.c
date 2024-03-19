@@ -457,7 +457,7 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 
 // #include <stdio.h>
-#include <math.h>
+// #include <math.h>
 #define M_PI 3.14
 
 int16_t x_acceleration;
@@ -533,7 +533,8 @@ THE BIG WORKING LOOP
 
 int normal_loop() {
     while (true) {
-		// uint16_t tilt_test = (uint16_t)abs(atan2((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
+		// uint16_t tilt_test = (uint16_t)abs(atan2_approx((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
+		int16_t tilt_test = atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
 
         bool trigger = false;
         int16_t tilt_side = 0;
