@@ -43,4 +43,4 @@ typedef enum
 } SSD1331Commands;
 
 int	devSSD1331init(void);
-void    devSSD1331_blink(void);
+void    devSSD1331_blink_red(void);
