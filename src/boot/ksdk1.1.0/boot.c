@@ -78,7 +78,7 @@
 */
 
 #include "devMMA8451Q.h"
-// #include "devSSD1331.h"
+#include "devSSD1331.h"
 // #include "myalgo.h"
 // added
 // #include "devINA219.h"  
@@ -1951,7 +1951,7 @@ main(void)
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 	
 		warpPrint("Added init start \ns");
-		// devSSD1331init();
+		devSSD1331init();
 		warpPrint("Added init ends \n");
 
 		// this is an infinite loop right?
