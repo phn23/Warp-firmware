@@ -48,28 +48,28 @@ READ FROM ACCELEROMETER
 These registers contain the X-axis, Y-axis, and Z-axis, and 14-bit output sample data expressed as 2's complement numbers. 
 inputs are pointers as these values are to be modified */
 void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
-    int16_t readSensorRegisterValueCombined_x;
-    int16_t readSensorRegisterValueCombined_y;
-    int16_t readSensorRegisterValueCombined_z;
+ //    int16_t readSensorRegisterValueCombined_x;
+ //    int16_t readSensorRegisterValueCombined_y;
+ //    int16_t readSensorRegisterValueCombined_z;
 
-    // all 3 dim
-    readSensorRegisterMMA8451Q(0x01, 6);
+ //    // all 3 dim
+ //    readSensorRegisterMMA8451Q(0x01, 6);
 
-    // x
-	readSensorRegisterValueCombined_x = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
-	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
-	 */
-	*x_acc = (readSensorRegisterValueCombined_x ^ (1 << 13)) - (1 << 13);
+ //    // x
+	// readSensorRegisterValueCombined_x = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
+	// /*
+	//  *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	//  */
+	// *x_acc = (readSensorRegisterValueCombined_x ^ (1 << 13)) - (1 << 13);
     
 
-    // y
-	readSensorRegisterValueCombined_y = (( deviceMMA8451QState.i2cBuffer[2] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[3] >> 2);
-	*y_acc = (readSensorRegisterValueCombined_y ^ (1 << 13)) - (1 << 13);
+ //    // y
+	// readSensorRegisterValueCombined_y = (( deviceMMA8451QState.i2cBuffer[2] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[3] >> 2);
+	// *y_acc = (readSensorRegisterValueCombined_y ^ (1 << 13)) - (1 << 13);
     
-    // z
-    readSensorRegisterValueCombined_z = (( deviceMMA8451QState.i2cBuffer[4] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[5] >> 2);
-	*z_acc = (readSensorRegisterValueCombined_z ^ (1 << 13)) - (1 << 13);
+ //    // z
+ //    readSensorRegisterValueCombined_z = (( deviceMMA8451QState.i2cBuffer[4] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[5] >> 2);
+	// *z_acc = (readSensorRegisterValueCombined_z ^ (1 << 13)) - (1 << 13);
 }
 /************************************************************************
 DONE READING FROM ACCELEROMETER
