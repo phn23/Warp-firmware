@@ -559,13 +559,13 @@ int normal_loop(){
         // trigger = tilt_angle_trigger();
 
 
-	get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+	// get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
 
 
     // tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
     tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);  
-
+	tilt_side = 40;
 	if (tilt_side > 30){
 		trigger = true;
 	}
