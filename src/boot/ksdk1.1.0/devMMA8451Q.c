@@ -480,39 +480,48 @@ int normal_loop() {
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
         if (x_acceleration > threshold_anomaly || 
-	    y_acceleration > threshold_anomaly || 
-	    z_acceleration > threshold_anomaly) {
+	    	y_acceleration > threshold_anomaly || 
+	    	z_acceleration > threshold_anomaly) {
 
+
+/***************************************************************************
+ CHANGE THESE PARAMETERS FOR CALIBRATION
+***************************************************************************/
             int window_len = 10000;
             int tilt_count_threshold = window_len / 2; // Changed to uint16_t
-	    int total_threshold_anomaly_count = (int) tilt_count_threshold * 1.5;
-            for (int i = 0; i < window_len; i++) {
-                get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+	    	int total_threshold_anomaly_count = (int) tilt_count_threshold * 1.5;
+
+			// get current time
+
+			uint32_t timeAtStart = OSA_TimeGetMsec();
+			while (OSA_TimeGetMsec() - timeAtStart < 5000){
+					get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
 
-                if (x_acceleration > threshold_anomaly) {
-                    anomaly_count_x ++;
-                }
-				else if (y_acceleration > threshold_anomaly)
-				{
-					anomaly_count_y ++;
-				}
-				else if (z_acceleration > threshold_anomaly)
-				{
-					anomaly_count_z ++;
-				}				
-            }
-	    int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
-		
-            if ((anomaly_count_x > threshold_anomaly_count ||
-		anomaly_count_y > threshold_anomaly_count ||
-		anomaly_count_z > threshold_anomaly_count) &
-	    	total_anomaly_count < total_threshold_anomaly_count) {
-		return 1;
-            } 
-			else {
-				return 0;
+					if (x_acceleration > threshold_anomaly) {
+						anomaly_count_x ++;
+					}
+			if (y_acceleration > threshold_anomaly)
+			{
+				anomaly_count_y ++;
 			}
+			if (z_acceleration > threshold_anomaly)
+			{
+				anomaly_count_z ++;
+			}				
+				}
+			int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
+			
+				if ((anomaly_count_x > threshold_anomaly_count ||
+					anomaly_count_y < threshold_anomaly_count ||
+					anomaly_count_z < threshold_anomaly_count) &
+	    			total_anomaly_count < total_threshold_anomaly_count) {
+
+						return 1;
+				} 
+				else {
+					return 0;
+				}
         }
     }
 }
