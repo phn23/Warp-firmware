@@ -505,6 +505,64 @@ THE BIG WORKING LOOP
 
 int normal_loop(){
 	get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+
+
+	bool trigger = false;
+	// int tilt_front = 0;
+	int tilt_side = 0;
+	// int tilt_front_count = 0;
+	int tilt_side_count = 0;
+	bool flip = false;
+
+
+/***************************************************
+ * TESTING
+****************************************************/
+	trigger = 1;
+    if (trigger == 1){
+		// record data for 5 sec
+		// loop for 1000:
+
+		int window_len = 10;
+		int tilt_count_threshold = window_len / 2; 
+		
+		for (int i=0; i < window_len; i++){
+
+			get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+
+			// tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+			tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+
+			// if (tilt_front > threshold_tilt_angle){
+			//     tilt_front_count += 1;
+			// }
+
+			if (tilt_side > threshold_tilt_angle){
+				tilt_side_count += 1;
+			}
+		}
+
+
+
+		if (tilt_side_count > tilt_count_threshold){
+			    flip = 1;
+		}
+// 	    // }
+//             // after the entire window, do classification
+// 	    // if (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold){
+// 		   //  flip = 1;
+// 	    // }
+            
+		if (flip == 1){
+			// print a statement or make a light bulb switch
+		}
+
+		else{
+			// print statement: SAFE
+		}
+}
+
+
 	
     // while(true){
 
