@@ -22,8 +22,8 @@ extern volatile WarpI2CDeviceState	deviceMMA8451QState;
 /****************************************************************
 See flowchart for logics
 ****************************************************************/
-
-#define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
+// defined iin .h
+// #define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
 
 bool tilt_angle_trigger(){
 
@@ -85,6 +85,7 @@ THE BIG WORKING LOOP
 ************************************************************************/
 
 int normal_loop(){
+	get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
     // while(true){
 
     //     // test whether is triggered
