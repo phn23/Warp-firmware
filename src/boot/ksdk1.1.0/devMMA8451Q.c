@@ -491,7 +491,7 @@ THE BIG WORKING LOOP
 
 int normal_loop() {
     while (true) {
-		uint16_t tilt_test = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+		// uint16_t tilt_test = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
         bool trigger = false;
         int8_t tilt_side = 0;
