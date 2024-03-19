@@ -98,9 +98,9 @@
 
 
 
-#if (WARP_BUILD_ENABLE_DEVADXL362)
-	volatile WarpSPIDeviceState			deviceADXL362State;
-#endif
+// #if (WARP_BUILD_ENABLE_DEVADXL362)
+// 	volatile WarpSPIDeviceState			deviceADXL362State;
+// #endif
 
 #if (WARP_BUILD_ENABLE_DEVIS25xP)
 	#include "devIS25xP.h"
