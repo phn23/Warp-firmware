@@ -461,16 +461,6 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 // #include <stdio.h>
 #include <math.h>
-
-// /*
-//  *	config.h needs to come first
-//  */
-// #include "config.h"
-
-// #include "warp.h"
-// #include "myalgo.h"
-// #include "devMMA8451Q.h"
-
 #define M_PI 3.14
 
 int16_t x_acceleration;
@@ -481,7 +471,7 @@ int16_t z_acceleration;
 /****************************************************************
 See flowchart for logics
 ****************************************************************/
-// defined iin .h
+// defined in .h
 // #define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
 
 // bool tilt_angle_trigger(){
@@ -506,7 +496,8 @@ THE BIG WORKING LOOP
 int normal_loop(){
 
 	while (true){
-		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+		
+		
 
 
 		bool trigger = false;
@@ -515,6 +506,9 @@ int normal_loop(){
 		// int tilt_front_count = 0;
 		int tilt_side_count = 0;
 		bool flip = false;
+
+		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+		tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
 
 	/***************************************************
