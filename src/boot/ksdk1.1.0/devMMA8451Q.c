@@ -55,6 +55,8 @@
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
 #include "warp.h"
+#include "MMA8451Q.h"
+
 
 
 extern volatile WarpI2CDeviceState	deviceMMA8451QState;
