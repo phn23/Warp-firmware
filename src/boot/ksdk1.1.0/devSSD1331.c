@@ -307,3 +307,55 @@ void devSSD1331_blink_red(void){
 
 	}
 }
+
+
+// decent
+void devSSD1331_blink_green(void){
+
+	// set up
+	devSSD1331_set_up();
+
+	for (int i; i<5; i++){
+		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
+	
+	
+		// inner rect
+		writeCommand(0x00);
+		writeCommand(0x00);
+	
+		// border
+		writeCommand(0x5F);					// max
+		writeCommand(0x3F);					// max
+	
+		
+		/*
+		Color C of the line
+		Color B of the line
+		Color A of the line
+		Color C of the fill area
+		Color B of the fill area
+		Color A of the fill area 
+	 	6 bits so brightest is 63d
+		*/
+								
+		
+		
+		writeCommand(0x00);
+		writeCommand(0x3F);
+		writeCommand(0x00);
+				
+		
+		writeCommand(0x00);
+		writeCommand(0x3F);
+		writeCommand(0x00);
+	
+		OSA_TimeDelay(500);
+		
+		writeCommand(kSSD1331CommandCLEAR);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x5F);
+		writeCommand(0x3F);
+
+	}
+}
