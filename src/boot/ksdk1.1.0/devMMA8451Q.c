@@ -474,6 +474,7 @@ int normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
+	
     while (true) {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
@@ -501,10 +502,12 @@ int normal_loop() {
 					anomaly_count_z ++;
 				}				
             }
-
-            if (anomaly_count_x > threshold_anomaly_count ||
+	    int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
+		
+            if ((anomaly_count_x > threshold_anomaly_count ||
 		anomaly_count_y > threshold_anomaly_count ||
-		anomaly_count_z > threshold_anomaly_count) {
+		anomaly_count_z > threshold_anomaly_count) &
+	    	total_anomaly_count < total_threshold_anomaly_count {
 		return 1;
             } 
 			else {
