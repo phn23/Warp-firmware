@@ -55,7 +55,7 @@
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
 #include "warp.h"
-#include "MMA8451Q.h"
+#include "devMMA8451Q.h"
 
 
 
