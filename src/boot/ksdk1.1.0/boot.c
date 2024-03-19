@@ -83,24 +83,24 @@
 // added
 // #include "devINA219.h"  
 
-// FOR FUTURE USE
-// #if (!WARP_BUILD_ENABLE_FRDMKL03)
-//     #include "devADXL362.h"
-//     #include "devAMG8834.h"
-//     #include "devMAG3110.h"
-//     #include "devL3GD20H.h"
-//     #include "devBME680.h"
-//     #include "devBMX055.h"
-//     #include "devCCS811.h"
-//     #include "devHDC1000.h"
-//     #include "devRV8803C7.h"
-// #endif
+FOR FUTURE USE
+#if (!WARP_BUILD_ENABLE_FRDMKL03)
+    #include "devADXL362.h"
+    #include "devAMG8834.h"
+    #include "devMAG3110.h"
+    #include "devL3GD20H.h"
+    #include "devBME680.h"
+    #include "devBMX055.h"
+    #include "devCCS811.h"
+    #include "devHDC1000.h"
+    #include "devRV8803C7.h"
+#endif
 
 
 
-// #if (WARP_BUILD_ENABLE_DEVADXL362)
-// 	volatile WarpSPIDeviceState			deviceADXL362State;
-// #endif
+#if (WARP_BUILD_ENABLE_DEVADXL362)
+	volatile WarpSPIDeviceState			deviceADXL362State;
+#endif
 
 #if (WARP_BUILD_ENABLE_DEVIS25xP)
 	#include "devIS25xP.h"
@@ -2097,26 +2097,27 @@ main(void)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		warpPrint("\rSelect:\n");
-		warpPrint("\r- 'a': set default sensor.\n");
-		warpPrint("\r- 'b': set I2C baud rate.\n");
-		warpPrint("\r- 'c': set SPI baud rate.\n");
-		warpPrint("\r- 'd': set UART baud rate.\n");
-		warpPrint("\r- 'e': set default register address.\n");
-		warpPrint("\r- 'f': write byte to sensor.\n");
-		warpPrint("\r- 'g': set default sensor supply voltage.\n");
-		warpPrint("\r- 'h': powerdown command to all sensors.\n");
-		warpPrint("\r- 'i': set pull-up enable value.\n");
-		warpPrint("\r- 'j': repeat read reg 0x%02x on sensor #%d.\n", menuRegisterAddress, menuTargetSensor);
-		warpPrint("\r- 'k': sleep until reset.\n");
-		warpPrint("\r- 'l': send repeated byte on I2C.\n");
-		warpPrint("\r- 'm': send repeated byte on SPI.\n");
-		warpPrint("\r- 'n': enable sensor supply voltage.\n");
-		warpPrint("\r- 'o': disable sensor supply voltage.\n");
-		warpPrint("\r- 'p': switch to VLPR mode.\n");
-		warpPrint("\r- 'r': switch to RUN mode.\n");
-		warpPrint("\r- 's': power up all sensors.\n");
-		warpPrint("\r- 't': dump processor state.\n");
-		warpPrint("\r- 'u': set I2C address.\n");
+		// REMOVED: MENU
+		// warpPrint("\r- 'a': set default sensor.\n");
+		// warpPrint("\r- 'b': set I2C baud rate.\n");
+		// warpPrint("\r- 'c': set SPI baud rate.\n");
+		// warpPrint("\r- 'd': set UART baud rate.\n");
+		// warpPrint("\r- 'e': set default register address.\n");
+		// warpPrint("\r- 'f': write byte to sensor.\n");
+		// warpPrint("\r- 'g': set default sensor supply voltage.\n");
+		// warpPrint("\r- 'h': powerdown command to all sensors.\n");
+		// warpPrint("\r- 'i': set pull-up enable value.\n");
+		// warpPrint("\r- 'j': repeat read reg 0x%02x on sensor #%d.\n", menuRegisterAddress, menuTargetSensor);
+		// warpPrint("\r- 'k': sleep until reset.\n");
+		// warpPrint("\r- 'l': send repeated byte on I2C.\n");
+		// warpPrint("\r- 'm': send repeated byte on SPI.\n");
+		// warpPrint("\r- 'n': enable sensor supply voltage.\n");
+		// warpPrint("\r- 'o': disable sensor supply voltage.\n");
+		// warpPrint("\r- 'p': switch to VLPR mode.\n");
+		// warpPrint("\r- 'r': switch to RUN mode.\n");
+		// warpPrint("\r- 's': power up all sensors.\n");
+		// warpPrint("\r- 't': dump processor state.\n");
+		// warpPrint("\r- 'u': set I2C address.\n");
 
 #if (WARP_BUILD_ENABLE_DEVAT45DB)
 		warpPrint("\r- 'R': read bytes from Flash.\n");
