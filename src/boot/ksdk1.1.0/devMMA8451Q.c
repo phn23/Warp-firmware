@@ -507,7 +507,7 @@ int normal_loop() {
             if ((anomaly_count_x > threshold_anomaly_count ||
 		anomaly_count_y > threshold_anomaly_count ||
 		anomaly_count_z > threshold_anomaly_count) &
-	    	total_anomaly_count < total_threshold_anomaly_count {
+	    	total_anomaly_count < total_threshold_anomaly_count) {
 		return 1;
             } 
 			else {
