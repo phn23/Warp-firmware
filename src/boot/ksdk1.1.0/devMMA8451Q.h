@@ -50,6 +50,8 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc);
 int normal_loop();
 
 #define threshold_anomaly 1000 //
+#define threshold_anomaly_count 5000 //
+
 
 const uint8_t bytesPerMeasurementMMA8451Q            = 6;
 const uint8_t bytesPerReadingMMA8451Q                = 2;
