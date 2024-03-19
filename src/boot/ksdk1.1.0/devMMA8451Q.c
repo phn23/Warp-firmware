@@ -456,119 +456,66 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 
 
-// #include <stdio.h>
-// #include <math.h>
-#define M_PI 3.14
-
-int16_t x_acceleration;
-int16_t y_acceleration;
-int16_t z_acceleration;
 
 
 /****************************************************************
 See flowchart for logics
 ****************************************************************/
-// defined in .h
-// #define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
-
-// bool tilt_angle_trigger(){
-
-//     get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-
-//     int tilt_front; // x, z
-//     int tilt_side; // y, z
-
-//     tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-//     tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
-
-    
-//     return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
-// }
 
 
-
-#define PI_OVER_4   0x4000  // 45 degrees in Q14 format
-#define PI_OVER_2   0x8000  // 90 degrees in Q14 format
-#define PI          0x10000 // 180 degrees in Q14 format
-
-int16_t atan2_approx(int16_t y, int16_t x) {
-    int16_t angle;
-    uint16_t abs_y = y < 0 ? -y : y; // Absolute value of y
-    int16_t neg_mask = x < 0 ? 0x8000 : 0; // Mask to adjust angle for x < 0
-
-    // Handle special cases
-    if (x == 0) {
-        if (y > 0) {
-            return PI_OVER_2; // 90 degrees
-        } else if (y < 0) {
-            return -PI_OVER_2; // -90 degrees
-        } else {
-            return 0; // Undefined, return 0
-        }
-    }
-
-    if (y == 0) {
-        return 0; // 0 degrees
-    }
-
-    // Calculate the angle using a small-angle approximation
-    if (abs_y <= x) {
-        angle = (y * 0x4000) / x;
-    } else {
-        angle = PI_OVER_2 - ((x * 0x4000) / y);
-    }
-
-    // Adjust the angle based on the quadrant
-    if (x > 0) {
-        return angle + neg_mask; // Quadrants 1 and 4
-    } else {
-        return angle + PI + neg_mask; // Quadrants 2 and 3
-    }
-}
-
-
+int16_t x_acceleration;
+int16_t y_acceleration;
+int16_t z_acceleration;
 /************************************************************************
 THE BIG WORKING LOOP
 ************************************************************************/
 
 int normal_loop() {
+	uint16_t anomaly_count_x = 0;
+	uint16_t anomaly_count_y = 0;
+	uint16_t anomaly_count_z = 0;
     while (true) {
 
-        bool trigger = false;
-        int16_t tilt_side = 0;
-        uint16_t tilt_side_count = 0; // Changed to uint16_t
+        
+
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-        tilt_side =  atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
+        
 
 
-        if (tilt_side > threshold_tilt_angle) {
-            trigger = 1;
-        }
-
-		trigger = 1;
-        if (trigger == 1) {
+        if (x_acceleration > threshold_tilt_angle || 
+			y_acceleration > threshold_tilt_angle || 
+			z_acceleration > threshold_tilt_angle) {
+				
             int window_len = 1000;
             uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
 
             for (int i = 0; i < window_len; i++) {
                 get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-                // tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
-				tilt_side = 4000;
-                if (tilt_side > threshold_tilt_angle) {
-                    tilt_side_count += 1;
+
+                if (x_acceleration > threshold_anomaly) {
+                    anomaly_count_x ++;
                 }
+				else if (y_acceleration > threshold_anomaly)
+				{
+					anomaly_count_y ++;
+				}
+				else if (z_acceleration > threshold_anomaly)
+				{
+					anomaly_count_z ++;
+				}				
             }
 
-            if (tilt_side_count > tilt_count_threshold) {
-                // print or led 
-                break;
-            } else {
-				break;
-                // print: SAFE
-            }
+            if (anomaly_count_x > threshold_anomaly_count ||
+				anomaly_count_y > threshold_anomaly_count ||
+				anomaly_count_z > threshold_anomaly_count) {
+				return 1;
+            } 
+			else {
+				return 0;
+			}
         }
     }
 }
