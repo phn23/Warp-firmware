@@ -78,7 +78,7 @@
 */
 
 #include "devMMA8451Q.h"
-#include "devSSD1331.h"
+// #include "devSSD1331.h"
 #include "myalgo.h"
 // added
 // #include "devINA219.h"  
