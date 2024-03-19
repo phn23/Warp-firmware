@@ -460,7 +460,7 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 
 // #include <stdio.h>
-// #include <math.h>
+#include <math.h>
 
 // /*
 //  *	config.h needs to come first
@@ -511,7 +511,7 @@ int normal_loop(){
 
 		bool trigger = false;
 		// int tilt_front = 0;
-		int tilt_side = 0;
+		int8_t tilt_side = 0;
 		// int tilt_front_count = 0;
 		int tilt_side_count = 0;
 		bool flip = false;
@@ -524,7 +524,7 @@ int normal_loop(){
 		if (tilt_side > threshold_tilt_angle){
 			trigger = 1;
 		}
-		
+
 	/***************************************************
 	 DOES TRIGGER PART
 	****************************************************/
@@ -542,11 +542,12 @@ int normal_loop(){
 				get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
 				// tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-				// tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+				tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
 				// if (tilt_front > threshold_tilt_angle){
 				//     tilt_front_count += 1;
 				// }
+
 
 				if (tilt_side > threshold_tilt_angle){
 					tilt_side_count += 1;
@@ -558,12 +559,8 @@ int normal_loop(){
 			if (tilt_side_count > tilt_count_threshold){
 					flip = 1;
 			}
-	// 	    // }
-	//             // after the entire window, do classification
-	// 	    // if (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold){
-	// 		   //  flip = 1;
-	// 	    // }
-			flip = 1;
+			// after the entire window, do classification
+
 			if (flip == 1){
 				// print a statement or make a light bulb switch
 				break;
