@@ -1950,9 +1950,9 @@ main(void)
 	
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 	
-		warpPrint("Added init start \ns");
-		devSSD1331init();
-		warpPrint("Added init ends \n");
+		// warpPrint("Added init start \ns");
+		// devSSD1331init();
+		// warpPrint("Added init ends \n");
 
 		// this is an infinite loop right?
 		warpPrint("algo_big_loop start \ns");
