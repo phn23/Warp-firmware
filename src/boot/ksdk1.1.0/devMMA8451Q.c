@@ -476,19 +476,13 @@ int normal_loop() {
 	uint16_t anomaly_count_z = 0;
     while (true) {
 
-        
-
-
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-        
-
-
         if (x_acceleration > threshold_anomaly || 
-			y_acceleration > threshold_anomaly || 
-			z_acceleration > threshold_anomaly) {
+	    y_acceleration > threshold_anomaly || 
+	    z_acceleration > threshold_anomaly) {
 
-            int window_len = 1000;
+            int window_len = 10000;
             uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
 
             for (int i = 0; i < window_len; i++) {
@@ -509,9 +503,9 @@ int normal_loop() {
             }
 
             if (anomaly_count_x > threshold_anomaly_count ||
-				anomaly_count_y > threshold_anomaly_count ||
-				anomaly_count_z > threshold_anomaly_count) {
-				return 1;
+		anomaly_count_y > threshold_anomaly_count ||
+		anomaly_count_z > threshold_anomaly_count) {
+		return 1;
             } 
 			else {
 				return 0;
