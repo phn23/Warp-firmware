@@ -560,8 +560,8 @@ int normal_loop(){
 		else{
 			// print statement: SAFE
 		}
+		return 0
 }
-
 
 	
     // while(true){
