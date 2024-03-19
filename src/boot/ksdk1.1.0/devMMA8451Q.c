@@ -484,10 +484,10 @@ int normal_loop() {
         
 
 
-        if (x_acceleration > threshold_tilt_angle || 
-			y_acceleration > threshold_tilt_angle || 
-			z_acceleration > threshold_tilt_angle) {
-				
+        if (x_acceleration > threshold_anomaly || 
+			y_acceleration > threshold_anomaly || 
+			z_acceleration > threshold_anomaly) {
+
             int window_len = 1000;
             uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
 
