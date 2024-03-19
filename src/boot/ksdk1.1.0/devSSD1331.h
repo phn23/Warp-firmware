@@ -44,4 +44,5 @@ typedef enum
 
 int	devSSD1331init(void);
 void    devSSD1331_blink_red(void);
+void    devSSD1331_blink_green(void);
 void 	devSSD1331_set_up(void);
