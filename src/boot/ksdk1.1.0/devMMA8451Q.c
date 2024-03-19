@@ -471,6 +471,8 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 // #include "myalgo.h"
 // #include "devMMA8451Q.h"
 
+#define M_PI 3
+
 int16_t x_acceleration;
 int16_t y_acceleration;
 int16_t z_acceleration;
