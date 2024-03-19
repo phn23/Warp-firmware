@@ -37,7 +37,7 @@ See flowchart for logics
 
     
 //     return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
-}
+// }
 
 bool flip_classifier(int tilt_front_count,int tilt_side_count, int tilt_count_threshold){
     return (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold);        
