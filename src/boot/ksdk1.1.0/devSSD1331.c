@@ -219,9 +219,8 @@ devSSD1331init(void)
 	return 0;
 }
 
-// decent
-void devSSD1331_blink_red(void){
-	/*
+void devSSD1331_set_up(void){
+		/*
 	 *	Clear Screen
 	 */
 	writeCommand(kSSD1331CommandCLEAR);
@@ -257,7 +256,14 @@ void devSSD1331_blink_red(void){
 	writeCommand(0xFF);
 	writeCommand(kSSD1331CommandCONTRASTC);		// R,
 	writeCommand(0xFF);
+	
+}
 
+// decent
+void devSSD1331_blink_red(void){
+
+	// set up
+	devSSD1331_set_up();
 
 	for (int i; i<5; i++){
 		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
@@ -291,7 +297,13 @@ void devSSD1331_blink_red(void){
 		writeCommand(0x00);
 		writeCommand(0x00);
 	
-		OSA_TimeDelay(500);		
+		OSA_TimeDelay(500);
+		
+		writeCommand(kSSD1331CommandCLEAR);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x5F);
+		writeCommand(0x3F);
 
 	}
 }
