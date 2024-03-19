@@ -540,7 +540,7 @@ int normal_loop() {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-        tilt_side = = atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
+        tilt_side =  atan2_approx(z_acceleration, y_acceleration) * 18000 / M_PI;
 
 
         if (tilt_side > threshold_tilt_angle) {
