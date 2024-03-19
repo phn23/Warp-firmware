@@ -484,8 +484,8 @@ int normal_loop() {
 	    z_acceleration > threshold_anomaly) {
 
             int window_len = 10000;
-            uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
-
+            int tilt_count_threshold = window_len / 2; // Changed to uint16_t
+	    int total_threshold_anomaly_count = (int) tilt_count_threshold * 1.5;
             for (int i = 0; i < window_len; i++) {
                 get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
