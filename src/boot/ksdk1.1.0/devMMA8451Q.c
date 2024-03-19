@@ -36,6 +36,7 @@
 	POSSIBILITY OF SUCH DAMAGE.
 */
 #include <stdlib.h>
+#include <stdio.h>>
 
 /*
  *	config.h needs to come first
@@ -485,6 +486,47 @@ See flowchart for logics
 // }
 
 
+
+#define PI_OVER_4   0x4000  // 45 degrees in Q14 format
+#define PI_OVER_2   0x8000  // 90 degrees in Q14 format
+#define PI          0x10000 // 180 degrees in Q14 format
+
+int16_t atan2_approx(int16_t y, int16_t x) {
+    int16_t angle;
+    uint16_t abs_y = y < 0 ? -y : y; // Absolute value of y
+    int16_t neg_mask = x < 0 ? 0x8000 : 0; // Mask to adjust angle for x < 0
+
+    // Handle special cases
+    if (x == 0) {
+        if (y > 0) {
+            return PI_OVER_2; // 90 degrees
+        } else if (y < 0) {
+            return -PI_OVER_2; // -90 degrees
+        } else {
+            return 0; // Undefined, return 0
+        }
+    }
+
+    if (y == 0) {
+        return 0; // 0 degrees
+    }
+
+    // Calculate the angle using a small-angle approximation
+    if (abs_y <= x) {
+        angle = (y * 0x4000) / x;
+    } else {
+        angle = PI_OVER_2 - ((x * 0x4000) / y);
+    }
+
+    // Adjust the angle based on the quadrant
+    if (x > 0) {
+        return angle + neg_mask; // Quadrants 1 and 4
+    } else {
+        return angle + PI + neg_mask; // Quadrants 2 and 3
+    }
+}
+
+
 /************************************************************************
 THE BIG WORKING LOOP
 ************************************************************************/
@@ -528,76 +570,3 @@ int normal_loop() {
         }
     }
 }
-
-	
-    // while(true){
-
-        // test whether is triggered
-        // get acceleration  first
-
-//         bool trigger = false;
-//         // int tilt_front = 0;
-//         int tilt_side = 0;
-//         // int tilt_front_count = 0;
-//         int tilt_side_count = 0;
-//         bool flip = false;
-
-//         // trigger = tilt_angle_trigger();
-
-
-// 	// get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-
-
-
-//     // tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-//     // tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);  
-// 	tilt_side = 40;
-// 	if (tilt_side > 30){
-// 		trigger = true;
-// 	}
-
-//         // if there is a suspicion of flip
-//         if (trigger == 1){
-//             // record data for 5 sec
-//             // loop for 1000:
-
-//             int window_len = 1;
-//             int tilt_count_threshold = window_len / 2; 
-            
-//             for (int i=0; i < window_len; i++){
-
-//                 get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-
-//                 // tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-//                 tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
-
-//                 // if (tilt_front > threshold_tilt_angle){
-//                 //     tilt_front_count += 1;
-//                 // }
-
-//                 if (tilt_side > threshold_tilt_angle){
-//                     tilt_side_count += 1;
-//                 }
-//             }
-
-
-
-// 		if (tilt_side_count > tilt_count_threshold){
-// 			    flip = 1;
-// 	    // }
-//             // after the entire window, do classification
-// 	    // if (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold){
-// 		   //  flip = 1;
-// 	    // }
-            
-//             if (flip == 1){
-//                 // print a statement or make a light bulb switch
-//             }
-
-//             else{
-//                 // print statement: SAFE
-//             }
-//         }    
-//     }
-// // }
-
