@@ -520,13 +520,15 @@ int normal_loop(){
 	/***************************************************
 	 * TESTING
 	****************************************************/
+
 		trigger = 1;
 		if (trigger == 1){
 			// record data for 5 sec
 			// loop for 1000:
 
-			int window_len = 10;
+			int window_len = 1000;
 			int tilt_count_threshold = (int) window_len / 2; 
+
 			
 			for (int i=0; i < window_len; i++){
 
@@ -557,7 +559,7 @@ int normal_loop(){
 			flip = 1;
 			if (flip == 1){
 				// print a statement or make a light bulb switch
-				// break;
+				break;
 			}
 
 			else{
