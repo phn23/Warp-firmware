@@ -1954,10 +1954,13 @@ main(void)
 		warpPrint("Added init ends \n");
 
 		// this is an infinite loop right?
-		warpPrint("algo_big_loop start \ns");
-		normal_loop();
-		warpPrint("this should not appear \ns");
-		// OSA_TimeDelay(200);
+		warpPrint("big_loop start \ns");
+		int performance = normal_loop();
+		warpPrint("big_loop ends \ns");
+
+		devSSD1331_blink();
+		
+	// OSA_TimeDelay(200);
 	
 		// measurement code
 		// TODO: rmb to change to 1000
