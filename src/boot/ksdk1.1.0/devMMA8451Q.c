@@ -545,6 +545,8 @@ THE BIG WORKING LOOP
 ************************************************************************/
 
 int normal_loop(){
+	get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+	}
 
     // while(true){
 
