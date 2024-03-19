@@ -25,18 +25,18 @@ See flowchart for logics
 // defined iin .h
 // #define threshold_tilt_angle 3000 // 3000 / 100 = 30 degrees
 
-bool tilt_angle_trigger(){
+// bool tilt_angle_trigger(){
 
-    get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+//     get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-    int tilt_front; // x, z
-    int tilt_side; // y, z
+//     int tilt_front; // x, z
+//     int tilt_side; // y, z
 
-    tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-    tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+//     tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+//     tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
     
-    return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
+//     return (tilt_front > threshold_tilt_angle || tilt_side > threshold_tilt_angle);
 }
 
 bool flip_classifier(int tilt_front_count,int tilt_side_count, int tilt_count_threshold){
@@ -85,55 +85,68 @@ THE BIG WORKING LOOP
 ************************************************************************/
 
 int normal_loop(){
+
+    while(true){
+
+        // test whether is triggered
+        // get acceleration  first
+
+        bool trigger = false;
+        int tilt_front = 0;
+        int tilt_side = 0;
+        int tilt_front_count = 0;
+        int tilt_side_count = 0;
+        bool flip = false;
+
+        // trigger = tilt_angle_trigger();
+
+
 	get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-    // while(true){
 
-    //     // test whether is triggered
-    //     // get acceleration  first
+    int tilt_front; // x, z
+    // int tilt_side; // y, z
 
-    //     bool trigger = false;
-    //     int tilt_front = 0;
-    //     int tilt_side = 0;
-    //     int tilt_front_count = 0;
-    //     int tilt_side_count = 0;
-    //     bool flip = false;
+    tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+    // tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);  
 
-    //     trigger = tilt_angle_trigger();
+	if (tilt_front > 30){
+		trigger = true;
+	}
 
-    //     // if there is a suspicion of flip
-    //     if (trigger == 1){
-    //         // record data for 5 sec
-    //         // loop for 1000:
+        // if there is a suspicion of flip
+        if (trigger == 1){
+            // record data for 5 sec
+            // loop for 1000:
 
-    //         int window_len = 2;
-    //         int tilt_count_threshold = window_len / 2; 
+            int window_len = 2;
+            int tilt_count_threshold = window_len / 2; 
             
-    //         for (int i=0; i < window_len; i++){
+            for (int i=0; i < window_len; i++){
 
-    //             get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+                get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-    //             tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-    //             tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+                tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
+                tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
-    //             if (tilt_front > threshold_tilt_angle){
-    //                 tilt_front_count += 1;
-    //             }
+                if (tilt_front > threshold_tilt_angle){
+                    tilt_front_count += 1;
+                }
 
-    //             if (tilt_side > threshold_tilt_angle){
-    //                 tilt_side_count += 1;
-    //             }
-    //         }
+                if (tilt_side > threshold_tilt_angle){
+                    tilt_side_count += 1;
+                }
+            }
 
-    //         // after the entire window, do classification
-    //         flip = flip_classifier(tilt_front_count, tilt_side_count, tilt_count_threshold);
+            // after the entire window, do classification
+            flip = flip_classifier(tilt_front_count, tilt_side_count, tilt_count_threshold);
 
-    //         if (flip == 1){
-    //             // print a statement or make a light bulb switch
-    //         }
+            if (flip == 1){
+                // print a statement or make a light bulb switch
+            }
 
-    //         else{
-    //             // print statement: SAFE
-    //         }
-    //     }    
-    // }
+            else{
+                // print statement: SAFE
+            }
+        }    
+    }
 }
