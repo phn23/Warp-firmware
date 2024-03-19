@@ -458,7 +458,7 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 
 // #include <stdio.h>
-// #include <math.h>
+#include <math.h>
 
 // /*
 //  *	config.h needs to come first
