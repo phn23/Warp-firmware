@@ -575,7 +575,7 @@ int normal_loop(){
             // record data for 5 sec
             // loop for 1000:
 
-            int window_len = 100;
+            int window_len = 1;
             int tilt_count_threshold = window_len / 2; 
             
             for (int i=0; i < window_len; i++){
