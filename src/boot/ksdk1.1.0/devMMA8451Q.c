@@ -491,8 +491,8 @@ THE BIG WORKING LOOP
 
 int normal_loop() {
     while (true) {
-		uint16_t tilt_test = (uint16_t)abs(atan2((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
-		
+		// uint16_t tilt_test = (uint16_t)abs(atan2((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
+
         bool trigger = false;
         int8_t tilt_side = 0;
         uint16_t tilt_side_count = 0; // Changed to uint16_t
@@ -504,6 +504,7 @@ int normal_loop() {
             trigger = 1;
         }
 
+		trigger = 1;
         if (trigger == 1) {
             int window_len = 1000;
             uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
