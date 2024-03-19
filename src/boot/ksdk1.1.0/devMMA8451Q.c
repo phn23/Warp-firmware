@@ -433,15 +433,11 @@ READ FROM ACCELEROMETER
 These registers contain the X-axis, Y-axis, and Z-axis, and 14-bit output sample data expressed as 2's complement numbers. 
 inputs are pointers as these values are to be modified */
 void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
-    int16_t readSensorRegisterValueCombined_x;
-    int16_t readSensorRegisterValueCombined_y;
-    int16_t readSensorRegisterValueCombined_z;
-
     // all 3 dim
     readSensorRegisterMMA8451Q(0x01, 6);
 
     // x
-	readSensorRegisterValueCombined_x = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
+	int16_t readSensorRegisterValueCombined_x = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
 	/*
 	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
 	 */
@@ -449,11 +445,11 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
     
 
     // y
-	readSensorRegisterValueCombined_y = (( deviceMMA8451QState.i2cBuffer[2] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[3] >> 2);
+	int16_t readSensorRegisterValueCombined_y = (( deviceMMA8451QState.i2cBuffer[2] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[3] >> 2);
 	*y_acc = (readSensorRegisterValueCombined_y ^ (1 << 13)) - (1 << 13);
     
     // z
-    readSensorRegisterValueCombined_z = (( deviceMMA8451QState.i2cBuffer[4] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[5] >> 2);
+    int16_t readSensorRegisterValueCombined_z = (( deviceMMA8451QState.i2cBuffer[4] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[5] >> 2);
 	*z_acc = (readSensorRegisterValueCombined_z ^ (1 << 13)) - (1 << 13);
 }
 
@@ -493,79 +489,42 @@ See flowchart for logics
 THE BIG WORKING LOOP
 ************************************************************************/
 
-int normal_loop(){
+int normal_loop() {
+    while (true) {
 
-	while (true){
-		
-		
+        bool trigger = false;
+        int8_t tilt_side = 0;
+        uint16_t tilt_side_count = 0; // Changed to uint16_t
 
+        get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-		bool trigger = false;
-		// int tilt_front = 0;
-		int8_t tilt_side = 0;
-		// int tilt_front_count = 0;
-		int tilt_side_count = 0;
-		bool flip = false;
+        tilt_side = 4000;
+        if (tilt_side > threshold_tilt_angle) {
+            trigger = 1;
+        }
 
-		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-		// tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+        if (trigger == 1) {
+            int window_len = 1000;
+            uint16_t tilt_count_threshold = window_len / 2; // Changed to uint16_t
 
+            for (int i = 0; i < window_len; i++) {
+                get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-	/***************************************************
-	 * TESTING
-	****************************************************/
-		tilt_side = 4000;
-		if (tilt_side > threshold_tilt_angle){
-			trigger = 1;
-		}
+                tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
-	/***************************************************
-	 DOES TRIGGER PART
-	****************************************************/
+                if (tilt_side > threshold_tilt_angle) {
+                    tilt_side_count += 1;
+                }
+            }
 
-		if (trigger == 1){
-			// record data for 5 sec
-			// loop for 1000:
-
-			int window_len = 1000;
-			int tilt_count_threshold = (int) window_len / 2; 
-
-			
-			for (int i=0; i < window_len; i++){
-
-				get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-
-				// tilt_front = abs(atan2(z_acceleration, x_acceleration) * 18000 / M_PI);
-				tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
-
-				// if (tilt_front > threshold_tilt_angle){
-				//     tilt_front_count += 1;
-				// }
-
-
-				if (tilt_side > threshold_tilt_angle){
-					tilt_side_count += 1;
-				}
-			}
-
-
-
-			if (tilt_side_count > tilt_count_threshold){
-					flip = 1;
-			}
-			// after the entire window, do classification
-
-			if (flip == 1){
-				// print a statement or make a light bulb switch
-				break;
-			}
-
-			else{
-				// print statement: SAFE
-			}
-
-		}
-	}
+            if (tilt_side_count > tilt_count_threshold) {
+                // print or led 
+                break;
+            } else {
+                // print: SAFE
+            }
+        }
+    }
 }
 
 	
