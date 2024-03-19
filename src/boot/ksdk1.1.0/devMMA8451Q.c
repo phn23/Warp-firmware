@@ -491,6 +491,7 @@ THE BIG WORKING LOOP
 
 int normal_loop() {
     while (true) {
+		int tilt_test = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
 
         bool trigger = false;
         int8_t tilt_side = 0;
@@ -498,7 +499,7 @@ int normal_loop() {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-        tilt_side = (int16_t)abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+        // tilt_side = (int16_t)abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
         if (tilt_side > threshold_tilt_angle) {
             trigger = 1;
         }
