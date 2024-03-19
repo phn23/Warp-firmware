@@ -135,11 +135,13 @@ int normal_loop(){
 
 
 
-
+		if (tilt_side_count > tilt_count_threshold){
+			    flip = 1;
+	    // }
             // after the entire window, do classification
-	    if (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold){
-		    flip = 1;
-	    }
+	    // if (tilt_front_count > tilt_count_threshold || tilt_side_count > tilt_count_threshold){
+		   //  flip = 1;
+	    // }
             
             if (flip == 1){
                 // print a statement or make a light bulb switch
