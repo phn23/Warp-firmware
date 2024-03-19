@@ -494,7 +494,7 @@ int normal_loop() {
 		// uint16_t tilt_test = (uint16_t)abs(atan2((double)z_acceleration, (double)y_acceleration) * 18000.0 / M_PI);
 
         bool trigger = false;
-        int8_t tilt_side = 0;
+        int16_t tilt_side = 0;
         uint16_t tilt_side_count = 0; // Changed to uint16_t
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
@@ -512,8 +512,8 @@ int normal_loop() {
             for (int i = 0; i < window_len; i++) {
                 get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 
-                tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
-
+                // tilt_side = abs(atan2(z_acceleration, y_acceleration) * 18000 / M_PI);
+				tilt_side = 4000;
                 if (tilt_side > threshold_tilt_angle) {
                     tilt_side_count += 1;
                 }
