@@ -1975,8 +1975,8 @@ main(void)
 		uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
 		while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
 			get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
-			warpPrint(x_acceleration_test);
-			warpPrint("\n");
+			warpPrint("%d \n", x_acceleration_test);
+			// warpPrint("\n");
 			
 		// 	readSensorRegisterMMA8451Q(0x01, 6);
 		
