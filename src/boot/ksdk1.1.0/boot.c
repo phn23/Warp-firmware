@@ -1959,7 +1959,7 @@ main(void)
 			
 
 		// warpPrint("big_loop start \n");
-		int performance = normal_loop();
+		bool performance = normal_loop();
 		
 		warpPrint("normal loop ends and the classification flag is obtained \n");
 
