@@ -1969,18 +1969,18 @@ main(void)
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
 
-		// warpPrint("big_loop start \n");
-		bool performance = normal_loop();
+		// // warpPrint("big_loop start \n");
+		// bool performance = normal_loop();
 		
-		warpPrint("normal loop ends and the classification flag is obtained \n");
+		// warpPrint("normal loop ends and the classification flag is obtained \n");
 
 
 
-		if (performance == 1){
-			devSSD1331_blink_green();
-		}
-		else{ // unsuccessful
-			devSSD1331_blink_red();
+		// if (performance == 1){
+		// 	devSSD1331_blink_green();
+		// }
+		// else{ // unsuccessful
+		// 	devSSD1331_blink_red();
 		}
 		warpPrint("classification display task ends\n");
 	
