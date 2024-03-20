@@ -1967,8 +1967,8 @@ main(void)
 		OSA_TimeDelay(5000);
 		warpPrint("delay done\n");
 
-		readSensorRegisterMMA8451Q(0x01, 6);
-		printSensorDataMMA8451Q(1);
+		// readSensorRegisterMMA8451Q(0x01, 6);
+		// printSensorDataMMA8451Q(1);
 
 				
 		int32_t x_acc_test;
