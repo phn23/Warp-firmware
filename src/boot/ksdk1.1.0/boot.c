@@ -1970,6 +1970,7 @@ main(void)
 			printSensorDataMMA8451Q(1);
 			warpPrint("\n");
 		}
+		warpPrint("test loop done\n");
 
 		bool performance = true;
 		if (performance == 1){
