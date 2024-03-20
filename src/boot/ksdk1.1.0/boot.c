@@ -1959,9 +1959,9 @@ main(void)
 		warpPrint("big_loop ends \n");
 
 
-		int16_t x_acceleration_test;
-		int16_t y_acceleration_test;
-		int16_t z_acceleration_test;
+		// int16_t x_acceleration_test;
+		// int16_t y_acceleration_test;
+		// int16_t z_acceleration_test;
 		
 		uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
 		while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
@@ -1972,13 +1972,13 @@ main(void)
 		}
 
 		bool performance = true;
-		if (performance == 0){
-			devSSD1331_blink_red();
-		}
-		else{ // success
+		if (performance == 1){
 			devSSD1331_blink_green();
 		}
-		warpPrint("classification display tast ends\n");
+		else{ // unsuccessful
+			devSSD1331_blink_red();
+		}
+		warpPrint("classification display task ends\n");
 		
 	// OSA_TimeDelay(200);
 	
