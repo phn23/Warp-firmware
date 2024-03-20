@@ -1957,7 +1957,7 @@ main(void)
 
 		warpPrint("Added init ends \n");
 		
-		readSensorRegisterMMA8451Q();
+		readSensorRegisterMMA8451Q(0x01, 6);
 		printSensorDataMMA8451Q(0);
 			
 
