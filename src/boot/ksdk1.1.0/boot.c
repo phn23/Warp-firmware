@@ -1963,8 +1963,8 @@ main(void)
 		int16_t y_acceleration_test;
 		int16_t z_acceleration_test;
 		
-		uint32_t timeAtStart = OSA_TimeGetMsec();
-		while (OSA_TimeGetMsec() - timeAtStart < 5000){
+		uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
+		while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
 			// get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
 			readSensorRegisterMMA8451Q(0x01, 6);
 			printSensorDataMMA8451Q(1);
