@@ -1949,12 +1949,13 @@ main(void)
 	
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 
-		readSensorRegisterMMA8451Q(0x01, 1);
-		printSensorDataMMA8451Q(0);
+		// readSensorRegisterMMA8451Q(0x01, 1);
+		// printSensorDataMMA8451Q(0);
 		
 	
 		warpPrint("Added init start \n");
 		devSSD1331init();
+		warpDisableSPIpins();
 		// warpPrint("Added init ends \n");
 			
 		// // this is an infinite loop right?
@@ -1968,8 +1969,8 @@ main(void)
 		// OSA_TimeDelay(5000);
 		// warpPrint("delay done\n");
 
-		// // readSensorRegisterMMA8451Q(0x01, 6);
-		// // printSensorDataMMA8451Q(1);
+		readSensorRegisterMMA8451Q(0x01, 6);
+		printSensorDataMMA8451Q(1);
 		
 		// int16_t x_acceleration_test;
 		// int16_t y_acceleration_test;
@@ -1983,7 +1984,7 @@ main(void)
 		// 	OSA_TimeDelay(100);
 		// 	// warpPrint("\n");
 			
-		// // 	readSensorRegisterMMA8451Q(0x01, 6);
+			readSensorRegisterMMA8451Q(0x01, 6);
 		
 		// }	
 		// // for (int i = 0; i<100; i++){
