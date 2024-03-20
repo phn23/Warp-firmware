@@ -1958,7 +1958,9 @@ main(void)
 		warpPrint("Added init ends \n");
 		
 		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print\n");
 		printSensorDataMMA8451Q(0);
+		warpPrint("\n")
 			
 
 		// warpPrint("big_loop start \n");
