@@ -61,6 +61,7 @@ writeCommand(uint8_t commandByte)
 	 */
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 
+
 	return status;
 }
 
@@ -214,6 +215,9 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	writeCommand(0x3F);
 	writeCommand(0x00);
+
+	OSA_TimeDelay(3000);
+	warpDisableSPIpins();
 
 
 	return 0;
