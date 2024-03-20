@@ -1978,7 +1978,7 @@ main(void)
 		// 	readSensorRegisterMMA8451Q(0x01, 6);
 		// 	
 		for (int i = 0; i<1000; i++){
-			x_acc_test = MMA8541Q_get_acceleration_x()
+			x_acc_test = MMA8541Q_get_acceleration_x();
 			printSensorDataMMA8451Q(1);
 			warpPrint("\n", x_acc_test);
 		}
