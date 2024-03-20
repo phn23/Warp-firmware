@@ -1980,8 +1980,9 @@ main(void)
 		for (int i = 0; i<100; i++){
 			x_acc_test = MMA8541Q_get_acceleration_x();
 
+			// this should print all 6;
 			printSensorDataMMA8451Q();
-			// printSensorDataMMA8451Q(1);
+			
 			// warpPrint("%d \n", x_acc_test);
 			warpPrint("\n");
 		}
