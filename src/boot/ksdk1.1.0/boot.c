@@ -1955,7 +1955,7 @@ main(void)
 
 		// this is an infinite loop right?
 		warpPrint("big_loop start \n");
-		int performance = normal_loop();
+		// int performance = normal_loop();
 		warpPrint("big_loop ends \n");
 
 
@@ -1970,12 +1970,13 @@ main(void)
 			printSensorDataMMA8451Q(1);
 			warpPrint("\n");
 		}
-	
+
+		bool performance = true;
 		if (performance == 0){
 			devSSD1331_blink_red();
 		}
-		else{
-			devSSD1331_blink_red();
+		else{ // success
+			devSSD1331_blink_green();
 		}
 		warpPrint("classification display tast ends\n");
 		
