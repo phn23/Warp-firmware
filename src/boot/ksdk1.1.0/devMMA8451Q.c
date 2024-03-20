@@ -493,6 +493,7 @@ bool normal_loop() {
 		warpPrint("Test print again\n");
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
+		OSA_TimeDelay("100");
 
         if (x_acceleration > threshold_anomaly || 
 			y_acceleration > threshold_anomaly || 
@@ -530,6 +531,7 @@ bool normal_loop() {
 				}
 				OSA_TimeDelay(100);				
 			}
+
 			int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
 			warpDisableI2Cpins();
 			
