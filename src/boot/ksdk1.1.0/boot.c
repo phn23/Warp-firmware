@@ -3877,8 +3877,8 @@ loopForSensor(	const char *  tagString,
 	// ADDED
 	
 	// int byte_number_read_ina219 = 2;
-	int byte_number_read_MMA8451Q = 6;
-	int byte_number_read = byte_number_read_MMA8451Q;
+	// int byte_number_read_MMA8451Q = 6;
+	// int byte_number_read = byte_number_read_MMA8451Q;
 
 	/*
 	 *	Keep on repeating until we are above the maxAddress, or just once if not autoIncrement-ing
@@ -3916,20 +3916,34 @@ loopForSensor(	const char *  tagString,
 						}
 					}
 					else
+// 					{
+// 						if (referenceByte == i2cDeviceState->i2cBuffer[0])
+// 						{
+// 							nCorrects++;
+// 						}
+// // ADDED: FORMAT
+// 						if (chatty)
+// 						{
+// 						warpPrint("\r\t0x%02x --> 0x%02x%02x\n",
+// 						address + j,
+// 						i2cDeviceState->i2cBuffer[0],
+// 						i2cDeviceState->i2cBuffer[1]);
+// 						}
+// 					}
 					{
 						if (referenceByte == i2cDeviceState->i2cBuffer[0])
 						{
 							nCorrects++;
 						}
-// ADDED: FORMAT
+
 						if (chatty)
 						{
-						warpPrint("\r\t0x%02x --> 0x%02x%02x\n",
-						address + j,
-						i2cDeviceState->i2cBuffer[0],
-						i2cDeviceState->i2cBuffer[1]);
+						warpPrint("\r\t0x%02x --> 0x%02x\n",
+							address+j,
+									  i2cDeviceState->i2cBuffer[0]);
 						}
 					}
+					
 				}
 				else if (status == kWarpStatusDeviceCommunicationFailed)
 				{
