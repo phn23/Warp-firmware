@@ -480,12 +480,12 @@ bool normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
-	int16_t threshold_anomaly = 20000;
+	int16_t threshold_anomaly = 3000;
 	
     while (true) {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-		warpPrint(x_acceleration, y_acceleration, z_acceleration);
+		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
 		warpPrint("\n");
 		warpPrint("big while loop is working \n");
 
