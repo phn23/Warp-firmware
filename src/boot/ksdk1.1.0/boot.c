@@ -3889,7 +3889,7 @@ loopForSensor(	const char *  tagString,
 		for (int i = 0; i < readCount; i++) 
 			for (int j = 0; j < chunkReadsPerAddress; j++)
 			{
-			status = readSensorRegisterFunction(address+j, byte_number_read /* numberOfBytes */);
+			status = readSensorRegisterFunction(address+j, numberOfBytes /* numberOfBytes */);
 				if (status == kWarpStatusOK)
 				{
 					nSuccesses++;
