@@ -1981,7 +1981,7 @@ main(void)
 		// }
 		// else{ // unsuccessful
 		// 	devSSD1331_blink_red();
-		}
+		// }
 		warpPrint("classification display task ends\n");
 	
 	
