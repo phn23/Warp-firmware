@@ -1961,24 +1961,24 @@ main(void)
 		warpPrint("big_loop ends \n");
 
 
-		// int16_t x_acceleration_test;
-		// int16_t y_acceleration_test;
-		// int16_t z_acceleration_test;
 		OSA_TimeDelay(5000);
 		warpPrint("delay done\n");
 
 		// readSensorRegisterMMA8451Q(0x01, 6);
 		// printSensorDataMMA8451Q(1);
-
+		
+		int16_t x_acceleration_test;
+		int16_t y_acceleration_test;
+		int16_t z_acceleration_test;
 				
 		int32_t x_acc_test;
-		// uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
-		// while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
-		// 	// get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
+		uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
+		while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
+			get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
 		// 	readSensorRegisterMMA8451Q(0x01, 6);
 		// 	
 		for (int i = 0; i<100; i++){
-			x_acc_test = MMA8541Q_get_acceleration_x();
+			// x_acc_test = MMA8541Q_get_acceleration_x();
 
 			// this should print all 3 combined values;
 			// 0 means decimal
@@ -3872,8 +3872,9 @@ loopForSensor(	const char *  tagString,
 
 	// ADDED
 	
-	int byte_number_read_ina219 = 2;	
-	int byte_number_read = byte_number_read_ina219;
+	// int byte_number_read_ina219 = 2;
+	int byte_number_read_MMA8451Q = 6;
+	int byte_number_read = byte_number_read_MMA8451Q;
 
 	/*
 	 *	Keep on repeating until we are above the maxAddress, or just once if not autoIncrement-ing
@@ -3881,7 +3882,8 @@ loopForSensor(	const char *  tagString,
 	 */
 	while (true)
 	{
-		for (int i = 0; i < readCount; i++) for (int j = 0; j < chunkReadsPerAddress; j++)
+		for (int i = 0; i < readCount; i++) 
+			for (int j = 0; j < chunkReadsPerAddress; j++)
 			{
 			status = readSensorRegisterFunction(address+j, byte_number_read /* numberOfBytes */);
 				if (status == kWarpStatusOK)
