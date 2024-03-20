@@ -497,7 +497,7 @@ bool normal_loop() {
 ***************************************************************************/
             // recall maximum is FFFF = 65535
 
-		int tilt_count_threshold = 20000；
+		int tilt_count_threshold = 20000;
 	    int total_threshold_anomaly_count = (int) tilt_count_threshold * 1.5;
 
 		// get current time
