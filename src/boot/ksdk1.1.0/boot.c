@@ -1954,7 +1954,7 @@ main(void)
 
 		// This lights up the OLED to show it is working and the task is about to begin
 		// devSSD1331init();
-		OSA_TimeDelay(3000);
+		OSA_TimeDelay(2000);
 		// warpDisableSPIpins();
 
 		warpPrint("Added init ends \n");
@@ -1965,6 +1965,14 @@ main(void)
 		warpPrint("\n");
 
 		OSA_TimeDelay(100);
+		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print 2\n");
+		printSensorDataMMA8451Q(1);
+		warpPrint("\n");
+
+		OSA_TimeDelay(100);
+
+
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print 2\n");
 		printSensorDataMMA8451Q(1);
