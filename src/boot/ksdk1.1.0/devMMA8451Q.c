@@ -529,11 +529,11 @@ bool normal_loop() {
 				anomaly_count_z < threshold_anomaly_count) &
 				total_anomaly_count < total_threshold_anomaly_count) {
 
-				return true;
+				return 1;
 			} 
 
 			else {
-				return false;
+				return 0;
 			}
         }
     }
