@@ -1963,7 +1963,11 @@ main(void)
 		warpPrint("Test print\n");
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
-			
+
+		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print 2\n");
+		printSensorDataMMA8451Q(0);
+		warpPrint("\n");
 
 		// warpPrint("big_loop start \n");
 		bool performance = normal_loop();
