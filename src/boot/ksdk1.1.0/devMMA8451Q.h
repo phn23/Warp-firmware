@@ -1,365 +1,48 @@
-#include <stdint.h>
-
 /*
- *	config.h needs to come first
- */
-#include "config.h"
-
-#include "fsl_spi_master_driver.h"
-#include "fsl_port_hal.h"
-
-#include "SEGGER_RTT.h"
-#include "gpio_pins.h"
-#include "warp.h"
-#include "devSSD1331.h"
-
-volatile uint8_t	inBuffer[1];
-volatile uint8_t	payloadBytes[1];
-
-
-/*
- *	Override Warp firmware's use of these pins and define new aliases.
- */
-// enum
-// {
-// 	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
-// 	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
-// 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
-// 	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
-// 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
-// };
-
-static int
-writeCommand(uint8_t commandByte)
-{
-	spi_status_t status;
-
-	/*
-	 *	Drive /CS low.
-	 *
-	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-	OSA_TimeDelay(10);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
-
-	/*
-	 *	Drive DC low (command).
-	 */
-	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
-
-	payloadBytes[0] = commandByte;
-	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
-					NULL		/* spi_master_user_config_t */,
-					(const uint8_t * restrict)&payloadBytes[0],
-					(uint8_t * restrict)&inBuffer[0],
-					1		/* transfer size */,
-					1000		/* timeout in microseconds (unlike I2C which is ms) */);
-
-	/*
-	 *	Drive /CS high
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-
-	return status;
-}
+	Authored 2016-2018. Phillip Stanley-Marbell. Additional contributors,
+	2018-onwards, see git log.
+	All rights reserved.
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions
+	are met:
+	*	Redistributions of source code must retain the above
+		copyright notice, this list of conditions and the following
+		disclaimer.
+	*	Redistributions in binary form must reproduce the above
+		copyright notice, this list of conditions and the following
+		disclaimer in the documentation and/or other materials
+		provided with the distribution.
+	*	Neither the name of the author nor the names of its
+		contributors may be used to endorse or promote products
+		derived from this software without specific prior written
+		permission.
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
+*/
+void		initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts);
+WarpStatus	readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes);
+WarpStatus	writeSensorRegisterMMA8451Q(uint8_t deviceRegister, uint8_t payloadBtye);
+WarpStatus 	configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1);
+void		printSensorDataMMA8451Q(bool hexModeFlag);
+uint8_t		appendSensorDataMMA8451Q(uint8_t* buf);
 
 
 
-int
-devSSD1331init(void)
-{
-	/*
-	 *	Override Warp firmware's use of these pins.
-	 *
-	 *	Re-configure SPI to be on PTA8 and PTA9 for MOSI and SCK respectively.
-	 */
-	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
+// bool tilt_angle_trigger();
+// bool tilt_angle_trigger();
+void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc);
+int normal_loop();
 
-	warpEnableSPIpins();
-
-	/*
-	 *	Override Warp firmware's use of these pins.
-	 *
-	 *	Reconfigure to use as GPIO.
-	 */
-	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
-
-
-	/*
-	 *	RST high->low->high.
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
-	OSA_TimeDelay(100);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinRST);
-	OSA_TimeDelay(100);
-	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
-	OSA_TimeDelay(100);
-
-	/*
-	 *	Initialization sequence, borrowed from https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino
-	 */
-	writeCommand(kSSD1331CommandDISPLAYOFF);	// 0xAE
-	writeCommand(kSSD1331CommandSETREMAP);		// 0xA0
-	writeCommand(0x72);				// RGB Color
-	writeCommand(kSSD1331CommandSTARTLINE);		// 0xA1
-	writeCommand(0x0);
-	writeCommand(kSSD1331CommandDISPLAYOFFSET);	// 0xA2
-	writeCommand(0x0);
-	writeCommand(kSSD1331CommandNORMALDISPLAY);	// 0xA4
-	writeCommand(kSSD1331CommandSETMULTIPLEX);	// 0xA8
-	writeCommand(0x3F);				// 0x3F 1/64 duty
-	writeCommand(kSSD1331CommandSETMASTER);		// 0xAD
-	writeCommand(0x8E);
-	writeCommand(kSSD1331CommandPOWERMODE);		// 0xB0
-	writeCommand(0x0B);
-	writeCommand(kSSD1331CommandPRECHARGE);		// 0xB1
-	writeCommand(0x31);
-	writeCommand(kSSD1331CommandCLOCKDIV);		// 0xB3
-	writeCommand(0xF0);				// 7:4 = Oscillator Frequency, 3:0 = CLK Div Ratio (A[3:0]+1 = 1..16)
-	writeCommand(kSSD1331CommandPRECHARGEA);	// 0x8A
-	writeCommand(0x64);
-	writeCommand(kSSD1331CommandPRECHARGEB);	// 0x8B
-	writeCommand(0x78);
-	writeCommand(kSSD1331CommandPRECHARGEA);	// 0x8C
-	writeCommand(0x64);
-	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB
-	writeCommand(0x3A);
-	writeCommand(kSSD1331CommandVCOMH);		// 0xBE
-	writeCommand(0x3E);
-	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
-	writeCommand(0x06);
-	writeCommand(kSSD1331CommandCONTRASTA);		// 0x81
-	writeCommand(0x91);
-	writeCommand(kSSD1331CommandCONTRASTB);		// 0x82
-	writeCommand(0x50);
-	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
-	writeCommand(0x7D);
-	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
-
-	/*
-	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
-	 */
-	writeCommand(kSSD1331CommandFILL);
-	writeCommand(0x01);
-
-	/*
-	 *	Clear Screen
-	 */
-	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-
-
-
-	/*
-	 *	Any post-initialization drawing commands go here.
-	 */
-	//...
-	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB Stage 2
-	writeCommand(0x3F); //max
-	
-	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEB);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEC);
-	writeCommand(0xFF);
-	
-
-	
-	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
-	writeCommand(0x0F); // max
-	
-	writeCommand(kSSD1331CommandCONTRASTA);  // B
-	writeCommand(0xFF); // max		
-	writeCommand(kSSD1331CommandCONTRASTB);	   //G
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandCONTRASTC);		// R,
-	writeCommand(0xFF);
-
-
-	
-	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
-
-
-	// inner rect
-	writeCommand(0x00);
-	writeCommand(0x00);
-
-	// border
-	writeCommand(0x5F);					// max
-	writeCommand(0x3F);					// max
-
-	
-	/*
-	Color C of the line
-	Color B of the line
-	Color A of the line
-	Color C of the fill area
-	Color B of the fill area
-	Color A of the fill area 
- 	6 bits so brightest is 63d
-	*/
-							
-	writeCommand(0x00);
-	writeCommand(0x3F);
-	writeCommand(0x00);
-			
-	writeCommand(0x00);
-	writeCommand(0x3F);
-	writeCommand(0x00);
-
-
-	return 0;
-}
-
-void devSSD1331_set_up(void){
-		/*
-	 *	Clear Screen
-	 */
-	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0x5F);
-	writeCommand(0x3F);
-
-
-
-	/*
-	 *	Any post-initialization drawing commands go here.
-	 */
-	//...
-	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB Stage 2
-	writeCommand(0x3F); //max
-	
-	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEB);
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandPRECHARGEC);
-	writeCommand(0xFF);
-	
-
-	
-	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
-	writeCommand(0x0F); // max
-	
-	writeCommand(kSSD1331CommandCONTRASTA);  // B
-	writeCommand(0xFF); // max		
-	writeCommand(kSSD1331CommandCONTRASTB);	   //G
-	writeCommand(0xFF);
-	writeCommand(kSSD1331CommandCONTRASTC);		// R,
-	writeCommand(0xFF);
-	
-}
-
-// decent
-void devSSD1331_blink_red(void){
-
-	// set up
-	warpEnableSPIpins();
-	devSSD1331_set_up();
-
-	for (int i; i<5; i++){
-		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
-	
-	
-		// inner rect
-		writeCommand(0x00);
-		writeCommand(0x00);
-	
-		// border
-		writeCommand(0x5F);					// max
-		writeCommand(0x3F);					// max
-	
-		
-		/*
-		Color C of the line
-		Color B of the line
-		Color A of the line
-		Color C of the fill area
-		Color B of the fill area
-		Color A of the fill area 
-	 	6 bits so brightest is 63d
-		*/
-								
-		
-		writeCommand(0x3F);
-		writeCommand(0x00);
-		writeCommand(0x00);
-				
-		writeCommand(0x3F);
-		writeCommand(0x00);
-		writeCommand(0x00);
-	
-		OSA_TimeDelay(500);
-		
-		writeCommand(kSSD1331CommandCLEAR);
-		writeCommand(0x00);
-		writeCommand(0x00);
-		writeCommand(0x5F);
-		writeCommand(0x3F);
-
-	}
-	warpDisableSPIpins();
-}
-
-
-// decent
-void devSSD1331_blink_green(void){
-
-	// set up
-	warpEnableSPIpins();
-	devSSD1331_set_up();
-
-	for (int i; i<5; i++){
-		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
-	
-	
-		// inner rect
-		writeCommand(0x00);
-		writeCommand(0x00);
-	
-		// border
-		writeCommand(0x5F);					// max
-		writeCommand(0x3F);					// max
-	
-		
-		/*
-		Color C of the line
-		Color B of the line
-		Color A of the line
-		Color C of the fill area
-		Color B of the fill area
-		Color A of the fill area 
-	 	6 bits so brightest is 63d
-		*/
-								
-		
-		
-		writeCommand(0x00);
-		writeCommand(0x3F);
-		writeCommand(0x00);
-				
-		
-		writeCommand(0x00);
-		writeCommand(0x3F);
-		writeCommand(0x00);
-	
-		OSA_TimeDelay(500);
-		
-		writeCommand(kSSD1331CommandCLEAR);
-		writeCommand(0x00);
-		writeCommand(0x00);
-		writeCommand(0x5F);
-		writeCommand(0x3F);
-
-	}
-	warpDisableSPIpins();
-}
+const uint8_t bytesPerMeasurementMMA8451Q            = 6;
+const uint8_t bytesPerReadingMMA8451Q                = 2;
+const uint8_t numberOfReadingsPerMeasurementMMA8451Q = 3;
