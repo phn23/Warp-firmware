@@ -476,7 +476,7 @@ int16_t z_acceleration;
 THE BIG WORKING LOOP
 ************************************************************************/
 
-int normal_loop() {
+bool normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
@@ -484,6 +484,8 @@ int normal_loop() {
     while (true) {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+		warpPrint(x_acceleration, y_acceleration, z_acceleration);
+		warpPrint("\n");
 
         if (x_acceleration > threshold_anomaly || 
 	    y_acceleration > threshold_anomaly || 
@@ -503,6 +505,8 @@ int normal_loop() {
 		while (OSA_TimeGetMsec() - timeAtStart < 5000){
 
 			get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+			warpPrint(x_acceleration, y_acceleration, z_acceleration);
+			warpPrint("\n");
 
 			if (x_acceleration > threshold_anomaly) {
 				anomaly_count_x ++;
@@ -523,11 +527,11 @@ int normal_loop() {
 				anomaly_count_z < threshold_anomaly_count) &
 				total_anomaly_count < total_threshold_anomaly_count) {
 
-				return 1;
+				return true;
 			} 
-			
+
 			else {
-				return 0;
+				return false;
 			}
         }
     }
