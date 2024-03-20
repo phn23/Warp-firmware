@@ -61,7 +61,6 @@ writeCommand(uint8_t commandByte)
 	 */
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 
-
 	return status;
 }
 
@@ -216,9 +215,6 @@ devSSD1331init(void)
 	writeCommand(0x3F);
 	writeCommand(0x00);
 
-	OSA_TimeDelay(3000);
-	warpDisableSPIpins();
-
 
 	return 0;
 }
@@ -267,6 +263,7 @@ void devSSD1331_set_up(void){
 void devSSD1331_blink_red(void){
 
 	// set up
+	warpEnableSPIpins();
 	devSSD1331_set_up();
 
 	for (int i; i<5; i++){
@@ -310,6 +307,7 @@ void devSSD1331_blink_red(void){
 		writeCommand(0x3F);
 
 	}
+	warpDisableSPIpins();
 }
 
 
@@ -317,6 +315,7 @@ void devSSD1331_blink_red(void){
 void devSSD1331_blink_green(void){
 
 	// set up
+	warpEnableSPIpins();
 	devSSD1331_set_up();
 
 	for (int i; i<5; i++){
@@ -362,4 +361,5 @@ void devSSD1331_blink_green(void){
 		writeCommand(0x3F);
 
 	}
+	warpDisableSPIpins();
 }
