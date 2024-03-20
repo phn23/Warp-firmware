@@ -487,10 +487,13 @@ bool normal_loop() {
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 		warpPrint(x_acceleration, y_acceleration, z_acceleration);
 		warpPrint("\n");
+		warpPrint("Loop is working \n")
 
         if (x_acceleration > threshold_anomaly || 
 			y_acceleration > threshold_anomaly || 
 			z_acceleration > threshold_anomaly) {
+
+				warpPrint("Loop is working \n")
 
 
 /***************************************************************************
@@ -498,44 +501,44 @@ bool normal_loop() {
 ***************************************************************************/
             // recall maximum is FFFF = 65535
 
-		int threshold_anomaly_count = 25;
-	    int total_threshold_anomaly_count = (int) threshold_anomaly_count * 1.5;
+			int threshold_anomaly_count = 25;
+			int total_threshold_anomaly_count = (int) threshold_anomaly_count * 1.5;
 
-		// get current time
-		uint32_t timeAtStart = OSA_TimeGetMsec();
-		while (OSA_TimeGetMsec() - timeAtStart < 5000){
+			// get current time
+			uint32_t timeAtStart = OSA_TimeGetMsec();
+			while (OSA_TimeGetMsec() - timeAtStart < 5000){
 
-			get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-			warpPrint(x_acceleration, y_acceleration, z_acceleration);
-			warpPrint("\n");
+				get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+				warpPrint(x_acceleration, y_acceleration, z_acceleration);
+				warpPrint("Inside small lop\n");
 
-			if (x_acceleration > threshold_anomaly) {
-				anomaly_count_x ++;
+				if (x_acceleration > threshold_anomaly) {
+					anomaly_count_x ++;
+				}
+				if (y_acceleration > threshold_anomaly)
+				{
+					anomaly_count_y ++;
+				}
+				if (z_acceleration > threshold_anomaly)
+				{
+					anomaly_count_z ++;
+				}
+				OSA_TimeDelay(100);				
 			}
-			if (y_acceleration > threshold_anomaly)
-			{
-				anomaly_count_y ++;
-			}
-			if (z_acceleration > threshold_anomaly)
-			{
-				anomaly_count_z ++;
-			}
-			OSA_TimeDelay(100);				
-		}
-		int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
-		warpDisableI2Cpins();
-		
-			if ((anomaly_count_x > threshold_anomaly_count ||
-				anomaly_count_y < threshold_anomaly_count ||
-				anomaly_count_z < threshold_anomaly_count) &
-				total_anomaly_count < total_threshold_anomaly_count) {
+			int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
+			warpDisableI2Cpins();
+			
+				if ((anomaly_count_x > threshold_anomaly_count ||
+					anomaly_count_y < threshold_anomaly_count ||
+					anomaly_count_z < threshold_anomaly_count) &
+					total_anomaly_count < total_threshold_anomaly_count) {
 
-				return 1;
-			} 
+					return 1;
+				} 
 
-			else {
-				return 0;
-			}
+				else {
+					return 0;
+				}
         }
     }
 }
