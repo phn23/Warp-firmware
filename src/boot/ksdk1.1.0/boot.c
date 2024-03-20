@@ -1970,19 +1970,18 @@ main(void)
 		readSensorRegisterMMA8451Q(0x01, 6);
 		printSensorDataMMA8451Q(1);
 
-		MMA8541Q_get_acceleration_x()
-		
+				
 		int32_t x_acc_test;
 		// uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
 		// while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
 		// 	// get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
 		// 	readSensorRegisterMMA8451Q(0x01, 6);
 		// 	
-			
+		for (int i = 0; i<1000; i++){
 			x_acc_test = MMA8541Q_get_acceleration_x()
 			printSensorDataMMA8451Q(1);
 			warpPrint("\n", x_acc_test);
-		// }
+		}
 		// warpPrint("test loop done\n");
 
 		
