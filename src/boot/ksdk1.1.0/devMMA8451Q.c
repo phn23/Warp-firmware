@@ -493,7 +493,7 @@ bool normal_loop() {
 			y_acceleration > threshold_anomaly || 
 			z_acceleration > threshold_anomaly) {
 
-				warpPrint("Loop is working \n")
+				warpPrint("Entered if statement \n");
 
 
 /***************************************************************************
