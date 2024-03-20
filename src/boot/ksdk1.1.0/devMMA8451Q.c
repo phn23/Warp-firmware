@@ -470,7 +470,9 @@ int32_t MMA8541Q_get_acceleration_x() {
 	// value even if it's an unfortunate extra step
 
 	// first calibrate
-	writeSensorRegisterINA219(0x01, 2);
+
+	// then read
+	readSensorRegisterMMA8451Q(0x01, 2);
 	
 	readSensorRegisterValueCombined = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
 	
