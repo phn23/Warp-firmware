@@ -1953,9 +1953,9 @@ main(void)
 		warpPrint("Added init start \n");
 
 		// This lights up the OLED to show it is working and the task is about to begin
-		devSSD1331init();
+		// devSSD1331init();
 		OSA_TimeDelay(3000);
-		warpDisableSPIpins();
+		// warpDisableSPIpins();
 
 		warpPrint("Added init ends \n");
 		
