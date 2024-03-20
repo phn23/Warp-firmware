@@ -523,6 +523,7 @@ bool normal_loop() {
 			OSA_TimeDelay(100);				
 		}
 		int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
+		warpDisableI2Cpins();
 		
 			if ((anomaly_count_x > threshold_anomaly_count ||
 				anomaly_count_y < threshold_anomaly_count ||
