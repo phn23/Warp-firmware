@@ -489,6 +489,11 @@ bool normal_loop() {
 		warpPrint("\n");
 		warpPrint("big while loop is working \n");
 
+		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print again\n");
+		printSensorDataMMA8451Q(0);
+		warpPrint("\n")
+
         if (x_acceleration > threshold_anomaly || 
 			y_acceleration > threshold_anomaly || 
 			z_acceleration > threshold_anomaly) {
