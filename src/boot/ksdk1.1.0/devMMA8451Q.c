@@ -487,7 +487,7 @@ bool normal_loop() {
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 		warpPrint(x_acceleration, y_acceleration, z_acceleration);
 		warpPrint("\n");
-		warpPrint("Loop is working \n")
+		warpPrint("big while loop is working \n");
 
         if (x_acceleration > threshold_anomaly || 
 			y_acceleration > threshold_anomaly || 
