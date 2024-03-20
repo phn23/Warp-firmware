@@ -427,8 +427,10 @@ appendSensorDataMMA8451Q(uint8_t* buf)
 
 
 
+
+
 /************************************************************************
-READ FROM ACCELEROMETER
+READ FROM ALL ACCELEROMETERS
 ************************************************************************/
 /* Data registers: 0x01 OUT_X_MSB, 0x02 OUT_X_LSB, 0x03 OUT_Y_MSB, 0x04 OUT_Y_LSB, 0x05 OUT_Z_MSB, 0x06 OUT_Z_LSB
 These registers contain the X-axis, Y-axis, and Z-axis, and 14-bit output sample data expressed as 2's complement numbers. 
@@ -456,7 +458,36 @@ void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
 
 
 
+int32_t MMA8541Q_get_acceleration_x() {
+	uint16_t  readSensorRegisterValueMSB;
+	uint16_t  readSensorRegisterValueLSB;
+	uint16_t  readSensorRegisterValueCombined; // -/+ 32767
 
+
+	// Sometimes a sharp load will reset the INA219, which will
+	// reset the cal register, meaning CURRENT and POWER will
+	// not be available ... avoid this by always setting a cal
+	// value even if it's an unfortunate extra step
+
+	// first calibrate
+	writeSensorRegisterINA219(0x01, 2);
+	
+	readSensorRegisterValueCombined = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
+	
+	return readSensorRegisterValueCombined;
+}
+
+
+// int32_t INA219_getCurrent_uA(){
+// 	int32_t valueDec;
+// 	int32_t readSensorRegisterValueCombined;
+// 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
+	
+// 	// multiply by LSB unit
+// 	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_uA ; // get microamp
+	
+// 	return valueDec;
+// }
 
 /****************************************************************
 See flowchart for logics
