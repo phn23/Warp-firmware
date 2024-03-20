@@ -1971,17 +1971,19 @@ main(void)
 		warpPrint("\n");
 
 		OSA_TimeDelay(100);
-		int16_t x_acceleration;
-		int16_t y_acceleration;
-		int16_t z_acceleration;
 
-		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
+
+		int16_t x_acceleration_test;
+		int16_t y_acceleration_test;
+		int16_t z_acceleration_test;
+
+		get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
+		warpPrint("%d, %d, %d \n", x_acceleration_test, y_acceleration_test, z_acceleration_test);
 
 		
 		OSA_TimeDelay(100);
-		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
+		get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
+		warpPrint("%d, %d, %d \n", x_acceleration_test, y_acceleration_test, z_acceleration_test);
 
 		warpPrint("big_loop start \n");
 		// bool performance = normal_loop();
