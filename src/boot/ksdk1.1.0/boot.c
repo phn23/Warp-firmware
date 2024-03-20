@@ -1956,6 +1956,9 @@ main(void)
 		devSSD1331init();
 
 		warpPrint("Added init ends \n");
+		
+		readSensorRegisterMMA8451Q();
+		printSensorDataMMA8451Q(0);
 			
 
 		// warpPrint("big_loop start \n");
