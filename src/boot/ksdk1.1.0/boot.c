@@ -1948,62 +1948,66 @@ main(void)
 
 	
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
+
+		readSensorRegisterMMA8451Q(0x01, 1);
+		printSensorDataMMA8451Q(0);
+		
 	
 		warpPrint("Added init start \n");
 		devSSD1331init();
-		warpPrint("Added init ends \n");
+		// warpPrint("Added init ends \n");
 			
-		// this is an infinite loop right?
-		warpPrint("big_loop start \n");
-		// readSensorRegisterMMA8451Q(0x01, 6);
-		// printSensorDataMMA8451Q(1);
-		// int performance = normal_loop();
-		warpPrint("big_loop ends \n");
+		// // this is an infinite loop right?
+		// warpPrint("big_loop start \n");
+		// // readSensorRegisterMMA8451Q(0x01, 6);
+		// // printSensorDataMMA8451Q(1);
+		// // int performance = normal_loop();
+		// warpPrint("big_loop ends \n");
 
 
-		OSA_TimeDelay(5000);
-		warpPrint("delay done\n");
+		// OSA_TimeDelay(5000);
+		// warpPrint("delay done\n");
 
-		// readSensorRegisterMMA8451Q(0x01, 6);
-		// printSensorDataMMA8451Q(1);
+		// // readSensorRegisterMMA8451Q(0x01, 6);
+		// // printSensorDataMMA8451Q(1);
 		
-		int16_t x_acceleration_test;
-		int16_t y_acceleration_test;
-		int16_t z_acceleration_test;
+		// int16_t x_acceleration_test;
+		// int16_t y_acceleration_test;
+		// int16_t z_acceleration_test;
 				
-		int32_t x_acc_test;
-		uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
-		while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
-			get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
-			warpPrint("%d \n", x_acceleration_test);
-			OSA_TimeDelay(100);
-			// warpPrint("\n");
+		// int32_t x_acc_test;
+		// uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
+		// while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
+		// 	get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
+		// 	warpPrint("%d \n", x_acceleration_test);
+		// 	OSA_TimeDelay(100);
+		// 	// warpPrint("\n");
 			
-		// 	readSensorRegisterMMA8451Q(0x01, 6);
+		// // 	readSensorRegisterMMA8451Q(0x01, 6);
 		
-		}	
-		// for (int i = 0; i<100; i++){
-		// 	// x_acc_test = MMA8541Q_get_acceleration_x();
+		// }	
+		// // for (int i = 0; i<100; i++){
+		// // 	// x_acc_test = MMA8541Q_get_acceleration_x();
 
-		// 	// this should print all 3 combined values;
-		// 	// 0 means decimal
-		// 	printSensorDataMMA8451Q(0);
+		// // 	// this should print all 3 combined values;
+		// // 	// 0 means decimal
+		// // 	printSensorDataMMA8451Q(0);
 			
-		// 	// warpPrint("%d \n", x_acc_test);
-		// 	warpPrint("\n");
+		// // 	// warpPrint("%d \n", x_acc_test);
+		// // 	warpPrint("\n");
+		// // }
+		// // warpPrint("test loop done\n");
+
+		
+
+		// bool performance = true;
+		// if (performance == 1){
+		// 	devSSD1331_blink_green();
 		// }
-		// warpPrint("test loop done\n");
-
-		
-
-		bool performance = true;
-		if (performance == 1){
-			devSSD1331_blink_green();
-		}
-		else{ // unsuccessful
-			devSSD1331_blink_red();
-		}
-		warpPrint("classification display task ends\n");
+		// else{ // unsuccessful
+		// 	devSSD1331_blink_red();
+		// }
+		// warpPrint("classification display task ends\n");
 		
 	// OSA_TimeDelay(200);
 	
