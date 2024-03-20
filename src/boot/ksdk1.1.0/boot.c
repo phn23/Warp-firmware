@@ -1,4 +1,3 @@
-// working version
 /*
 	Authored 2016-2018. Phillip Stanley-Marbell.
 
@@ -1971,7 +1970,15 @@ main(void)
 		printSensorDataMMA8451Q(1);
 		warpPrint("\n");
 
-		// // warpPrint("big_loop start \n");
+		OSA_TimeDelay(100);
+		int16_t x_acceleration;
+		int16_t y_acceleration;
+		int16_t z_acceleration;
+
+		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
+
+		warpPrint("big_loop start \n");
 		// bool performance = normal_loop();
 		
 		// warpPrint("normal loop ends and the classification flag is obtained \n");
