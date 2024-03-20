@@ -1961,13 +1961,13 @@ main(void)
 		
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
-		printSensorDataMMA8451Q(0);
+		printSensorDataMMA8451Q(1);
 		warpPrint("\n");
 
-		OSA_TimeDelay(500);
+		OSA_TimeDelay(100);
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print 2\n");
-		printSensorDataMMA8451Q(0);
+		printSensorDataMMA8451Q(1);
 		warpPrint("\n");
 
 		// // warpPrint("big_loop start \n");
