@@ -1964,6 +1964,7 @@ main(void)
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
 
+		OSA_TimeDelay(500);
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print 2\n");
 		printSensorDataMMA8451Q(0);
