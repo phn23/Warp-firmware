@@ -1976,6 +1976,7 @@ main(void)
 		else{
 			devSSD1331_blink_red();
 		}
+		warpPrint("classification display tast ends\n");
 		
 	// OSA_TimeDelay(200);
 	
