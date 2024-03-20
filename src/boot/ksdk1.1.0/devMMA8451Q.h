@@ -1,539 +1,365 @@
-/*
-	Authored 2016-2018. Phillip Stanley-Marbell. Additional contributors,
-	2018-onwards, see git log.
-
-	All rights reserved.
-
-	Redistribution and use in source and binary forms, with or without
-	modification, are permitted provided that the following conditions
-	are met:
-
-	*	Redistributions of source code must retain the above
-		copyright notice, this list of conditions and the following
-		disclaimer.
-
-	*	Redistributions in binary form must reproduce the above
-		copyright notice, this list of conditions and the following
-		disclaimer in the documentation and/or other materials
-		provided with the distribution.
-
-	*	Neither the name of the author nor the names of its
-		contributors may be used to endorse or promote products
-		derived from this software without specific prior written
-		permission.
-
-	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-	POSSIBILITY OF SUCH DAMAGE.
-*/
-#include <stdlib.h>
-#include <stdio.h>>
+#include <stdint.h>
 
 /*
  *	config.h needs to come first
  */
 #include "config.h"
 
-#include "fsl_misc_utilities.h"
-#include "fsl_device_registers.h"
-#include "fsl_i2c_master_driver.h"
 #include "fsl_spi_master_driver.h"
-#include "fsl_rtc_driver.h"
-#include "fsl_clock_manager.h"
-#include "fsl_power_manager.h"
-#include "fsl_mcglite_hal.h"
 #include "fsl_port_hal.h"
 
-#include "gpio_pins.h"
 #include "SEGGER_RTT.h"
+#include "gpio_pins.h"
 #include "warp.h"
-#include "devMMA8451Q.h"
+#include "devSSD1331.h"
+
+volatile uint8_t	inBuffer[1];
+volatile uint8_t	payloadBytes[1];
 
 
+/*
+ *	Override Warp firmware's use of these pins and define new aliases.
+ */
+// enum
+// {
+// 	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
+// 	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
+// 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
+// 	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
+// 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
+// };
 
-extern volatile WarpI2CDeviceState	deviceMMA8451QState;
-extern volatile uint32_t		gWarpI2cBaudRateKbps;
-extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
-extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
-
-
-
-void
-initMMA8451Q(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
+static int
+writeCommand(uint8_t commandByte)
 {
-	deviceMMA8451QState.i2cAddress			= i2cAddress;
-	deviceMMA8451QState.operatingVoltageMillivolts	= operatingVoltageMillivolts;
-
-	return;
-}
-
-WarpStatus
-writeSensorRegisterMMA8451Q(uint8_t deviceRegister, uint8_t payload)
-{
-	uint8_t		payloadByte[1], commandByte[1];
-	i2c_status_t	status;
-
-	switch (deviceRegister)
-	{
-		case 0x09: case 0x0a: case 0x0e: case 0x0f:
-		case 0x11: case 0x12: case 0x13: case 0x14:
-		case 0x15: case 0x17: case 0x18: case 0x1d:
-		case 0x1f: case 0x20: case 0x21: case 0x23:
-		case 0x24: case 0x25: case 0x26: case 0x27:
-		case 0x28: case 0x29: case 0x2a: case 0x2b:
-		case 0x2c: case 0x2d: case 0x2e: case 0x2f:
-		case 0x30: case 0x31:
-		{
-			/* OK */
-			break;
-		}
-
-		default:
-		{
-			return kWarpStatusBadDeviceCommand;
-		}
-	}
-
-	i2c_device_t slave =
-		{
-		.address = deviceMMA8451QState.i2cAddress,
-		.baudRate_kbps = gWarpI2cBaudRateKbps
-	};
-
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-	commandByte[0] = deviceRegister;
-	payloadByte[0] = payload;
-	warpEnableI2Cpins();
-
-	status = I2C_DRV_MasterSendDataBlocking(
-		0 /* I2C instance */,
-		&slave,
-		commandByte,
-		1,
-		payloadByte,
-		1,
-		gWarpI2cTimeoutMilliseconds);
-	if (status != kStatus_I2C_Success)
-	{
-		return kWarpStatusDeviceCommunicationFailed;
-	}
-
-	return kWarpStatusOK;
-}
-
-WarpStatus
-configureSensorMMA8451Q(uint8_t payloadF_SETUP, uint8_t payloadCTRL_REG1)
-{
-	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
-
-
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-
-	i2cWriteStatus1 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QF_SETUP /* register address F_SETUP */,
-												  payloadF_SETUP /* payload: Disable FIFO */
-	);
-
-	i2cWriteStatus2 = writeSensorRegisterMMA8451Q(kWarpSensorConfigurationRegisterMMA8451QCTRL_REG1 /* register address CTRL_REG1 */,
-												  payloadCTRL_REG1 /* payload */
-	);
-
-	return (i2cWriteStatus1 | i2cWriteStatus2);
-}
-
-WarpStatus
-readSensorRegisterMMA8451Q(uint8_t deviceRegister, int numberOfBytes)
-{
-	uint8_t		cmdBuf[1] = {0xFF};
-	i2c_status_t	status;
-
-
-	USED(numberOfBytes);
-	switch (deviceRegister)
-	{
-		case 0x00: case 0x01: case 0x02: case 0x03:
-		case 0x04: case 0x05: case 0x06: case 0x09:
-		case 0x0a: case 0x0b: case 0x0c: case 0x0d:
-		case 0x0e: case 0x0f: case 0x10: case 0x11:
-		case 0x12: case 0x13: case 0x14: case 0x15:
-		case 0x16: case 0x17: case 0x18: case 0x1d:
-		case 0x1e: case 0x1f: case 0x20: case 0x21:
-		case 0x22: case 0x23: case 0x24: case 0x25:
-		case 0x26: case 0x27: case 0x28: case 0x29:
-		case 0x2a: case 0x2b: case 0x2c: case 0x2d:
-		case 0x2e: case 0x2f: case 0x30: case 0x31:
-		{
-			/* OK */
-			break;
-		}
-
-		default:
-		{
-			return kWarpStatusBadDeviceCommand;
-		}
-	}
-
-	i2c_device_t slave =
-		{
-		.address = deviceMMA8451QState.i2cAddress,
-		.baudRate_kbps = gWarpI2cBaudRateKbps
-	};
-
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-	cmdBuf[0] = deviceRegister;
-	warpEnableI2Cpins();
-
-	status = I2C_DRV_MasterReceiveDataBlocking(
-		0 /* I2C peripheral instance */,
-		&slave,
-		cmdBuf,
-		1,
-		(uint8_t *)deviceMMA8451QState.i2cBuffer,
-		numberOfBytes,
-		gWarpI2cTimeoutMilliseconds);
-
-	if (status != kStatus_I2C_Success)
-	{
-		return kWarpStatusDeviceCommunicationFailed;
-	}
-
-	return kWarpStatusOK;
-}
-
-void
-printSensorDataMMA8451Q(bool hexModeFlag)
-{
-	uint16_t	readSensorRegisterValueLSB;
-	uint16_t	readSensorRegisterValueMSB;
-	int16_t		readSensorRegisterValueCombined;
-	WarpStatus	i2cReadStatus;
-
-
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
+	spi_status_t status;
 
 	/*
-	 *	From the MMA8451Q datasheet:
+	 *	Drive /CS low.
 	 *
-	 *		"A random read access to the LSB registers is not possible.
-	 *		Reading the MSB register and then the LSB register in sequence
-	 *		ensures that both bytes (LSB and MSB) belong to the same data
-	 *		sample, even if a new data sample arrives between reading the
-	 *		MSB and the LSB byte."
-	 *
-	 *	We therefore do 2-byte read transactions, for each of the registers.
-	 *	We could also improve things by doing a 6-byte read transaction.
+	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
 	 */
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
+	OSA_TimeDelay(10);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	Drive DC low (command).
 	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		warpPrint(" ----,");
-	}
-	else
-	{
-		if (hexModeFlag)
-		{
-			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
-		}
-		else
-		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
-		}
-	}
-
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	payloadBytes[0] = commandByte;
+	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
+					NULL		/* spi_master_user_config_t */,
+					(const uint8_t * restrict)&payloadBytes[0],
+					(uint8_t * restrict)&inBuffer[0],
+					1		/* transfer size */,
+					1000		/* timeout in microseconds (unlike I2C which is ms) */);
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	Drive /CS high
 	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		warpPrint(" ----,");
-	}
-	else
-	{
-		if (hexModeFlag)
-		{
-			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
-		}
-		else
-		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
-		}
-	}
-
-	i2cReadStatus = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
-
-	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
-	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
-
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		warpPrint(" ----,");
-	}
-	else
-	{
-		if (hexModeFlag)
-		{
-			warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
-		}
-		else
-		{
-			warpPrint(" %d,", readSensorRegisterValueCombined);
-		}
-	}
+	return status;
 }
 
-uint8_t
-appendSensorDataMMA8451Q(uint8_t* buf)
+
+
+int
+devSSD1331init(void)
 {
-	uint8_t index = 0;
-	uint16_t readSensorRegisterValueLSB;
-	uint16_t readSensorRegisterValueMSB;
-	int16_t readSensorRegisterValueCombined;
-	WarpStatus i2cReadStatus;
-
-	warpScaleSupplyVoltage(deviceMMA8451QState.operatingVoltageMillivolts);
-
 	/*
-	 *	From the MMA8451Q datasheet:
+	 *	Override Warp firmware's use of these pins.
 	 *
-	 *		"A random read access to the LSB registers is not possible.
-	 *		Reading the MSB register and then the LSB register in sequence
-	 *		ensures that both bytes (LSB and MSB) belong to the same data
-	 *		sample, even if a new data sample arrives between reading the
-	 *		MSB and the LSB byte."
+	 *	Re-configure SPI to be on PTA8 and PTA9 for MOSI and SCK respectively.
+	 */
+	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
+	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
+
+	warpEnableSPIpins();
+
+	/*
+	 *	Override Warp firmware's use of these pins.
 	 *
-	 *	We therefore do 2-byte read transactions, for each of the registers.
-	 *	We could also improve things by doing a 6-byte read transaction.
+	 *	Reconfigure to use as GPIO.
 	 */
-	i2cReadStatus                   = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_X_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB      = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB      = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
+
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	RST high->low->high.
 	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
-
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		buf[index] = 0;
-		index += 1;
-
-		buf[index] = 0;
-		index += 1;
-	}
-	else
-	{
-		/*
-		 * MSB first
-		 */
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined >> 8);
-		index += 1;
-
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined);
-		index += 1;
-	}
-
-	i2cReadStatus                   = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Y_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB      = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB      = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
+	OSA_TimeDelay(100);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinRST);
+	OSA_TimeDelay(100);
+	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
+	OSA_TimeDelay(100);
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	Initialization sequence, borrowed from https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino
 	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
-
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		buf[index] = 0;
-		index += 1;
-
-		buf[index] = 0;
-		index += 1;
-	}
-	else
-	{
-		/*
-		 * MSB first
-		 */
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined >> 8);
-		index += 1;
-
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined);
-		index += 1;
-	}
-
-	i2cReadStatus                   = readSensorRegisterMMA8451Q(kWarpSensorOutputRegisterMMA8451QOUT_Z_MSB, 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB      = deviceMMA8451QState.i2cBuffer[0];
-	readSensorRegisterValueLSB      = deviceMMA8451QState.i2cBuffer[1];
-	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
+	writeCommand(kSSD1331CommandDISPLAYOFF);	// 0xAE
+	writeCommand(kSSD1331CommandSETREMAP);		// 0xA0
+	writeCommand(0x72);				// RGB Color
+	writeCommand(kSSD1331CommandSTARTLINE);		// 0xA1
+	writeCommand(0x0);
+	writeCommand(kSSD1331CommandDISPLAYOFFSET);	// 0xA2
+	writeCommand(0x0);
+	writeCommand(kSSD1331CommandNORMALDISPLAY);	// 0xA4
+	writeCommand(kSSD1331CommandSETMULTIPLEX);	// 0xA8
+	writeCommand(0x3F);				// 0x3F 1/64 duty
+	writeCommand(kSSD1331CommandSETMASTER);		// 0xAD
+	writeCommand(0x8E);
+	writeCommand(kSSD1331CommandPOWERMODE);		// 0xB0
+	writeCommand(0x0B);
+	writeCommand(kSSD1331CommandPRECHARGE);		// 0xB1
+	writeCommand(0x31);
+	writeCommand(kSSD1331CommandCLOCKDIV);		// 0xB3
+	writeCommand(0xF0);				// 7:4 = Oscillator Frequency, 3:0 = CLK Div Ratio (A[3:0]+1 = 1..16)
+	writeCommand(kSSD1331CommandPRECHARGEA);	// 0x8A
+	writeCommand(0x64);
+	writeCommand(kSSD1331CommandPRECHARGEB);	// 0x8B
+	writeCommand(0x78);
+	writeCommand(kSSD1331CommandPRECHARGEA);	// 0x8C
+	writeCommand(0x64);
+	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB
+	writeCommand(0x3A);
+	writeCommand(kSSD1331CommandVCOMH);		// 0xBE
+	writeCommand(0x3E);
+	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
+	writeCommand(0x06);
+	writeCommand(kSSD1331CommandCONTRASTA);		// 0x81
+	writeCommand(0x91);
+	writeCommand(kSSD1331CommandCONTRASTB);		// 0x82
+	writeCommand(0x50);
+	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
+	writeCommand(0x7D);
+	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
 	 */
-	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
+	writeCommand(kSSD1331CommandFILL);
+	writeCommand(0x01);
 
-	if (i2cReadStatus != kWarpStatusOK)
-	{
-		buf[index] = 0;
-		index += 1;
-
-		buf[index] = 0;
-		index += 1;
-	}
-	else
-	{
-		/*
-		 * MSB first
-		 */
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined >> 8);
-		index += 1;
-
-		buf[index] = (uint8_t)(readSensorRegisterValueCombined);
-		index += 1;
-	}
-	return index;
-}
-
-
-/************************************************************************
-READ FROM ALL ACCELEROMETERS
-************************************************************************/
-/* Data registers: 0x01 OUT_X_MSB, 0x02 OUT_X_LSB, 0x03 OUT_Y_MSB, 0x04 OUT_Y_LSB, 0x05 OUT_Z_MSB, 0x06 OUT_Z_LSB
-These registers contain the X-axis, Y-axis, and Z-axis, and 14-bit output sample data expressed as 2's complement numbers. 
-inputs are pointers as these values are to be modified */
-void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
-    // all 3 dim
-    readSensorRegisterMMA8451Q(0x01, 6);
-
-    // x
-	int16_t readSensorRegisterValueCombined_x = (( deviceMMA8451QState.i2cBuffer[0] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[1] >> 2);
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	Clear Screen
 	 */
-	*x_acc = (readSensorRegisterValueCombined_x ^ (1 << 13)) - (1 << 13);
-    
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
 
-    // y
-	int16_t readSensorRegisterValueCombined_y = (( deviceMMA8451QState.i2cBuffer[2] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[3] >> 2);
-	*y_acc = (readSensorRegisterValueCombined_y ^ (1 << 13)) - (1 << 13);
-    
-    // z
-	int16_t readSensorRegisterValueCombined_z = (( deviceMMA8451QState.i2cBuffer[4] & 0xFF) << 6) | ( deviceMMA8451QState.i2cBuffer[5] >> 2);
-	*z_acc = (readSensorRegisterValueCombined_z ^ (1 << 13)) - (1 << 13);
-}
 
-// int32_t INA219_getCurrent_uA(){
-// 	int32_t valueDec;
-// 	int32_t readSensorRegisterValueCombined;
-// 	readSensorRegisterValueCombined = INA219_getCurrent_raw();
+
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	//...
+	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB Stage 2
+	writeCommand(0x3F); //max
 	
-// 	// multiply by LSB unit
-// 	valueDec = readSensorRegisterValueCombined *  INA219_currentMultiplier_uA ; // get microamp
+	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEB);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEC);
+	writeCommand(0xFF);
 	
-// 	return valueDec;
-// }
 
-/****************************************************************
-See flowchart for logics
-****************************************************************/
-
-
-int16_t x_acceleration;
-int16_t y_acceleration;
-int16_t z_acceleration;
-/************************************************************************
-THE BIG WORKING LOOP
-************************************************************************/
-
-bool normal_loop() {
-	uint16_t anomaly_count_x = 0;
-	uint16_t anomaly_count_y = 0;
-	uint16_t anomaly_count_z = 0;
-	int16_t threshold_anomaly = 20000;
 	
-    while (true) {
-
-        get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-		warpPrint(x_acceleration, y_acceleration, z_acceleration);
-		warpPrint("\n");
-
-        if (x_acceleration > threshold_anomaly || 
-	    y_acceleration > threshold_anomaly || 
-	    z_acceleration > threshold_anomaly) {
-
-
-/***************************************************************************
- CHANGE THESE PARAMETERS FOR CALIBRATION
-***************************************************************************/
-            // recall maximum is FFFF = 65535
+	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
+	writeCommand(0x0F); // max
+	
+	writeCommand(kSSD1331CommandCONTRASTA);  // B
+	writeCommand(0xFF); // max		
+	writeCommand(kSSD1331CommandCONTRASTB);	   //G
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandCONTRASTC);		// R,
+	writeCommand(0xFF);
 
 
-	    int total_threshold_anomaly_count = (int) threshold_anomaly * 1.5;
+	
+	writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 
-		// get current time
-		uint32_t timeAtStart = OSA_TimeGetMsec();
-		while (OSA_TimeGetMsec() - timeAtStart < 5000){
 
-			get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-			warpPrint(x_acceleration, y_acceleration, z_acceleration);
-			warpPrint("\n");
+	// inner rect
+	writeCommand(0x00);
+	writeCommand(0x00);
 
-			if (x_acceleration > threshold_anomaly) {
-				anomaly_count_x ++;
-			}
-			if (y_acceleration > threshold_anomaly)
-			{
-				anomaly_count_y ++;
-			}
-			if (z_acceleration > threshold_anomaly)
-			{
-				anomaly_count_z ++;
-			}				
-		}
-		int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
+	// border
+	writeCommand(0x5F);					// max
+	writeCommand(0x3F);					// max
+
+	
+	/*
+	Color C of the line
+	Color B of the line
+	Color A of the line
+	Color C of the fill area
+	Color B of the fill area
+	Color A of the fill area 
+ 	6 bits so brightest is 63d
+	*/
+							
+	writeCommand(0x00);
+	writeCommand(0x3F);
+	writeCommand(0x00);
+			
+	writeCommand(0x00);
+	writeCommand(0x3F);
+	writeCommand(0x00);
+
+
+	return 0;
+}
+
+void devSSD1331_set_up(void){
+		/*
+	 *	Clear Screen
+	 */
+	writeCommand(kSSD1331CommandCLEAR);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
+
+
+
+	/*
+	 *	Any post-initialization drawing commands go here.
+	 */
+	//...
+	writeCommand(kSSD1331CommandPRECHARGELEVEL);	// 0xBB Stage 2
+	writeCommand(0x3F); //max
+	
+	writeCommand(kSSD1331CommandPRECHARGEA); // Stage 3:
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEB);
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandPRECHARGEC);
+	writeCommand(0xFF);
+	
+
+	
+	writeCommand(kSSD1331CommandMASTERCURRENT);	// 0x87
+	writeCommand(0x0F); // max
+	
+	writeCommand(kSSD1331CommandCONTRASTA);  // B
+	writeCommand(0xFF); // max		
+	writeCommand(kSSD1331CommandCONTRASTB);	   //G
+	writeCommand(0xFF);
+	writeCommand(kSSD1331CommandCONTRASTC);		// R,
+	writeCommand(0xFF);
+	
+}
+
+// decent
+void devSSD1331_blink_red(void){
+
+	// set up
+	warpEnableSPIpins();
+	devSSD1331_set_up();
+
+	for (int i; i<5; i++){
+		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
+	
+	
+		// inner rect
+		writeCommand(0x00);
+		writeCommand(0x00);
+	
+		// border
+		writeCommand(0x5F);					// max
+		writeCommand(0x3F);					// max
+	
 		
-			if ((anomaly_count_x > threshold_anomaly_count ||
-				anomaly_count_y < threshold_anomaly_count ||
-				anomaly_count_z < threshold_anomaly_count) &
-				total_anomaly_count < total_threshold_anomaly_count) {
+		/*
+		Color C of the line
+		Color B of the line
+		Color A of the line
+		Color C of the fill area
+		Color B of the fill area
+		Color A of the fill area 
+	 	6 bits so brightest is 63d
+		*/
+								
+		
+		writeCommand(0x3F);
+		writeCommand(0x00);
+		writeCommand(0x00);
+				
+		writeCommand(0x3F);
+		writeCommand(0x00);
+		writeCommand(0x00);
+	
+		OSA_TimeDelay(500);
+		
+		writeCommand(kSSD1331CommandCLEAR);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x5F);
+		writeCommand(0x3F);
 
-				return true;
-			} 
+	}
+	warpDisableSPIpins();
+}
 
-			else {
-				return false;
-			}
-        }
-    }
+
+// decent
+void devSSD1331_blink_green(void){
+
+	// set up
+	warpEnableSPIpins();
+	devSSD1331_set_up();
+
+	for (int i; i<5; i++){
+		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
+	
+	
+		// inner rect
+		writeCommand(0x00);
+		writeCommand(0x00);
+	
+		// border
+		writeCommand(0x5F);					// max
+		writeCommand(0x3F);					// max
+	
+		
+		/*
+		Color C of the line
+		Color B of the line
+		Color A of the line
+		Color C of the fill area
+		Color B of the fill area
+		Color A of the fill area 
+	 	6 bits so brightest is 63d
+		*/
+								
+		
+		
+		writeCommand(0x00);
+		writeCommand(0x3F);
+		writeCommand(0x00);
+				
+		
+		writeCommand(0x00);
+		writeCommand(0x3F);
+		writeCommand(0x00);
+	
+		OSA_TimeDelay(500);
+		
+		writeCommand(kSSD1331CommandCLEAR);
+		writeCommand(0x00);
+		writeCommand(0x00);
+		writeCommand(0x5F);
+		writeCommand(0x3F);
+
+	}
+	warpDisableSPIpins();
 }
