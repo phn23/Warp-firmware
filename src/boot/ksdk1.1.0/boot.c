@@ -1978,6 +1978,11 @@ main(void)
 		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
 
+		
+		OSA_TimeDelay(100);
+		get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
+		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
+
 		warpPrint("big_loop start \n");
 		// bool performance = normal_loop();
 		
