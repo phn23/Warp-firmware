@@ -1955,6 +1955,7 @@ main(void)
 	
 		warpPrint("Added init start \n");
 		devSSD1331init();
+		OSA_TimeDelay(5000);
 		warpDisableSPIpins();
 		// warpPrint("Added init ends \n");
 			
