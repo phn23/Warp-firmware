@@ -432,7 +432,7 @@ READ FROM ALL ACCELEROMETERS
 /* Data registers: 0x01 OUT_X_MSB, 0x02 OUT_X_LSB, 0x03 OUT_Y_MSB, 0x04 OUT_Y_LSB, 0x05 OUT_Z_MSB, 0x06 OUT_Z_LSB
 These registers contain the X-axis, Y-axis, and Z-axis, and 14-bit output sample data expressed as 2's complement numbers. 
 inputs are pointers as these values are to be modified */
-void MMA8541Q_get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
+void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc){
     // all 3 dim
     readSensorRegisterMMA8451Q(0x01, 6);
 
@@ -480,6 +480,7 @@ bool normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
+	int16_t threshold_anomaly = 20000;
 	
     while (true) {
 
@@ -488,8 +489,8 @@ bool normal_loop() {
 		warpPrint("\n");
 
         if (x_acceleration > threshold_anomaly || 
-	    y_acceleration > threshold_anomaly || 
-	    z_acceleration > threshold_anomaly) {
+			y_acceleration > threshold_anomaly || 
+			z_acceleration > threshold_anomaly) {
 
 
 /***************************************************************************
@@ -497,8 +498,8 @@ bool normal_loop() {
 ***************************************************************************/
             // recall maximum is FFFF = 65535
 
-		int tilt_count_threshold = 20000;
-	    int total_threshold_anomaly_count = (int) tilt_count_threshold * 1.5;
+		int threshold_anomaly_count = 25;
+	    int total_threshold_anomaly_count = (int) threshold_anomaly_count * 1.5;
 
 		// get current time
 		uint32_t timeAtStart = OSA_TimeGetMsec();
@@ -518,7 +519,8 @@ bool normal_loop() {
 			if (z_acceleration > threshold_anomaly)
 			{
 				anomaly_count_z ++;
-			}				
+			}
+			OSA_TimeDelay(100);				
 		}
 		int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
 		
