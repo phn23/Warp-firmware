@@ -1967,6 +1967,7 @@ main(void)
 		while (OSA_TimeGetMsec() - timeAtStart < 5000){
 		get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
 		printSensorDataMMA8451Q(1);
+		warpPrint("\n");
 		}
 	
 		if (performance == 0){
