@@ -1949,86 +1949,30 @@ main(void)
 	
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 
-		// readSensorRegisterMMA8451Q(0x01, 1);
-		// printSensorDataMMA8451Q(0);
-		
-	
+
 		warpPrint("Added init start \n");
+
+		// This lights up the OLED to show it is working and the task is about to begin
 		devSSD1331init();
 
-		// warpPrint("Added init ends \n");
+		warpPrint("Added init ends \n");
 			
-		// // this is an infinite loop right?
+
 		// warpPrint("big_loop start \n");
-		// // readSensorRegisterMMA8451Q(0x01, 6);
-		// // printSensorDataMMA8451Q(1);
-		// // int performance = normal_loop();
-		// warpPrint("big_loop ends \n");
-
-
-		// OSA_TimeDelay(5000);
-		// warpPrint("delay done\n");
-
-		readSensorRegisterMMA8451Q(0x01, 6);
-		printSensorDataMMA8451Q(1);
-		warpPrint("\n");
+		int performance = normal_loop();
 		
-		// int16_t x_acceleration_test;
-		// int16_t y_acceleration_test;
-		// int16_t z_acceleration_test;
-				
-		// int32_t x_acc_test;
-		// uint32_t timeAtStart_ssd = OSA_TimeGetMsec();
-		// while (OSA_TimeGetMsec() - timeAtStart_ssd < 5000){
-		// 	get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
-		// 	warpPrint("%d \n", x_acceleration_test);
-		OSA_TimeDelay(100);
-		// 	// warpPrint("\n");
-			
-		readSensorRegisterMMA8451Q(0x01, 6);
-		printSensorDataMMA8451Q(1);
-		
-		// }	
-		// // for (int i = 0; i<100; i++){
-		// // 	// x_acc_test = MMA8541Q_get_acceleration_x();
+		warpPrint("normal loop ends and the classification flag is obtained \n");
 
-		// // 	// this should print all 3 combined values;
-		// // 	// 0 means decimal
-		// // 	printSensorDataMMA8451Q(0);
-			
-		// // 	// warpPrint("%d \n", x_acc_test);
-		// // 	warpPrint("\n");
-		// // }
-		// // warpPrint("test loop done\n");
 
-		
 
-		// bool performance = true;
-		// if (performance == 1){
-		// 	devSSD1331_blink_green();
-		// }
-		// else{ // unsuccessful
-		// 	devSSD1331_blink_red();
-		// }
-		// warpPrint("classification display task ends\n");
-		
-	// OSA_TimeDelay(200);
+		if (performance == 1){
+			devSSD1331_blink_green();
+		}
+		else{ // unsuccessful
+			devSSD1331_blink_red();
+		}
+		warpPrint("classification display task ends\n");
 	
-		// measurement code
-		// TODO: rmb to change to 1000
-
-		// warpPrint("micro_current_uA, bus_voltage_mV, shunt_voltage_uV \n");
-		// for (int i = 0; i<1000; i++)
-		// {
-		// 	int32_t current_uA = INA219_getCurrent_uA();
-			
-		// 	int32_t bus_voltage_mV = INA219_getBusVoltage_V();
-
-		// 	int32_t shunt_voltage_uV = INA219_getShuntVoltage_uV();
-		// 	// warpPrint("%d\n", current_uA);
-			
-		// 	warpPrint("%d %d %d\n", current_uA, bus_voltage_mV, shunt_voltage_uV);
-		// }	
 	
 	#endif
 	warpPrint("Press any key to show menu...\n");
