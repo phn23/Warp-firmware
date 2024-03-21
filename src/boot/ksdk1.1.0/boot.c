@@ -1954,47 +1954,47 @@ main(void)
 		warpPrint("Added init start \n");
 		devSSD1331init();
 		OSA_TimeDelay(3000);
-		warpDisableSPIpins(); // disable PTA6
+		warpDisableSPIpins(); // disable PTA6/ PTA7
 
 		// warpPrint("Added init ends \n");
 		
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
-		printSensorDataMMA8451Q(0);  // 0 is dec mode
-		warpPrint("\n");
+		// printSensorDataMMA8451Q(0);  // 0 is dec mode
+		// warpPrint("\n");
 
-		OSA_TimeDelay(100);
-		readSensorRegisterMMA8451Q(0x01, 6);
-		warpPrint("Test print 2\n");
-		printSensorDataMMA8451Q(0);
-		warpPrint("\n");
+		// OSA_TimeDelay(100);
+		// readSensorRegisterMMA8451Q(0x01, 6);
+		// warpPrint("Test print 2\n");
+		// printSensorDataMMA8451Q(0);
+		// warpPrint("\n");
 
-		OSA_TimeDelay(100);
-
-
-		readSensorRegisterMMA8451Q(0x01, 6);
-		warpPrint("Test print 3\n");
-		printSensorDataMMA8451Q(0);
-		warpPrint("\n");
+		// OSA_TimeDelay(100);
 
 
-		OSA_TimeDelay(100);
+		// readSensorRegisterMMA8451Q(0x01, 6);
+		// warpPrint("Test print 3\n");
+		// printSensorDataMMA8451Q(0);
+		// warpPrint("\n");
 
-		warpDisableI2Cpins(); // For accelerometer
+
+		// OSA_TimeDelay(100);
+
+		// warpDisableI2Cpins(); // For accelerometer
 
 
-		// This lights up the OLED to show it is working and the task is about to begin
-		devSSD1331init();
+		// // This lights up the OLED to show it is working and the task is about to begin
+		// devSSD1331init();
 		
-		bool performance = true;
-		if (performance == 1){
-			devSSD1331_blink_green();
-		}
-		else{ // unsuccessful
-			devSSD1331_blink_red();
-		}
-		// warpDisableSPIpins();
-		warpPrint("classification display task ends\n");
+		// bool performance = true;
+		// if (performance == 1){
+		// 	devSSD1331_blink_green();
+		// }
+		// else{ // unsuccessful
+		// 	devSSD1331_blink_red();
+		// }
+		// // warpDisableSPIpins();
+		// warpPrint("classification display task ends\n");
 	
 	
 	#endif
