@@ -263,7 +263,7 @@ printSensorDataMMA8451Q(bool hexModeFlag)
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 6) | (readSensorRegisterValueLSB >> 2);
 
 	/*
-	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0:
+	 *	Sign extend the 14-bit value based on knowledge that upper 2 bit are 0: (2's complement)
 	 */
 	readSensorRegisterValueCombined = (readSensorRegisterValueCombined ^ (1 << 13)) - (1 << 13);
 
@@ -486,7 +486,6 @@ bool normal_loop() {
 
         get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 		warpPrint("%d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
-		warpPrint("\n");
 		warpPrint("big while loop is working \n");
 
 		readSensorRegisterMMA8451Q(0x01, 6);
@@ -515,8 +514,8 @@ bool normal_loop() {
 			while (OSA_TimeGetMsec() - timeAtStart < 5000){
 
 				get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
-				warpPrint(x_acceleration, y_acceleration, z_acceleration);
-				warpPrint("Inside small lop\n");
+				warpPrint("Data Collection for Final Classification: %d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
+				
 
 				if (x_acceleration > threshold_anomaly) {
 					anomaly_count_x ++;
