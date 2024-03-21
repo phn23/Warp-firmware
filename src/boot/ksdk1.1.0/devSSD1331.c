@@ -263,7 +263,7 @@ void devSSD1331_set_up(void){
 void devSSD1331_blink_red(void){
 
 	// set up
-	warpEnableSPIpins();
+	// warpEnableSPIpins();
 	devSSD1331_set_up();
 
 	for (int i; i<5; i++){
@@ -315,7 +315,7 @@ void devSSD1331_blink_red(void){
 void devSSD1331_blink_green(void){
 
 	// set up
-	warpEnableSPIpins();
+	// warpEnableSPIpins();
 	devSSD1331_set_up();
 
 	for (int i; i<5; i++){
