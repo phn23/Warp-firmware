@@ -100,7 +100,7 @@ enum _gpio_pins
 		kSSD1331PinSCK				= GPIO_MAKE_PIN(HW_GPIOA, 9),
 		// kWarpPinUnusedPTA8			= GPIO_MAKE_PIN(HW_GPIOA, 8),
 		// kWarpPinUnusedPTA9			= GPIO_MAKE_PIN(HW_GPIOA, 9),
-		kSSD1331PinDC				= GPIO_MAKE_PIN(HW_GPIOA, 12),
+		// kSSD1331PinDC				= GPIO_MAKE_PIN(HW_GPIOA, 12),
 		// kWarpPinUnusedPTA12			= GPIO_MAKE_PIN(HW_GPIOA, 12),
 		// This is actually used as Pin 12 in I2C for the acceleromter
 
