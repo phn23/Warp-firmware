@@ -1950,7 +1950,11 @@ main(void)
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 
 
+
 		warpPrint("Added init start \n");
+		devSSD1331init();
+		OSA_TimeDelay(3000);
+		warpDisableSPIpins(); // disable PTA6
 
 		// warpPrint("Added init ends \n");
 		
