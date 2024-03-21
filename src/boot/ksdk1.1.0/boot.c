@@ -1953,12 +1953,12 @@ main(void)
 
 		warpPrint("Added init start \n");
 		devSSD1331init();
-		// OSA_TimeDelay(3000);
+		OSA_TimeDelay(3000);
 		warpDisableSPIpins(); // disable PTA6/ PTA7
 
 		// warpPrint("Added init ends \n");
 		
-		readSensorRegisterMMA8451Q(0x01, 6);
+		// readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
 		// printSensorDataMMA8451Q(0);  // 0 is dec mode
 		// warpPrint("\n");
