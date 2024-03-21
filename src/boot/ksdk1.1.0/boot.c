@@ -1956,7 +1956,6 @@ main(void)
 		warpPrint("Added init start \n");
 		devSSD1331init();
 		OSA_TimeDelay(3000);
-		devSSD1331_blink_red();
 		warpDisableSPIpins(); // disable PTA6/ PTA7
 
 		warpPrint("Added init ends \n");
@@ -2004,15 +2003,19 @@ main(void)
 		warpPrint("\n");
 		warpDisableI2Cpins(); // For accelerometer DEACTIVATE 3 AND 4 - SHOULD NOT AFFECT THOUGH
 
+/***********************************************************
+  		TO SHOW THAT DATA COLLECTION IS FINISHED
+***********************************************************/	
 
 		// This lights up the OLED to show it is working and the task is about to begin
 		devSSD1331init();
 		OSA_TimeDelay(1000);
+		
 /***********************************************************
   		BLINK CLASSIFICATION
 ***********************************************************/	
 		
-		bool performance = true;
+		bool performance = normal_loop();
 		if (performance == 1){
 			devSSD1331_blink_green();
 		}
