@@ -1995,15 +1995,18 @@ main(void)
 		int16_t z_acceleration_TEST;
 		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
 		printSensorDataMMA8451Q(0);
+		warpPrint("\n");
 
 
 		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
 		printSensorDataMMA8451Q(0);
+		warpPrint("\n");
 		warpDisableI2Cpins(); // For accelerometer DEACTIVATE 3 AND 4 - SHOULD NOT AFFECT THOUGH
 
 
 		// This lights up the OLED to show it is working and the task is about to begin
-		// devSSD1331init();
+		devSSD1331init();
+		OSA_TimeDelay(1000);
 		
 		bool performance = true;
 		if (performance == 1){
