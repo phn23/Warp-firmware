@@ -1983,7 +1983,7 @@ main(void)
 		devSSD1331init();
 		OSA_TimeDelay(2000);
 		// necessary
-		warpDisableSPIpins();
+		
 
 		
 
@@ -2006,13 +2006,14 @@ main(void)
 		// warpPrint("normal loop ends and the classification flag is obtained \n");
 
 
-
-		// if (performance == 1){
-		// 	devSSD1331_blink_green();
-		// }
-		// else{ // unsuccessful
-		// 	devSSD1331_blink_red();
-		// }
+		int performance = 0;
+		if (performance == 1){
+			devSSD1331_blink_green();
+		}
+		else{ // unsuccessful
+			devSSD1331_blink_red();
+		}
+		warpDisableSPIpins();
 		warpPrint("classification display task ends\n");
 	
 	
