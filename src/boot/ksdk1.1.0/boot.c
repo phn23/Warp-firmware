@@ -2002,18 +2002,18 @@ main(void)
 		warpDisableI2Cpins(); // For accelerometer DEACTIVATE 3 AND 4 - SHOULD NOT AFFECT THOUGH
 
 
-		// // This lights up the OLED to show it is working and the task is about to begin
+		// This lights up the OLED to show it is working and the task is about to begin
 		// devSSD1331init();
 		
-		// bool performance = true;
-		// if (performance == 1){
-		// 	devSSD1331_blink_green();
-		// }
-		// else{ // unsuccessful
-		// 	devSSD1331_blink_red();
-		// }
-		// // warpDisableSPIpins();
-		// warpPrint("classification display task ends\n");
+		bool performance = true;
+		if (performance == 1){
+			devSSD1331_blink_green();
+		}
+		else{ // unsuccessful
+			devSSD1331_blink_red();
+		}
+		// warpDisableSPIpins();
+		warpPrint("classification display task ends\n");
 	
 	
 	#endif
