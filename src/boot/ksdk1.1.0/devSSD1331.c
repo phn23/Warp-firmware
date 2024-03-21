@@ -77,7 +77,7 @@ devSSD1331init(void)
 	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3); // MOSI
 	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3); // CLK
 
-	// warpEnableSPIpins(); // enables PTA6 for GPIO
+	warpEnableSPIpins(); // enables PTA6 for GPIO
 
 	/*
 	 *	Override Warp firmware's use of these pins.
@@ -85,7 +85,7 @@ devSSD1331init(void)
 	 *	Reconfigure to use as GPIO.
 	 */
 	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio); //CSn
-	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAsGpio); // we are using 6 here INSTEAD of PTA12
+	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAlt1); // we are using 6 here INSTEAD of PTA12
 	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio); //rst
 
 
