@@ -1997,7 +1997,8 @@ main(void)
 		printSensorDataMMA8451Q(0);
 
 
-
+		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
+		printSensorDataMMA8451Q(0);
 		warpDisableI2Cpins(); // For accelerometer DEACTIVATE 3 AND 4 - SHOULD NOT AFFECT THOUGH
 
 
