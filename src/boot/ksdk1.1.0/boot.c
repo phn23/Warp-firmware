@@ -1950,13 +1950,19 @@ main(void)
 	#if (WARP_BUILD_ENABLE_FRDMKL03)
 
 
-
+/***********************************************************
+  		OLED TURNS ON 
+**********************************************************/
 		warpPrint("Added init start \n");
 		devSSD1331init();
 		OSA_TimeDelay(3000);
 		warpDisableSPIpins(); // disable PTA6/ PTA7
 
 		warpPrint("Added init ends \n");
+
+/***********************************************************
+  		ACCELERATOR READING ON 
+***********************************************************/		
 		
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
@@ -1980,7 +1986,19 @@ main(void)
 
 		OSA_TimeDelay(100);
 
-		// warpDisableI2Cpins(); // For accelerometer
+
+/***********************************************************
+  		ACCELERATOR 6 READINGS READING ON 
+***********************************************************/			
+		int16_t x_acceleration_TEST;
+		int16_t y_acceleration_TEST;
+		int16_t z_acceleration_TEST;
+		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
+		printSensorDataMMA8451Q(0);
+
+
+
+		warpDisableI2Cpins(); // For accelerometer DEACTIVATE 3 AND 4 - SHOULD NOT AFFECT THOUGH
 
 
 		// // This lights up the OLED to show it is working and the task is about to begin
