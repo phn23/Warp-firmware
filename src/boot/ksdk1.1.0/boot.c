@@ -2013,7 +2013,7 @@ main(void)
 		else{ // unsuccessful
 			devSSD1331_blink_red();
 		}
-		warpDisableSPIpins();
+		// warpDisableSPIpins();
 		warpPrint("classification display task ends\n");
 	
 	
