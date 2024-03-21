@@ -1956,7 +1956,7 @@ main(void)
 		
 		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
-		printSensorDataMMA8451Q(0);
+		printSensorDataMMA8451Q(0);  // 0 is dec mode
 		warpPrint("\n");
 
 		OSA_TimeDelay(100);
@@ -1976,37 +1976,13 @@ main(void)
 
 		OSA_TimeDelay(100);
 
-		warpDisableI2Cpins();
+		warpDisableI2Cpins(); // For accelerometer
 
 
 		// This lights up the OLED to show it is working and the task is about to begin
 		devSSD1331init();
 		
-		// necessary
-		
-
-		
-
-
-		// int16_t x_acceleration_test;
-		// int16_t y_acceleration_test;
-		// int16_t z_acceleration_test;
-
-		// get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
-		// warpPrint("%d, %d, %d \n", x_acceleration_test, y_acceleration_test, z_acceleration_test);
-
-		
-		// OSA_TimeDelay(100);
-		// get_acceleration(&x_acceleration_test, &y_acceleration_test, &z_acceleration_test);
-		// warpPrint("%d, %d, %d \n", x_acceleration_test, y_acceleration_test, z_acceleration_test);
-
-		// warpPrint("big_loop start \n");
-		// bool performance = normal_loop();
-		
-		// warpPrint("normal loop ends and the classification flag is obtained \n");
-
-
-		int performance = 0;
+		bool performance = true;
 		if (performance == 1){
 			devSSD1331_blink_green();
 		}
