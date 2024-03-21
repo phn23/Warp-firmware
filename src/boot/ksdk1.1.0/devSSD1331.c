@@ -307,7 +307,7 @@ void devSSD1331_blink_red(void){
 		writeCommand(0x3F);
 
 	}
-	warpDisableSPIpins();
+	// warpDisableSPIpins();
 }
 
 
@@ -362,6 +362,6 @@ void devSSD1331_blink_green(void){
 
 	}
 
-	warpDisableSPIpins();
+	// warpDisableSPIpins();
 	
 }
