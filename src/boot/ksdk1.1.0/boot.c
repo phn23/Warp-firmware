@@ -1956,29 +1956,29 @@ main(void)
 		OSA_TimeDelay(3000);
 		warpDisableSPIpins(); // disable PTA6/ PTA7
 
-		// warpPrint("Added init ends \n");
+		warpPrint("Added init ends \n");
 		
-		// readSensorRegisterMMA8451Q(0x01, 6);
+		readSensorRegisterMMA8451Q(0x01, 6);
 		warpPrint("Test print\n");
-		// printSensorDataMMA8451Q(0);  // 0 is dec mode
-		// warpPrint("\n");
+		printSensorDataMMA8451Q(0);  // 0 is dec mode
+		warpPrint("\n");
 
-		// OSA_TimeDelay(100);
-		// readSensorRegisterMMA8451Q(0x01, 6);
-		// warpPrint("Test print 2\n");
-		// printSensorDataMMA8451Q(0);
-		// warpPrint("\n");
+		OSA_TimeDelay(100);
+		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print 2\n");
+		printSensorDataMMA8451Q(0);
+		warpPrint("\n");
 
-		// OSA_TimeDelay(100);
-
-
-		// readSensorRegisterMMA8451Q(0x01, 6);
-		// warpPrint("Test print 3\n");
-		// printSensorDataMMA8451Q(0);
-		// warpPrint("\n");
+		OSA_TimeDelay(100);
 
 
-		// OSA_TimeDelay(100);
+		readSensorRegisterMMA8451Q(0x01, 6);
+		warpPrint("Test print 3\n");
+		printSensorDataMMA8451Q(0);
+		warpPrint("\n");
+
+
+		OSA_TimeDelay(100);
 
 		// warpDisableI2Cpins(); // For accelerometer
 
