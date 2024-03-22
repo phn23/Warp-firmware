@@ -480,7 +480,9 @@ bool normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
-	int16_t threshold_anomaly = 3000;
+	int16_t threshold_anomaly_x = 200;
+	int16_t threshold_anomaly_y = 200;
+	int16_t threshold_anomaly_z = 4200;
 	
     while (true) {
 
@@ -492,13 +494,10 @@ bool normal_loop() {
 		warpPrint("Test print again\n");
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
-		OSA_TimeDelay("100");
+		
 
-        if (x_acceleration > threshold_anomaly || 
-			y_acceleration > threshold_anomaly || 
-			z_acceleration > threshold_anomaly) {
-
-				warpPrint("Entered if statement \n");
+        if (x_acceleration > threshold_anomaly_x || 
+			y_acceleration > threshold_anomaly_y ) {
 
 
 /***************************************************************************
@@ -517,14 +516,14 @@ bool normal_loop() {
 				warpPrint("Data Collection for Final Classification: %d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
 				
 
-				if (x_acceleration > threshold_anomaly) {
+				if (x_acceleration > threshold_anomaly_x) {
 					anomaly_count_x ++;
 				}
-				if (y_acceleration > threshold_anomaly)
+				if (y_acceleration > threshold_anomaly_y)
 				{
 					anomaly_count_y ++;
 				}
-				if (z_acceleration > threshold_anomaly)
+				if (z_acceleration > threshold_anomaly_z)
 				{
 					anomaly_count_z ++;
 				}
@@ -546,5 +545,7 @@ bool normal_loop() {
 					return 0;
 				}
         }
+		
+		OSA_TimeDelay("100");
     }
 }
