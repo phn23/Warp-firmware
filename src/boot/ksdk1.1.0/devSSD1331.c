@@ -263,10 +263,10 @@ void devSSD1331_set_up(void){
 void devSSD1331_blink_red(void){
 
 	// set up
-	// warpEnableSPIpins();
+	// warpEnableSPIpins(); // this is the problem - have overwritten in init
 	devSSD1331_set_up();
 
-	for (int i; i<5; i++){
+	for (int i; i<10; i++){
 		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 	
 	
@@ -318,7 +318,7 @@ void devSSD1331_blink_green(void){
 	// warpEnableSPIpins();
 	devSSD1331_set_up();
 
-	for (int i; i<5; i++){
+	for (int i; i<10; i++){
 		writeCommand(kSSD1331CommandDRAWRECT);			// = 0x22,
 	
 	
