@@ -483,7 +483,7 @@ bool normal_loop() {
 	int16_t threshold_anomaly_x = 100;
 	int16_t threshold_anomaly_y = 100;
 	int16_t threshold_anomaly_z = 4200;
-	int big_loop_count = 0;
+	
 	int small_loop_count = 0;
 	int total_uc = 0;
 	
@@ -498,7 +498,7 @@ bool normal_loop() {
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
 		
-		big_loop_count++;
+
 
         if (x_acceleration > threshold_anomaly_x || 
 			y_acceleration > threshold_anomaly_y ) {
@@ -509,8 +509,7 @@ bool normal_loop() {
 ***************************************************************************/
             // recall maximum is FFFF = 65535
 
-			int threshold_anomaly_count = 25;
-			int total_threshold_anomaly_count = (int) threshold_anomaly_count * 1.5;
+
 
 			// get current time
 			uint32_t timeAtStart = OSA_TimeGetMsec();
@@ -524,23 +523,31 @@ bool normal_loop() {
 
 				if (x_acceleration > threshold_anomaly_x) {
 					anomaly_count_x ++;
+			
 				}
 				if (y_acceleration > threshold_anomaly_y)
 				{
 					anomaly_count_y ++;
+					
 				}
 				if (z_acceleration > threshold_anomaly_z)
 				{
 					anomaly_count_z ++;
+				
 				}
 				OSA_TimeDelay(100);				
 			}
+			
+			int threshold_anomaly_count = 25;
+			int total_threshold_anomaly_count = (int) threshold_anomaly_count * 1.5;
 
 			int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
 			warpDisableI2Cpins();
 
-			total_uc = (int) big_loop_count * 2 + small_loop_count * 3;
+			total_uc = (int) (small_loop_count * 3) / 2 ;
 			warpPrint("Uncertainty +/- %d (0.25mg)", total_uc);
+
+			if 
 			
 				if ((anomaly_count_x > threshold_anomaly_count ||
 					anomaly_count_y < threshold_anomaly_count ||
