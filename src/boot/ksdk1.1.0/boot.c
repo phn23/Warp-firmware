@@ -1960,35 +1960,34 @@ main(void)
 
 		warpPrint("Added init ends \n");
 
-/***********************************************************
-  		ACCELERATOR READING ON 
-***********************************************************/		
+// /***********************************************************
+//   		ACCELERATOR READING ON 
+// ***********************************************************/		
 		
-		readSensorRegisterMMA8451Q(0x01, 6);
-		warpPrint("Test print\n");
-		printSensorDataMMA8451Q(0);  // 0 is dec mode
-		warpPrint("\n");
+// 		readSensorRegisterMMA8451Q(0x01, 6);
+// 		warpPrint("Test print\n");
+// 		printSensorDataMMA8451Q(0);  // 0 is dec mode
+// 		warpPrint("\n");
 
-		OSA_TimeDelay(100);
-		readSensorRegisterMMA8451Q(0x01, 6);
-		warpPrint("Test print 2\n");
-		printSensorDataMMA8451Q(0);
-		warpPrint("\n");
+// 		OSA_TimeDelay(100);
+// 		readSensorRegisterMMA8451Q(0x01, 6);
+// 		warpPrint("Test print 2\n");
+// 		printSensorDataMMA8451Q(0);
+// 		warpPrint("\n");
 
-		OSA_TimeDelay(100);
-
-
-		readSensorRegisterMMA8451Q(0x01, 6);
-		warpPrint("Test print 3\n");
-		printSensorDataMMA8451Q(0);
-		warpPrint("\n");
+// 		OSA_TimeDelay(100);
 
 
-		OSA_TimeDelay(100);
+// 		readSensorRegisterMMA8451Q(0x01, 6);
+// 		warpPrint("Test print 3\n");
+// 		printSensorDataMMA8451Q(0);
+// 		warpPrint("\n");
 
+
+// 		OSA_TimeDelay(100);
 
 /***********************************************************
-  		ACCELERATOR 6 READINGS READING ON 
+  		ACCELERATOR 6 READINGS READING ON TO SHOW THE READ FUNCTIO IS WORKING
 ***********************************************************/			
 		int16_t x_acceleration_TEST;
 		int16_t y_acceleration_TEST;
@@ -1996,6 +1995,8 @@ main(void)
 		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
+
+		OSA_TimeDelay(500);
 
 
 		get_acceleration(&x_acceleration_TEST, &y_acceleration_TEST, &z_acceleration_TEST);
