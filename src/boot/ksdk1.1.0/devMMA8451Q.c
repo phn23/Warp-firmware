@@ -559,6 +559,6 @@ bool normal_loop() {
 				}
         }
 		
-		
+		OSA_TimeDelay(50);	
     }
 }
