@@ -59,7 +59,7 @@ An additional request is that the device should start once it senses the movemen
 * Changed kWarpSizesI2cBufferBytes from 4 to 6 
 
 ##### `devSSD1331.c`
-* Amended int devSSD1331init(void) for drawing rectangles at the brightest OLED level and changed from PTA12 to PTA6
+* Amended int devSSD1331init(void) for drawing rectangles at the brightest OLED level and changed from PTA12 to PTA6 as for OLED D/C
 * Defined void devSSD1331_set_up(void) (Note: this is for setting up blinks )
 * Defined void devSSD1331_blink_green(void)
 * Defined void devSSD1331_blink_red(void)
@@ -71,8 +71,8 @@ An additional request is that the device should start once it senses the movemen
 
 
 ##### `devMMA8451Q.c`
-* Defined void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc)
-* Defined bool normal_loop()
+* Defined void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc) (Note: this is for getting all 3 axes at the same time)
+* Defined bool normal_loop() (Note: this is the main algorithm for pretrigger period, 5s period and classification)
 
 ##### `devMMA8451Q.h`
 * Declared void get_acceleration(int16_t* x_acc, int16_t* y_acc, int16_t* z_acc)
@@ -81,12 +81,12 @@ An additional request is that the device should start once it senses the movemen
 
 
 ##### `gpio_pins.c`
-* Enabled 5 pins in #if (WARP_BUILD_ENABLE_FRDMKL03)
+* Enabled 5 pins in #if (WARP_BUILD_ENABLE_FRDMKL03) for OLED
 
 ##### `gpio_pins.h`
 
 
-*   Enabled 5 pins in #if (WARP_BUILD_ENABLE_FRDMKL03)
+*   Enabled 5 pins in #if (WARP_BUILD_ENABLE_FRDMKL03) for OLED
 
 
 
