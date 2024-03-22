@@ -547,12 +547,12 @@ bool normal_loop() {
 			total_uc = (int) (small_loop_count * 3) / 2 ;
 			warpPrint("Uncertainty +/- %d (0.25mg)", total_uc);
 
-			if 
 			
-				if ((anomaly_count_x > threshold_anomaly_count ||
-					anomaly_count_y < threshold_anomaly_count ||
-					anomaly_count_z < threshold_anomaly_count) &
-					total_anomaly_count < total_threshold_anomaly_count) {
+			
+			if ((anomaly_count_x > threshold_anomaly_count ||
+				anomaly_count_y < threshold_anomaly_count ||
+				anomaly_count_z < threshold_anomaly_count) &
+				total_anomaly_count < total_threshold_anomaly_count) {
 
 
 					
