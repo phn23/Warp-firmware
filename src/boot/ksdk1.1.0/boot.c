@@ -2028,10 +2028,9 @@ main(void)
 	
 	
 	#endif
-	warpPrint("Press any key to show menu...\n");
-	warpPrint("Hey this is working now\n");
-	warpPrint("end of print\n");
-	gWarpExtraQuietMode = _originalWarpExtraQuietMode;
+/***********************************************************
+  		ENDS HERE
+***********************************************************/	QuietMode;
 
 	while (rttKey < 0 && timer < kWarpCsvstreamMenuWaitTimeMilliSeconds)
 	{
