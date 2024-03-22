@@ -480,9 +480,12 @@ bool normal_loop() {
 	uint16_t anomaly_count_x = 0;
 	uint16_t anomaly_count_y = 0;
 	uint16_t anomaly_count_z = 0;
-	int16_t threshold_anomaly_x = 200;
-	int16_t threshold_anomaly_y = 200;
+	int16_t threshold_anomaly_x = 100;
+	int16_t threshold_anomaly_y = 100;
 	int16_t threshold_anomaly_z = 4200;
+	int big_loop_count = 0;
+	int small_loop_count = 0;
+	int total_uc = 0;
 	
     while (true) {
 
@@ -495,6 +498,7 @@ bool normal_loop() {
 		printSensorDataMMA8451Q(0);
 		warpPrint("\n");
 		
+		big_loop_count++;
 
         if (x_acceleration > threshold_anomaly_x || 
 			y_acceleration > threshold_anomaly_y ) {
@@ -511,6 +515,8 @@ bool normal_loop() {
 			// get current time
 			uint32_t timeAtStart = OSA_TimeGetMsec();
 			while (OSA_TimeGetMsec() - timeAtStart < 5000){
+				
+				small_loop_count++;
 
 				get_acceleration(&x_acceleration, &y_acceleration, &z_acceleration);
 				warpPrint("Data Collection for Final Classification: %d, %d, %d \n", x_acceleration, y_acceleration, z_acceleration);
@@ -532,11 +538,18 @@ bool normal_loop() {
 
 			int total_anomaly_count = anomaly_count_x + anomaly_count_y + anomaly_count_z;
 			warpDisableI2Cpins();
+
+			total_uc = (int) big_loop_count * 2 + small_loop_count * 3;
+			warpPrint("Uncertainty +/- %d (0.25mg)", total_uc);
 			
 				if ((anomaly_count_x > threshold_anomaly_count ||
 					anomaly_count_y < threshold_anomaly_count ||
 					anomaly_count_z < threshold_anomaly_count) &
 					total_anomaly_count < total_threshold_anomaly_count) {
+
+
+					
+
 
 					return 1;
 				} 
@@ -546,6 +559,6 @@ bool normal_loop() {
 				}
         }
 		
-		OSA_TimeDelay("100");
+		
     }
 }
