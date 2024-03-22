@@ -20,7 +20,7 @@ An additional request is that the device should start once it senses the movemen
 2. OLED turns off to indicate test reading stage. 
 3.   2 test acceleration values (each with a gap of 0.5s) will be read to ensure the accelerometer is reading and JLink Client is displaying properly.
 4.   OLED lights up green  to indicate new stage.
-5. OLED turns off to indicate start of the main loop (See Figure 1 in the report or the flowchart below).
+5. OLED turns off to indicate start of the main loop (See Figure 1 in the report).
 6. The accelerometer has to move in order to trigger the 5s period.
 7. After 5s, the loop returns the classification results.
 8. For successful results, the OLED blinks for 10 times in GREEN; for unsuccessful results, the OLED blinks for 10 times in RED.
@@ -87,6 +87,8 @@ An additional request is that the device should start once it senses the movemen
 
 
 *   Enabled 5 pins in #if (WARP_BUILD_ENABLE_FRDMKL03)
+
+
 
 
 
